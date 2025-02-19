@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#70B9BE">
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/userNameEditTextLogIn"
+        android:layout_width="352dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="396dp"
+        android:background="@drawable/text_input_background"
+        android:drawablePadding="20dp"
+        android:fontFamily="@font/sofia_pro_regular_az"
+        android:hint="@string/user_name_or_email"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/passwordEditTextLogIn"
+        android:layout_width="352dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/text_input_background"
+        android:drawablePadding="20dp"
+        android:fontFamily="@font/sofia_pro_regular_az"
+        android:hint="@string/password"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/userNameEditTextLogIn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/userNameEditTextLogIn"
+        app:layout_constraintTop_toBottomOf="@+id/userNameEditTextLogIn" />
+
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="352dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#042628"
+        android:fontFamily="@font/sofia_prom_edium_az"
+        android:text="@string/log_in"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/passwordEditTextLogIn"
+        app:layout_constraintStart_toStartOf="@+id/passwordEditTextLogIn"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLogIn" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="143dp"
+        android:layout_height="23dp"
+        android:fontFamily="@font/sofia_pro_light_az"
+        android:gravity="center"
+        android:text="@string/forget_password"
+        app:layout_constraintEnd_toEndOf="@+id/passwordEditTextLogIn"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLogIn" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="99dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="52dp"
+        android:fontFamily="@font/sofia_pro_light_az"
+        android:gravity="center"
+        android:text="@string/or_login_with"
+        app:layout_constraintStart_toStartOf="@+id/loginBtn"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="120dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/custom_divider"
+        android:backgroundTint="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/loginBtn"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="120dp"
+        android:layout_height="1dp"
+        android:background="@drawable/custom_divider"
+        android:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.518"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/divider"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/sofia_pro_black_az"
+        android:text="@string/craete_account"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/loginBtn"
+        app:layout_constraintStart_toStartOf="@+id/loginBtn"
+        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+
+    <Button
+        android:id="@+id/loginButtonWithGoogle"
+        android:layout_width="352dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="236dp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/sofia_prom_edium_az"
+        android:text="@string/google"
+        android:textColor="@color/textcolor"
+        android:textSize="20sp"
+        android:drawablePadding="8dp"
+        android:drawable="@drawable/google_color_svgrepo_com"
+        app:layout_constraintEnd_toEndOf="@+id/passwordEditTextLogIn"
+        app:layout_constraintStart_toStartOf="@+id/passwordEditTextLogIn"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLogIn"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

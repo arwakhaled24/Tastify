@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "817769974362",
+    "project_id": "androidprojectiti",
+    "storage_bucket": "androidprojectiti.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817769974362:android:0203ffca909497b1bba663",
+        "android_client_info": {
+          "package_name": "com.example.tastify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbqhvreL6Fkab2NLfJ-dcz2Aa_j4XMfsE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
