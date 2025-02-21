@@ -24,6 +24,10 @@ public class RecipeRepository {
         return repository;
 
     }
+    public  void getRandomRecipe(ApiCommunicator communicator){
+        recipeRemoteDataSource.getRandomRecipe(communicator);
+
+    }
     public void getRemoteProduct(ApiCommunicator communicator){
         recipeRemoteDataSource.getRecipes(communicator);
 

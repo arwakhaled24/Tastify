@@ -4,7 +4,7 @@ import com.example.tastify.model.Recipe;
 
 import java.util.List;
 
-public interface ApiCommunicator{
+public interface ApiCommunicator {
 
     void onRecipeReceived(List<Recipe> products);
 

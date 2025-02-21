@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
+    id ("androidx.navigation.safeargs")
+
 }
 
 android {
@@ -38,6 +40,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -59,6 +62,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:2.8.7")
 
 
+
+
     //Lottie Animation
     implementation ("com.airbnb.android:lottie:3.4.0")
 
@@ -78,6 +83,10 @@ dependencies {
 
     //cardView
     implementation ("androidx.cardview:cardview:1.0.0")
+
+///youtube frame
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.1")
+
 
 
 

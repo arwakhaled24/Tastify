@@ -14,4 +14,11 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="or_register_with">or Register with</string>
     <string name="meal_title">Meal title</string>
+    <string name="what_do_you_want_to_cook_today">What do you want to cook today?</string>
+    <string name="hello_chef">Hello Chef !</string>
+    <string name="suggested_meal">Suggested meal</string>
+    <string name="ingrediants">Ingrediants</string>
+    <string name="title">Title</string>
+    <string name="space" />
+    <string name="read_more">Read More</string>
 </resources>

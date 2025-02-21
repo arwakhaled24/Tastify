@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ViewInterface {
 
-    public void showProduct(List<Recipe> recipeList);
+    public void showRecipes(List<Recipe> recipeList);
+
+    public void showRandomRecipe(Recipe recipe);
 
 }

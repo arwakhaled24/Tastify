@@ -3,7 +3,7 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/splash_fragment">
 
     <fragment
         android:id="@+id/logIn_fragment"
@@ -11,7 +11,8 @@
         tools:layout="@layout/fragment_log_in">
         <action
             android:id="@+id/action_logIn_to_registerFragment"
-            app:destination="@id/register_fragment" />
+            app:destination="@id/register_fragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_logIn_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -23,6 +24,11 @@
         <action
             android:id="@+id/action_splash_fragment_to_logIn"
             app:destination="@id/logIn_fragment" />
+        <action
+            android:id="@+id/action_splash_fragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/splash_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/register_fragment"
@@ -39,5 +45,18 @@
         android:id="@+id/homeFragment"
         android:name="com.example.tastify.view.fragments.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_recipeDetails"
+            app:destination="@id/recipeDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeDetails"
+        android:name="com.example.tastify.view.fragments.DetailsMealFragment"
+        android:label="fragment_recipe_details"
+        tools:layout="@layout/fragment_recipe_details" >
+        <argument
+            android:name="recipe"
+            app:argType="com.example.tastify.model.Recipe" />
+    </fragment>
 </navigation>

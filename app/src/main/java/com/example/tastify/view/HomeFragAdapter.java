@@ -7,21 +7,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
 import com.example.tastify.model.Recipe;
+import com.example.tastify.view.fragments.HomeFragment;
+import com.example.tastify.view.fragments.HomeFragmentDirections;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.List;
 
 
 
-//public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.ViewHolder> {
 public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHolder> {
 
     Context con;
@@ -40,10 +46,9 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
         public TextView mealCategory;
         public TextView mealCulture;
 
-
+        public CardView cardView;
         public View layout;
-        Button removeBtn;
-        public ConstraintLayout constraintLayout;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,6 +56,8 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
             imageView = itemView.findViewById(R.id.mealPhoto);
             mealCategory= itemView.findViewById(R.id.mealCategory);
             mealCulture=itemView.findViewById(R.id.cultureRV);
+            favIcon=itemView.findViewById(R.id.favIcon);
+            cardView=itemView.findViewById(R.id.cardView);
             layout = itemView;
         }
     }
@@ -70,6 +77,14 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
         Glide.with(con).load(item.getStrMealThumb())
                 .apply(new RequestOptions().override(227, 132))
                 .into(holder.imageView);
+        holder.cardView.setOnClickListener(
+                (view)->{
+                    Toast.makeText(con, "Card clicked: " + item.strMeal, Toast.LENGTH_SHORT).show();
+                    HomeFragmentDirections.ActionHomeFragmentToRecipeDetails action= HomeFragmentDirections.actionHomeFragmentToRecipeDetails(item);
+                     Navigation.findNavController(view)
+                            .navigate(action);
+                    }
+        );
     }
 
 

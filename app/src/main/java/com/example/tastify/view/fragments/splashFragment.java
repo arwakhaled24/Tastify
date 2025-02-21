@@ -14,27 +14,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tastify.R;
+import com.example.tastify.model.Recipe;
+import com.example.tastify.model.RecipeRepository;
+import com.example.tastify.model.database.RecipeLocalDataSource;
+import com.example.tastify.presenter.Presenter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link splashFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class splashFragment extends Fragment {
+import java.util.List;
+
+
+public class splashFragment extends Fragment implements ViewInterface {
 
 
     public splashFragment() {
         // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
-    public static splashFragment newInstance(String param1, String param2) {
-        splashFragment fragment = new splashFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,12 +44,25 @@ public class splashFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Presenter presenter = new Presenter(this,  RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity())));
         new Handler().postDelayed(() -> {
             NavController navController = Navigation.findNavController(view);
-            navController.navigate(R.id.action_splash_fragment_to_logIn);
+            if(Presenter.getCurrentUser()!=null){
+                navController.navigate(R.id.action_splash_fragment_to_homeFragment);
+            }else{navController.navigate(R.id.action_splash_fragment_to_logIn);}
         }, 3300);
 
 
+
+    }
+
+    @Override
+    public void showRecipes(List<Recipe> recipeList) {
+
+    }
+
+    @Override
+    public void showRandomRecipe(Recipe recipe) {
 
     }
 }

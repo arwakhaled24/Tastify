@@ -8,6 +8,9 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface ApiServices {
-    @GET("/api/json/v1/1/search.php?f=a")
+    @GET("/api/json/v1/1/search.php?f=s")
     Call<RecipeResponse> getRecipes();
+
+    @GET("/api/json/v1/1/random.php")
+    Call<RecipeResponse> getRandomRecipe();
 }
