@@ -1,7 +1,6 @@
-package com.example.tastify.view;
+package com.example.tastify.view.fragments;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +17,21 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
 import com.example.tastify.model.Recipe;
-import com.example.tastify.view.fragments.HomeFragmentDirections;
 
 import java.util.List;
 
 
-public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHolder> {
+
+
+
+public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.ViewHolder> {
 
     Context con;
     List<Recipe> recipeList;
-    AdapterFragmentCommunicator listener;
-    boolean isFav=false;
-    public HomeFragAdapter(Context con, List<Recipe> items, AdapterFragmentCommunicator listener) {
+  AdapterFragmentCommunicator listener;
+
+
+    public FavFragmentAdapter(Context con, List<Recipe> items,FavFragmentAdapter.AdapterFragmentCommunicator listener) {
         this.con = con;
         this.recipeList = items;
         this.listener = listener;
@@ -42,42 +44,38 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
         public TextView mealCategory;
         public TextView mealCulture;
 
-       /* public CardView cardView;*/
-
+        public CardView cardView;
         public View layout;
 
-        View constrainLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mealTitle = itemView.findViewById(R.id.mealTitleRV);
             imageView = itemView.findViewById(R.id.mealPhoto);
             favIcon = itemView.findViewById(R.id.favIcon);
-            constrainLayout=itemView.findViewById(R.id.homeItemLayout);
-/*
             cardView = itemView.findViewById(R.id.cardView);
-*/
             layout = itemView;
         }
     }
 
     @NonNull
-    public HomeFragAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup recyclerView, int viewType) {
+    public FavFragmentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup recyclerView, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(recyclerView.getContext());
-        View view = inflater.inflate(R.layout.list_view_home_item, recyclerView, false);
-        ViewHolder holder = new ViewHolder(view);
+        View view = inflater.inflate(R.layout.fav_item_list_view, recyclerView, false);
+        FavFragmentAdapter.ViewHolder holder = new FavFragmentAdapter.ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FavFragmentAdapter.ViewHolder holder, int position) {
         Recipe item = recipeList.get(position);
         holder.mealTitle.setText(item.strMeal);
         Glide.with(con).load(item.getStrMealThumb())
                 .apply(new RequestOptions().override(227, 132))
                 .into(holder.imageView);
-        holder.constrainLayout.setOnClickListener(
+        holder.cardView.setOnClickListener(
                 (view) -> {
+                    Toast.makeText(con, "Card clicked: " + item.strMeal, Toast.LENGTH_SHORT).show();
                     HomeFragmentDirections.ActionHomeFragmentToRecipeDetails action = HomeFragmentDirections.actionHomeFragmentToRecipeDetails(item);
                     Navigation.findNavController(view)
                             .navigate(action);
@@ -88,14 +86,10 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                            listener.onAddToFav(item);
-                            //add animation
-
+                        listener.removeFromFav(item);
                     }
                 }
         );
-
-
     }
 
 
@@ -103,20 +97,20 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
         return recipeList == null ? 0 : recipeList.size();
     }
 
-    public interface AdapterFragmentCommunicator {
-        void removeFromFav(Recipe recipe);
-
-        void onAddToFav(Recipe recipe);
-    }
-
-    public interface onAddToFavInterface {
-
-    }
-
     public void updateUi(List<Recipe> recipeList) {
         this.recipeList = recipeList;
         notifyDataSetChanged();
     }
+
+    public interface AdapterFragmentCommunicator {
+        void removeFromFav(Recipe recipe);
+
+
+    }
+
+
+
+
 
 }
 

@@ -21,4 +21,7 @@
     <string name="title">Title</string>
     <string name="space" />
     <string name="read_more">Read More</string>
+    <string name="your_favorite_recipes_chef">Your Favorite Recipes, Chef!</string>
+    <string name="are_you_sure">are you sure</string>
+    <string name="confirm_the_process">confirm the process</string>
 </resources>

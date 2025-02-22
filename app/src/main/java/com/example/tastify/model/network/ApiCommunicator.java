@@ -11,3 +11,4 @@ public interface ApiCommunicator {
     void onRecipeFailed(String message);
 
 }
+

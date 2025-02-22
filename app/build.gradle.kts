@@ -28,6 +28,9 @@ android {
             )
         }
     }
+    buildFeatures{
+        viewBinding = true;
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -41,6 +44,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
+    implementation(libs.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -86,6 +90,10 @@ dependencies {
 
 ///youtube frame
     implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.1")
+
+    //bottomnavigatiuon
+    implementation("com.google.android.material:material:1.12.0")
+
 
 
 

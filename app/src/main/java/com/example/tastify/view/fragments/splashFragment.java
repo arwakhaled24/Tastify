@@ -17,6 +17,7 @@ import com.example.tastify.R;
 import com.example.tastify.model.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
+import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.Presenter;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class splashFragment extends Fragment implements ViewInterface {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Presenter presenter = new Presenter(this,  RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity())));
+        Presenter presenter = new Presenter(this,  RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()),new RecipeRemoteDataSource(getActivity())));
         new Handler().postDelayed(() -> {
             NavController navController = Navigation.findNavController(view);
             if(Presenter.getCurrentUser()!=null){

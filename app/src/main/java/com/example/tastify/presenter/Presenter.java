@@ -20,17 +20,6 @@ public class Presenter implements ApiCommunicator {
     RecipeRepository repository;
     private static final String TAG = "presenter";
 
-    @Override
-    public void onRecipeReceived(List<Recipe> products) {
-        viewI.showRecipes(products);
-        Log.i(TAG, "onRecipeReceived: received" + products.size());
-    }
-
-    @Override
-    public void onRecipeFailed(String message) {
-//shouldbe view,onerror
-//tobeimplemented
-    }
 
     public Presenter(ViewInterface viewI, RecipeRepository repository) {
         this.viewI = viewI;
@@ -49,7 +38,7 @@ public class Presenter implements ApiCommunicator {
         repository.addToFav(recipe);
     }
 
-    public void deleteProduct(Recipe recipe) {
+    public void deleteFromFav(Recipe recipe) {
         repository.deleteProduct(recipe);
 
     }
@@ -72,9 +61,21 @@ public class Presenter implements ApiCommunicator {
                 }
         );
     }
+    @Override
+    public void onRecipeReceived(List<Recipe> products) {
+        viewI.showRecipes(products);
+        Log.i(TAG, "onRecipeReceived: received" + products.size());
+    }
+
+    @Override
+    public void onRecipeFailed(String message) {
+//shouldbe view,onerror
+//tobeimplemented
+    }
 
 
-   public static FirebaseUser getCurrentUser() {
+
+    public static FirebaseUser getCurrentUser() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             return user;

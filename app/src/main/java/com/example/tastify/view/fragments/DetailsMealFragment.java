@@ -1,6 +1,7 @@
 package com.example.tastify.view.fragments;
 
 import android.content.Context;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,15 +59,6 @@ public class DetailsMealFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        btnvideo.setOnClickListener(new OnClickListener() {
-//
-//            public void onClick(View v) {
-//
-//                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.youtube.com/watch?v=Hxy8BZGQ5Jo")));
-//                Log.i("Video", "Video Playing....");
-//
-//            }
-//        });
          youTubePlayerView = view.findViewById(R.id.videoView);
         titleInDetails=view.findViewById(R.id.tittleMealDetails);
         descriptionInDetails=view.findViewById(R.id.mealDescription);
@@ -96,17 +89,11 @@ public class DetailsMealFragment extends Fragment {
                     Log.i("YouTubeDebug", "Internet is available");
                 } else {
                     Log.i("YouTubeDebug", "No Internet Connection!");
-                }
+                }///////need to be refactored
                 youTubePlayer.cueVideo(videoID, 0);
             }
         });
-
-
-
-
-
     }
-
     void seeMore(){
         readMore.setOnClickListener(
                 new View.OnClickListener() {

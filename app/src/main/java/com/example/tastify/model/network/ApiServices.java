@@ -1,5 +1,6 @@
 package com.example.tastify.model.network;
 
+import com.example.tastify.model.CategoryResponse;
 import com.example.tastify.model.Recipe;
 
 import java.util.List;
@@ -8,9 +9,14 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface ApiServices {
-    @GET("/api/json/v1/1/search.php?f=s")
+    @GET("/api/json/v1/1/search.php?f=p")
     Call<RecipeResponse> getRecipes();
 
     @GET("/api/json/v1/1/random.php")
     Call<RecipeResponse> getRandomRecipe();
+
+
+    @GET("/api/json/v1/1/categories.php")
+    Call<CategoryResponse> getCategories();
+
 }

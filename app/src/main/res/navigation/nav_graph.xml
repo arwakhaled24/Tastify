@@ -53,10 +53,25 @@
     <fragment
         android:id="@+id/recipeDetails"
         android:name="com.example.tastify.view.fragments.DetailsMealFragment"
-        android:label="fragment_recipe_details"
-        tools:layout="@layout/fragment_recipe_details" >
+        android:label="Recipe Dtails"
+        tools:layout="@layout/fragment_recipe_details">
         <argument
             android:name="recipe"
             app:argType="com.example.tastify.model.Recipe" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.tastify.view.fragments.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/favouriteRecipesFragment"
+        android:name="com.example.tastify.view.fragments.FavouriteRecipesFragment"
+        android:label="Favorits Meal"
+        tools:layout="@layout/fragment_favourite_recipes" />
+    <fragment
+        android:id="@+id/calenderFragment"
+        android:name="com.example.tastify.CalenderFragment"
+        android:label="Meals Planner "
+        tools:layout="@layout/fragment_calender" />
 </navigation>

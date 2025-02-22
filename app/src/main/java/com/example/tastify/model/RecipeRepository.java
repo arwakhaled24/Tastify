@@ -11,15 +11,16 @@ public class RecipeRepository {
 
     static private RecipeRepository repository= null;
     RecipeLocalDataSource recipeLocalDataSource;
-    RecipeRemoteDataSource recipeRemoteDataSource=new RecipeRemoteDataSource();
+    RecipeRemoteDataSource recipeRemoteDataSource;
 
-    private RecipeRepository(RecipeLocalDataSource recipeLocalDataSource){
+    private RecipeRepository(RecipeLocalDataSource recipeLocalDataSource,RecipeRemoteDataSource recipeRemoteDataSource){
         this.recipeLocalDataSource =recipeLocalDataSource;
+        this.recipeRemoteDataSource=recipeRemoteDataSource;
     };
 
-    public  static RecipeRepository getInstance(RecipeLocalDataSource productLocalDataSource){
+    public  static RecipeRepository getInstance(RecipeLocalDataSource productLocalDataSource,RecipeRemoteDataSource recipeRemoteDataSource){
         if(repository==null){
-            repository =new RecipeRepository(productLocalDataSource);
+            repository =new RecipeRepository(productLocalDataSource,recipeRemoteDataSource);
         }
         return repository;
 

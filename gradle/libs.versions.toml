@@ -15,6 +15,7 @@ navigationUi = "2.8.7"
 navigationFragmentVersion = "2.5.3"
 firebaseAuth = "23.2.0"
 firebaseDatabase = "21.0.0"
+core = "1.15.0"
 
 [libraries]
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
@@ -31,6 +32,7 @@ material-v170 = { module = "com.google.android.material:material", version.ref =
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "converterGson" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+core = { group = "androidx.core", name = "core", version.ref = "core" }
 #navigation-fragment-v253 = { module = "androidx.navigation:navigation-fragment", version.ref = "navigationFragmentVersion" }
 
 
