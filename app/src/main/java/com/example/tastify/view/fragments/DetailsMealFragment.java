@@ -1,11 +1,15 @@
 package com.example.tastify.view.fragments;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +90,14 @@ public class DetailsMealFragment extends Fragment {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
                 youTubePlayer.loadVideo(videoID, 0);
+                ConnectivityManager cm = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                if (netInfo != null && netInfo.isConnected()) {
+                    Log.i("YouTubeDebug", "Internet is available");
+                } else {
+                    Log.i("YouTubeDebug", "No Internet Connection!");
+                }
+                youTubePlayer.cueVideo(videoID, 0);
             }
         });
 
