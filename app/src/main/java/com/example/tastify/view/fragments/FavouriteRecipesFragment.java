@@ -9,7 +9,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -21,16 +20,16 @@ import com.example.tastify.model.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
-import com.example.tastify.presenter.Presenter;
+import com.example.tastify.presenter.FavRecipePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavouriteRecipesFragment extends Fragment implements ViewInterface, FavFragmentAdapter.AdapterFragmentCommunicator {
+public class FavouriteRecipesFragment extends Fragment implements FavViewInterface, FavFragmentAdapter.AdapterFragmentCommunicator {
     FavFragmentAdapter adapter;
     RecyclerView recyclerView;
     LinearLayoutManager manager;
-    Presenter presenter;
+    FavRecipePresenter presenter;
 
     Dialog dialog;
     Button sureBtn,cancelBtn;
@@ -66,9 +65,20 @@ public class FavouriteRecipesFragment extends Fragment implements ViewInterface,
         recyclerView.setAdapter(adapter);
 
 
+        presenter = new FavRecipePresenter(this, RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())));
+        getfav();
 
-        presenter = new Presenter(this,
-                RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())));
+    }
+
+
+    @Override
+    public void onRemoveFromFav(Recipe recipe) {
+        presenter.deleteFromFav(recipe);
+    }
+
+
+    @Override
+    public void getfav() {
         LiveData<List<Recipe>> liveData = presenter.getFavRecipes();
         Observer<List<Recipe>> observer = new Observer<List<Recipe>>() {
             @Override
@@ -77,25 +87,5 @@ public class FavouriteRecipesFragment extends Fragment implements ViewInterface,
             }
         };
         liveData.observe(getActivity(), observer);
-
-        dialog=new Dialog(getActivity());
-        dialog.setContentView(R.layout.custom_dialod_box);
-
-
-
     }
-
-    @Override
-    public void showRecipes(List<Recipe> recipeList) {
-    }
-
-    @Override
-    public void showRandomRecipe(Recipe recipe) {
-    }
-
-    @Override
-    public void removeFromFav(Recipe recipe) {
-        presenter.deleteFromFav(recipe);
-    }
-
 }

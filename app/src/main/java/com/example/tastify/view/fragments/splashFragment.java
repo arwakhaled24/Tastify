@@ -18,12 +18,12 @@ import com.example.tastify.model.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
-import com.example.tastify.presenter.Presenter;
+import com.example.tastify.presenter.HomePresenter;
 
 import java.util.List;
 
 
-public class splashFragment extends Fragment implements ViewInterface {
+public class splashFragment extends Fragment implements HomeViewInterface {
 
 
     public splashFragment() {
@@ -45,10 +45,10 @@ public class splashFragment extends Fragment implements ViewInterface {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Presenter presenter = new Presenter(this,  RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()),new RecipeRemoteDataSource(getActivity())));
+        HomePresenter presenter = new HomePresenter(this,  RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()),new RecipeRemoteDataSource(getActivity())));
         new Handler().postDelayed(() -> {
             NavController navController = Navigation.findNavController(view);
-            if(Presenter.getCurrentUser()!=null){
+            if(HomePresenter.getCurrentUser()!=null){
                 navController.navigate(R.id.action_splash_fragment_to_homeFragment);
             }else{navController.navigate(R.id.action_splash_fragment_to_logIn);}
         }, 3300);

@@ -8,39 +8,27 @@ import androidx.lifecycle.LiveData;
 import com.example.tastify.model.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.network.ApiCommunicator;
-import com.example.tastify.view.fragments.ViewInterface;
+import com.example.tastify.view.fragments.HomeViewInterface;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
 
-public class Presenter implements ApiCommunicator {
-    ViewInterface viewI;
+public class HomePresenter implements ApiCommunicator {
+    HomeViewInterface viewI;
     RecipeRepository repository;
-    private static final String TAG = "presenter";
 
 
-    public Presenter(ViewInterface viewI, RecipeRepository repository) {
+    public HomePresenter(HomeViewInterface viewI, RecipeRepository repository) {
         this.viewI = viewI;
         this.repository = repository;
     }
 
+
+
     public void getHomeRecipes() {
         repository.getRemoteProduct(this);
-    }
-
-    public LiveData<List<Recipe>> getFavRecipes() {
-        return repository.getFavProduct();
-    }
-
-    public void addToFav(Recipe recipe) {
-        repository.addToFav(recipe);
-    }
-
-    public void deleteFromFav(Recipe recipe) {
-        repository.deleteProduct(recipe);
-
     }
 
 
@@ -64,7 +52,6 @@ public class Presenter implements ApiCommunicator {
     @Override
     public void onRecipeReceived(List<Recipe> products) {
         viewI.showRecipes(products);
-        Log.i(TAG, "onRecipeReceived: received" + products.size());
     }
 
     @Override
@@ -75,6 +62,8 @@ public class Presenter implements ApiCommunicator {
 
 
 
+
+    ///////////need to change this place
     public static FirebaseUser getCurrentUser() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

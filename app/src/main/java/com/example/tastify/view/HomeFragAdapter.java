@@ -27,12 +27,11 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
 
     Context con;
     List<Recipe> recipeList;
-    AdapterFragmentCommunicator listener;
+
     boolean isFav=false;
-    public HomeFragAdapter(Context con, List<Recipe> items, AdapterFragmentCommunicator listener) {
+    public HomeFragAdapter(Context con, List<Recipe> items) {
         this.con = con;
         this.recipeList = items;
-        this.listener = listener;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -84,7 +83,7 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
                 }
 
         );
-        holder.favIcon.setOnClickListener(
+       /* holder.favIcon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -93,7 +92,7 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
 
                     }
                 }
-        );
+        );*/
 
 
     }
@@ -103,11 +102,6 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
         return recipeList == null ? 0 : recipeList.size();
     }
 
-    public interface AdapterFragmentCommunicator {
-        void removeFromFav(Recipe recipe);
-
-        void onAddToFav(Recipe recipe);
-    }
 
     public interface onAddToFavInterface {
 

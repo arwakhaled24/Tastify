@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/recipeDetails"
-        android:name="com.example.tastify.view.fragments.DetailsMealFragment"
+        android:name="com.example.tastify.view.fragments.DetailsFragment"
         android:label="Recipe Dtails"
         tools:layout="@layout/fragment_recipe_details">
         <argument

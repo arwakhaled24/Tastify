@@ -4,7 +4,7 @@ import com.example.tastify.model.Recipe;
 
 import java.util.List;
 
-public interface ViewInterface {
+public interface HomeViewInterface {
 
     public void showRecipes(List<Recipe> recipeList);
 

@@ -24,8 +24,8 @@ public class Category{
         return strCategoryDescription;
     }
 
-    public String idCategory;
-    public String strCategory;
-    public String strCategoryThumb;
-    public String strCategoryDescription;
+    private String idCategory;
+    private String strCategory;
+    private String strCategoryThumb;
+    private String strCategoryDescription;
 }

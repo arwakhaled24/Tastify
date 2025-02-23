@@ -86,7 +86,7 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.removeFromFav(item);
+                        listener.onRemoveFromFav(item);
                     }
                 }
         );
@@ -103,7 +103,7 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
     }
 
     public interface AdapterFragmentCommunicator {
-        void removeFromFav(Recipe recipe);
+        void onRemoveFromFav(Recipe recipe);
 
 
     }

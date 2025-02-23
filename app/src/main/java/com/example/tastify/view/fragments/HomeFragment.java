@@ -23,18 +23,18 @@ import com.example.tastify.model.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
-import com.example.tastify.presenter.Presenter;
+import com.example.tastify.presenter.HomePresenter;
 import com.example.tastify.view.HomeFragAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment implements ViewInterface, HomeFragAdapter.AdapterFragmentCommunicator {
+public class HomeFragment extends Fragment implements HomeViewInterface {
     HomeFragAdapter adapter;
     RecyclerView recyclerView;
     LinearLayoutManager manager;
-    Presenter presenter;
+    HomePresenter presenter;
     TextView randomMealTitle;
     ImageView randomMealImage;
     CardView randomCard;
@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment implements ViewInterface, HomeFragAda
         randomMealTitle = view.findViewById(R.id.randomMealTitl);
         randomMealImage = view.findViewById(R.id.randomImage);
 
-        adapter = new HomeFragAdapter(getActivity(), new ArrayList<>(), this);
+        adapter = new HomeFragAdapter(getActivity(), new ArrayList<>());
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment implements ViewInterface, HomeFragAda
         recyclerView.setAdapter(adapter);
 
 
-        presenter = new Presenter(this,
+        presenter = new HomePresenter(this,
                 RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())));
         presenter.getHomeRecipes();
         presenter.getRandomMeal();
@@ -113,17 +113,5 @@ public class HomeFragment extends Fragment implements ViewInterface, HomeFragAda
         randomMealTitle.setText(recipe.getStrMeal());
 
     }
-
-    @TODO
-    @Override
-    public void removeFromFav(Recipe recipe) {
-        presenter.deleteFromFav(recipe);
-    }
-
-    @Override
-    public void onAddToFav(Recipe recipe) {
-        presenter.addToFav(recipe);
-    }
-
 
 }

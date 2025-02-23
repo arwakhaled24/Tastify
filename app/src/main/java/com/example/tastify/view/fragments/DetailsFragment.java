@@ -1,50 +1,54 @@
 package com.example.tastify.view.fragments;
 
 import android.content.Context;
-
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
 import com.example.tastify.model.Recipe;
+import com.example.tastify.model.RecipeRepository;
+import com.example.tastify.model.database.RecipeLocalDataSource;
+import com.example.tastify.model.network.RecipeRemoteDataSource;
+import com.example.tastify.presenter.DetailsPresenter;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
-public class DetailsMealFragment extends Fragment {
+public class DetailsFragment extends Fragment implements DetailsInterface {
 
     Recipe recipe;
     ImageView imageInDetails;
-    TextView titleInDetails,descriptionInDetails,recipeArea,recipeCategory,readMore;
+    TextView titleInDetails, descriptionInDetails, recipeArea, recipeCategory, readMore;
     private boolean isExpanded = false;
     YouTubePlayerView youTubePlayerView;
+    Button addToFavBtn;
 
-    public DetailsMealFragment() {
+    DetailsPresenter presenter;
+
+    public DetailsFragment() {
     }
-
-
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         recipe = DetailsMealFragmentArgs.fromBundle(getArguments()).getRecipe();
+        recipe = DetailsFragmentArgs.fromBundle(getArguments()).getRecipe();
+
 
     }
 
@@ -59,26 +63,34 @@ public class DetailsMealFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-         youTubePlayerView = view.findViewById(R.id.videoView);
-        titleInDetails=view.findViewById(R.id.tittleMealDetails);
-        descriptionInDetails=view.findViewById(R.id.mealDescription);
-        recipeCategory=view.findViewById(R.id.recipeCategory);
-        imageInDetails =view.findViewById(R.id.recipeImage);
-        recipeArea=view.findViewById(R.id.areaText) ;
-        readMore=view.findViewById(R.id.readMore);
+        youTubePlayerView = view.findViewById(R.id.videoView);
+        titleInDetails = view.findViewById(R.id.tittleMealDetails);
+        descriptionInDetails = view.findViewById(R.id.mealDescription);
+        recipeCategory = view.findViewById(R.id.recipeCategory);
+        imageInDetails = view.findViewById(R.id.recipeImage);
+        recipeArea = view.findViewById(R.id.areaText);
+        readMore = view.findViewById(R.id.readMore);
+        addToFavBtn = view.findViewById(R.id.addToFavBtn);
 
-        getLifecycle().addObserver(youTubePlayerView);
+
+        presenter = new DetailsPresenter(this, RecipeRepository.getInstance
+                (new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())));
+
 
         titleInDetails.setText(recipe.getStrMeal());
-        descriptionInDetails.setText(recipe.getStrInstructions() );
+        descriptionInDetails.setText(recipe.getStrInstructions());
         recipeArea.setText(recipe.getStrArea());
+        getLifecycle().addObserver(youTubePlayerView);
         seeMore();
+
+
         Glide.with(getActivity()).load(recipe.getStrMealThumb())
                 .apply(new RequestOptions())
                 .into(imageInDetails);
         recipeCategory.setText(recipe.getStrCategory());
 
-        String videoID= recipe.getStrYoutube().substring(Math.max(0, recipe.getStrYoutube().length() - 11));
+
+        String videoID = recipe.getStrYoutube().substring(Math.max(0, recipe.getStrYoutube().length() - 11));
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
@@ -93,8 +105,14 @@ public class DetailsMealFragment extends Fragment {
                 youTubePlayer.cueVideo(videoID, 0);
             }
         });
+
+        addToFavBtn.setOnClickListener(
+                v -> presenter.addToFav(recipe)
+        );
+
     }
-    void seeMore(){
+
+    void seeMore() {
         readMore.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -110,6 +128,17 @@ public class DetailsMealFragment extends Fragment {
                     }
                 }
         );
+    }
+
+
+    @Override
+    public void addToFav() {
+        Toast.makeText(getActivity(), "added to fav", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void addToCale() {
+
     }
 
 

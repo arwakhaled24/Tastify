@@ -24,4 +24,5 @@
     <string name="your_favorite_recipes_chef">Your Favorite Recipes, Chef!</string>
     <string name="are_you_sure">are you sure</string>
     <string name="confirm_the_process">confirm the process</string>
+    <string name="add_to_favorits">Add to Favorits</string>
 </resources>
