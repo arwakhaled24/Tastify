@@ -13,8 +13,6 @@ import java.util.List;
 
 @Dao
 public interface DatabaseDAO {
-
-
     @Delete
     void deleteFav(Recipe recipe);
 

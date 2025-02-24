@@ -20,21 +20,17 @@ import com.example.tastify.model.Recipe;
 
 import java.util.List;
 
-
-
-
-
-public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.ViewHolder> {
+public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHolder> {
 
     Context con;
     List<Recipe> recipeList;
-  AdapterFavFragmentCommunicator listener;
 
 
-    public FavFragmentAdapter(Context con, List<Recipe> items, AdapterFavFragmentCommunicator listener) {
+
+    public CalenderAdabter(Context con, List<Recipe> items) {
         this.con = con;
         this.recipeList = items;
-        this.listener = listener;
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,15 +55,15 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
     }
 
     @NonNull
-    public FavFragmentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup recyclerView, int viewType) {
+    public CalenderAdabter.ViewHolder onCreateViewHolder(@NonNull ViewGroup recyclerView, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(recyclerView.getContext());
         View view = inflater.inflate(R.layout.fav_item_list_view, recyclerView, false);
-        FavFragmentAdapter.ViewHolder holder = new FavFragmentAdapter.ViewHolder(view);
+        CalenderAdabter.ViewHolder holder = new CalenderAdabter.ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavFragmentAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CalenderAdabter.ViewHolder holder, int position) {
         Recipe item = recipeList.get(position);
         holder.mealTitle.setText(item.strMeal);
         Glide.with(con).load(item.getStrMealThumb())
@@ -86,7 +82,7 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.onRemoveFromFav(item);
+                        /*listener.onRemoveFromFav(item);*/
                     }
                 }
         );
@@ -102,11 +98,6 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
         notifyDataSetChanged();
     }
 
-    public interface AdapterFavFragmentCommunicator {
-        void onRemoveFromFav(Recipe recipe);
-
-
-    }
 
 
 

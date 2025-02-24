@@ -25,7 +25,7 @@ import com.example.tastify.presenter.FavRecipePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavouriteRecipesFragment extends Fragment implements FavViewInterface, FavFragmentAdapter.AdapterFragmentCommunicator {
+public class FavouriteRecipesFragment extends Fragment implements FavViewInterface, FavFragmentAdapter.AdapterFavFragmentCommunicator {
     FavFragmentAdapter adapter;
     RecyclerView recyclerView;
     LinearLayoutManager manager;
@@ -41,8 +41,6 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -69,7 +67,6 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
         getfav();
 
     }
-
 
     @Override
     public void onRemoveFromFav(Recipe recipe) {

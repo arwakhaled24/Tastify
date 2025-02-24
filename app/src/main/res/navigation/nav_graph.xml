@@ -71,7 +71,7 @@
         tools:layout="@layout/fragment_favourite_recipes" />
     <fragment
         android:id="@+id/calenderFragment"
-        android:name="com.example.tastify.CalenderFragment"
+        android:name="com.example.tastify.view.fragments.CalenderFragment"
         android:label="Meals Planner "
         tools:layout="@layout/fragment_calender" />
 </navigation>
