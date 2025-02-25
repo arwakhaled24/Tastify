@@ -21,6 +21,7 @@ import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.FavRecipePresenter;
+import com.example.tastify.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
         recyclerView.setAdapter(adapter);
 
 
-        presenter = new FavRecipePresenter(this, RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())));
+        presenter = new FavRecipePresenter(this, RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())), SharedPreferencesHelper.getInstance(getActivity()));
         getfav();
 
     }
@@ -88,6 +89,6 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
 
     @Override
     public void onNotLogin() {
-        
+
     }
 }

@@ -39,7 +39,12 @@ public class RecipeLocalDataSource {
 
 
     public void  addToCal(PlannedRecipe recipe){
-         dao.addPlannedMeal(recipe);
+
+        new Thread(
+                () -> {
+                    dao.addPlannedMeal(recipe);
+                }
+        ).start();
     }
 
     public LiveData<List<PlannedRecipe>> getRecipesByDate(String date){
@@ -47,6 +52,11 @@ public class RecipeLocalDataSource {
     }
     public void removeFromCal(PlannedRecipe recipe){
 
-        dao.removePlannedMeal(recipe);
+
+        new Thread(
+                () -> {
+                    dao.removePlannedMeal(recipe);
+                }
+        ).start();
     }
 }

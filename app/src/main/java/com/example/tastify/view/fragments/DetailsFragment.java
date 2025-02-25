@@ -1,5 +1,6 @@
 package com.example.tastify.view.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -32,6 +32,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
+import java.util.Calendar;
+
 public class DetailsFragment extends Fragment implements DetailsInterface {
 
     Recipe recipe;
@@ -39,7 +41,7 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     TextView titleInDetails, descriptionInDetails, recipeArea, recipeCategory, readMore;
     private boolean isExpanded = false;
     YouTubePlayerView youTubePlayerView;
-    Button addToFavBtn;
+    Button addToFavBtn, addToCalender;
 
     DetailsPresenter presenter;
 
@@ -74,6 +76,7 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
         recipeArea = view.findViewById(R.id.areaText);
         readMore = view.findViewById(R.id.readMore);
         addToFavBtn = view.findViewById(R.id.addToFavBtn);
+        addToCalender = view.findViewById(R.id.addToCalender);
 
 
         presenter = new DetailsPresenter(this, RecipeRepository.getInstance
@@ -110,8 +113,24 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
         });
 
         addToFavBtn.setOnClickListener(
-                v -> presenter.addToFav(recipe)
+                v -> presenter.addToFav(recipe));
+
+        addToCalender.setOnClickListener(
+                v -> shoeDateickerDialog());
+
+    }
+
+    private void shoeDateickerDialog() {
+        Calendar cal = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                (view, year, month, dayOfMonth) -> {
+                    String date = year + String.valueOf(month) + dayOfMonth;
+                    presenter.addToCalender(recipe, date,recipe.getIdMeal());
+                },
+                cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)
         );
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        datePickerDialog.show();
 
     }
 
@@ -157,7 +176,8 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
                     ///////////////navigate to register
 
                 })
-                .show();    }
+                .show();
+    }
 
 
 }

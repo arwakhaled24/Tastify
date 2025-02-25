@@ -1,5 +1,6 @@
 package com.example.tastify.presenter;
 
+import com.example.tastify.model.PlannedRecipe;
 import com.example.tastify.model.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.utils.SharedPreferencesHelper;
@@ -32,9 +33,9 @@ SharedPreferencesHelper sharedPreferencesHelper;
         }
     }
 
-    public void addToCalender(Recipe recipe , String date ){
+    public void addToCalender(Recipe recipe , String date,String id ){
         if(sharedPreferencesHelper.isUserLoggedIn()) {
-            /////logic
+           repository.addToCalender(new PlannedRecipe(recipe,date,id));
         }
         else{
             detailsView.onNotLogin();

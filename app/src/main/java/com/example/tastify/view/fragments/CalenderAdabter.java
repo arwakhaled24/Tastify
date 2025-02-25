@@ -38,9 +38,6 @@ public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHo
         public ImageView imageView;
         public ImageView favIcon;
         public TextView mealTitle;
-        public TextView mealCategory;
-        public TextView mealCulture;
-
         public CardView cardView;
         public View layout;
 

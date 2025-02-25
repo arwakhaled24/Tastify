@@ -1,6 +1,7 @@
 package com.example.tastify.view.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.example.tastify.presenter.HomePresenter;
 import com.example.tastify.view.HomeFragAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -78,8 +80,6 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
                 RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())));
         presenter.getHomeRecipes();
         presenter.getRandomMeal();
-
-
         fromRandomToDetails();
 
     }

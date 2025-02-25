@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 
 import com.example.tastify.R;
 import com.example.tastify.model.PlannedRecipe;
@@ -34,6 +36,7 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface 
     List<PlannedRecipe> recipes =new ArrayList<>();
 
     CalenderPresenter presenter;
+    CalendarView calenderView ;
 
 
     public CalenderFragment() {
@@ -64,9 +67,18 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface 
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+        calenderView=view.findViewById(R.id.calendarView);
 
         presenter=new CalenderPresenter(this,
                 RecipeRepository.getInstance(new RecipeLocalDataSource(getContext()),new RecipeRemoteDataSource(getContext())));
+
+
+        calenderView.setOnDateChangeListener(
+                (view1, year, month, dayOfMonth) -> {
+                    String date=String.valueOf(year)+String.valueOf(month)+String.valueOf(dayOfMonth);
+                    presenter.getPlannedByDate(date);
+                }
+        );
     }
 
     @Override

@@ -176,6 +176,9 @@ public class Recipe implements Parcelable {
         strMeasure20 = in.readString();
     }
 
+    public PlannedRecipe toPlannedRecipe(String date){
+       return new PlannedRecipe(this ,date,this.getIdMeal());
+    }
 
     public String getIdMeal() {
         return idMeal;

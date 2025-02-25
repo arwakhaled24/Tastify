@@ -23,12 +23,7 @@ public class FavRecipePresenter {
     }
 
     public LiveData<List<Recipe>> getFavRecipes() {
-        if(sharedPreferencesHelper.isUserLoggedIn()) {
             return repository.getFavProduct();
-        }
-        else{
-
-        }
     }
 
 

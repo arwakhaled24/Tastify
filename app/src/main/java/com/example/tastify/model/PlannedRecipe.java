@@ -12,7 +12,7 @@ public class PlannedRecipe implements Parcelable {
     @NonNull
     public String idMeal;
     @NonNull
-    public String date;
+    public String date; //dayMonthYear
 
     public String strMeal;
     public String strCategory;
@@ -127,7 +127,61 @@ public class PlannedRecipe implements Parcelable {
         this.strMeasure19 = strMeasure19;
         this.strMeasure20 = strMeasure20;
     }
+ public PlannedRecipe(Recipe recipe ,@NonNull String dte,@NonNull String id ){
+      this(
+              id,
+             dte,
+             recipe.getStrMeal(),
+             recipe.getStrCategory(),
+             recipe.getStrArea(),
+             recipe.getStrInstructions(),
+             recipe.getStrMealThumb(),
+             recipe.getStrTags(),
+             recipe.getStrYoutube(),
+             recipe.getStrIngredient1(),
+             recipe.getStrIngredient2(),
+             recipe.getStrIngredient3(),
+             recipe.getStrIngredient4(),
+             recipe.getStrIngredient5(),
+             recipe.getStrIngredient6(),
+             recipe.getStrIngredient7(),
+             recipe.getStrIngredient8(),
+             recipe.getStrIngredient9(),
+             recipe.getStrIngredient10(),
+             recipe.getStrIngredient11(),
+             recipe.getStrIngredient12(),
+             recipe.getStrIngredient13(),
+             recipe.getStrIngredient14(),
+             recipe.getStrIngredient15(),
+             recipe.getStrIngredient16(),
+             recipe.getStrIngredient17(),
+             recipe.getStrIngredient18(),
+             recipe.getStrIngredient19(),
+             recipe.getStrIngredient20(),
+             recipe.getStrMeasure1(),
+             recipe.getStrMeasure2(),
+             recipe.getStrMeasure3(),
+             recipe.getStrMeasure4(),
+             recipe.getStrMeasure5(),
+             recipe.getStrMeasure6(),
+             recipe.getStrMeasure7(),
+             recipe.getStrMeasure8(),
+             recipe.getStrMeasure9(),
+             recipe.getStrMeasure10(),
+             recipe.getStrMeasure11(),
+             recipe.getStrMeasure12(),
+             recipe.getStrMeasure13(),
+             recipe.getStrMeasure14(),
+             recipe.getStrMeasure15(),
+             recipe.getStrMeasure16(),
+             recipe.getStrMeasure17(),
+             recipe.getStrMeasure18(),
+             recipe.getStrMeasure19(),
+             recipe.getStrMeasure20()
+     );
 
+
+ }
     protected PlannedRecipe(Parcel in) {
         idMeal = in.readString();
         date=in.readString();
@@ -382,6 +436,14 @@ public class PlannedRecipe implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
+
+    public Recipe getRecipe(){
+        return new Recipe( idMeal,  strMeal,  strCategory,  strArea,  strInstructions,  strMealThumb,  strTags,  strYoutube,  strIngredient1,  strIngredient2,  strIngredient3,  strIngredient4,  strIngredient5,  strIngredient6,  strIngredient7,
+                strIngredient8,  strIngredient9,  strIngredient10,  strIngredient11,  strIngredient12,  strIngredient13,  strIngredient14,  strIngredient15,  strIngredient16,  strIngredient17,  strIngredient18,  strIngredient19,  strIngredient20,  strMeasure1,
+                 strMeasure2,  strMeasure3,  strMeasure4,  strMeasure5,  strMeasure6,  strMeasure7,  strMeasure8,  strMeasure9,  strMeasure10,  strMeasure11,  strMeasure12,  strMeasure13,  strMeasure14,  strMeasure15,  strMeasure16,  strMeasure17,  strMeasure18,
+                strMeasure19,  strMeasure20);
+        }
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
