@@ -177,7 +177,7 @@ public class Recipe implements Parcelable {
     }
 
     public PlannedRecipe toPlannedRecipe(String date){
-       return new PlannedRecipe(this ,date,this.getIdMeal());
+       return new PlannedRecipe(this ,date);
     }
 
     public String getIdMeal() {

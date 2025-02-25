@@ -127,9 +127,9 @@ public class PlannedRecipe implements Parcelable {
         this.strMeasure19 = strMeasure19;
         this.strMeasure20 = strMeasure20;
     }
- public PlannedRecipe(Recipe recipe ,@NonNull String dte,@NonNull String id ){
+ public PlannedRecipe(Recipe recipe ,@NonNull String dte/*,@NonNull String id*/ ){
       this(
-              id,
+              recipe.getIdMeal(),
              dte,
              recipe.getStrMeal(),
              recipe.getStrCategory(),

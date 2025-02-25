@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.ImageView;
 
 import com.example.tastify.R;
 import com.example.tastify.model.PlannedRecipe;
@@ -25,7 +25,7 @@ import com.example.tastify.presenter.CalenderPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalenderFragment extends Fragment implements CalenderViewInterface {
+public class CalenderFragment extends Fragment implements CalenderViewInterface , CalenderAdabter.CalenderAdapterCommunicator {
 
     RecyclerView recyclerView;
     CalenderAdabter adapter;
@@ -35,6 +35,7 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface 
 
     CalenderPresenter presenter;
     CalendarView calenderView ;
+    ImageView deleteIcon;
 
 
     public CalenderFragment() {
@@ -59,13 +60,14 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.calenderRecyclerView);
-        adapter = new CalenderAdabter(getActivity(), recipes);
+        adapter = new CalenderAdabter(getActivity(), recipes,this);
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         calenderView=view.findViewById(R.id.calendarView);
+        deleteIcon =view.findViewById(R.id.deleteIcon);
 
         presenter=new CalenderPresenter(this,
                 RecipeRepository.getInstance(new RecipeLocalDataSource(getContext()),new RecipeRemoteDataSource(getContext())));
@@ -78,6 +80,7 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface 
                     presenter.onSelectedDate(date);
                 }
         );
+
     }
 
 
@@ -93,5 +96,11 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface 
         liveData.observe(getViewLifecycleOwner(), recipes -> {
             adapter.updateUi(recipes);
         });
+    }
+
+
+    @Override
+    public void onDelete(PlannedRecipe recipe) {
+        presenter.deleteFromCal(recipe);
     }
 }

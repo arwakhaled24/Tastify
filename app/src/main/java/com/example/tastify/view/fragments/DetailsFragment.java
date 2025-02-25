@@ -125,7 +125,7 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                 (view, year, month, dayOfMonth) -> {
                     String date = year + String.valueOf(month) + dayOfMonth;
-                    presenter.addToCalender(recipe, date,recipe.getIdMeal());
+                    presenter.addToCalender(recipe, date);
                 },
                 cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)
         );

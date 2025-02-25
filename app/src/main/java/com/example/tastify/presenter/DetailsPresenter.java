@@ -33,9 +33,9 @@ SharedPreferencesHelper sharedPreferencesHelper;
         }
     }
 
-    public void addToCalender(Recipe recipe , String date,String id ){
+    public void addToCalender(Recipe recipe , String date){
         if(sharedPreferencesHelper.isUserLoggedIn()) {
-           repository.addToCalender(new PlannedRecipe(recipe,date,id));
+           repository.addToCalender(new PlannedRecipe(recipe,date));
         }
         else{
             detailsView.onNotLogin();

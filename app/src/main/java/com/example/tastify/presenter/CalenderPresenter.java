@@ -16,10 +16,11 @@ public class CalenderPresenter {
     RecipeRepository repository;
 
     Calendar cal = Calendar.getInstance();
+    String date;
     public CalenderPresenter(CalenderViewInterface viewI, RecipeRepository repository) {
         this.calenderVIew = viewI;
         this.repository = repository;
-        String date =String.valueOf(cal.get(Calendar.YEAR))+ String.valueOf(cal.get(Calendar.MONTH))
+       date =String.valueOf(cal.get(Calendar.YEAR))+ String.valueOf(cal.get(Calendar.MONTH))
                 + String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
         onSelectedDate(date);
     }
@@ -37,4 +38,8 @@ public class CalenderPresenter {
         LiveData<List<PlannedRecipe>> liveData = repository.getRecipesByDate(date);
         calenderVIew.getRecipesByDate(liveData);
     }
+    public String getDate(){
+        return date;
+    }
+
 }
