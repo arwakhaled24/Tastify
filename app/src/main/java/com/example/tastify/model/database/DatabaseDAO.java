@@ -33,6 +33,11 @@ public interface DatabaseDAO {
     @Query("SELECT * FROM PlannedRecipe WHERE date = :date")
     LiveData<List<PlannedRecipe>> getMealsByDate(String date);
 
+    @Query("DELETE FROM recipe")
+    void deleteAllFavRecipes();
+
+    @Query("DELETE FROM PlannedRecipe")
+    void deleteAllMealRecipes();
 
 
 

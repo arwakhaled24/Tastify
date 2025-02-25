@@ -59,4 +59,14 @@ public class RecipeLocalDataSource {
                 }
         ).start();
     }
+
+    public void deleteAll(){
+        new Thread(
+                () -> {
+                    dao.deleteAllFavRecipes();
+                    dao.deleteAllMealRecipes();
+                }
+        ).start();
+
+    }
 }

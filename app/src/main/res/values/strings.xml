@@ -25,4 +25,5 @@
     <string name="are_you_sure">are you sure</string>
     <string name="confirm_the_process">confirm the process</string>
     <string name="add_to_favorits">Add to Favorits</string>
+    <string name="logout">Logout</string>
 </resources>

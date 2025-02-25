@@ -34,12 +34,18 @@ public class SharedPreferencesHelper {
         else {
             editor.putBoolean(KEY_IS_LOGIN,true);
         }
-
         editor.apply();
     }
 
-    // Get login status
     public boolean isUserLoggedIn() {
         return sharedPreferences.getBoolean(KEY_IS_LOGIN, false);
     }
+
+    public void logout(){
+        FirebaseAuth.getInstance().signOut();
+        setLoginStatus();
+
+    }
+
+
 }

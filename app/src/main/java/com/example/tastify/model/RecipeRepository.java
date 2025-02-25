@@ -54,6 +54,9 @@ public class RecipeRepository {
     public LiveData<List<PlannedRecipe>> getRecipesByDate(String date){
       return   recipeLocalDataSource.getRecipesByDate(date);
     }
+    public void deleteAllFromTabels(){
+        recipeLocalDataSource.deleteAll();
+    }
 
 
 

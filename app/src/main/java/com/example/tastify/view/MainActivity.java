@@ -46,12 +46,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
 
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#ffffff"));
-
-        actionBar.setBackgroundDrawable(colorDrawable);
-
-
 
         navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
             if (navDestination.getId() == R.id.splash_fragment ||
