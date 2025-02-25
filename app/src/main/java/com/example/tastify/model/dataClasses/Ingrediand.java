@@ -1,4 +1,6 @@
-package com.example.tastify.model;
+package com.example.tastify.model.dataClasses;
+
+import com.example.tastify.model.Recipe;
 
 public class Ingrediand {
 

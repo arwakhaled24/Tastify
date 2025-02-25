@@ -5,7 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,17 +15,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tastify.R;
+import com.example.tastify.model.PlannedRecipe;
 import com.example.tastify.model.Recipe;
+import com.example.tastify.model.RecipeRepository;
+import com.example.tastify.model.database.RecipeLocalDataSource;
+import com.example.tastify.model.network.RecipeRemoteDataSource;
+import com.example.tastify.presenter.CalenderPresenter;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class CalenderFragment extends Fragment {
+public class CalenderFragment extends Fragment implements CalenderViewInterface {
 
     RecyclerView recyclerView;
     CalenderAdabter adapter;
     LinearLayoutManager manager;
 
-    ArrayList<Recipe> recibesList=new ArrayList<>();
+    List<PlannedRecipe> recipes =new ArrayList<>();
+
+    CalenderPresenter presenter;
 
 
     public CalenderFragment() {
@@ -35,9 +44,6 @@ public class CalenderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
     }
 
     @Override
@@ -51,19 +57,27 @@ public class CalenderFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-        Recipe re = new Recipe("arwa","arwa","arwa","arwa");
-        Recipe sa = new Recipe("arwa","arwa","arwa","arwa");
-
-        recibesList.add(re);
-        recibesList.add(sa);
         recyclerView = view.findViewById(R.id.calenderRecyclerView);
-        adapter = new CalenderAdabter(getActivity(), recibesList);
+        adapter = new CalenderAdabter(getActivity(), recipes);
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+
+        presenter=new CalenderPresenter(this,
+                RecipeRepository.getInstance(new RecipeLocalDataSource(getContext()),new RecipeRemoteDataSource(getContext())));
+    }
+
+    @Override
+    public void getRecipesByDate(String date) {
+        LiveData<List<PlannedRecipe>> liveData = presenter.getPlannedByDate(date);
+        Observer<List<PlannedRecipe>> observer = new Observer<List<PlannedRecipe>>() {
+            @Override
+            public void onChanged(List<PlannedRecipe> products) {
+                adapter.updateUi(products);
+            }
+        };
+        liveData.observe(getActivity(), observer);
     }
 }

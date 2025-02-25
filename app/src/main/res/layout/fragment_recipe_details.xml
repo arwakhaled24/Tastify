@@ -5,6 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
     tools:context=".view.fragments.DetailsMealFragment">
 
 
@@ -28,6 +29,7 @@
         android:layout_marginEnd="36dp"
         android:background="@drawable/icon_background"
         android:src="@drawable/heart_shape_icon"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/recipeImage" />
 

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
+import com.example.tastify.model.PlannedRecipe;
 import com.example.tastify.model.Recipe;
 
 import java.util.List;
@@ -23,11 +24,11 @@ import java.util.List;
 public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHolder> {
 
     Context con;
-    List<Recipe> recipeList;
+    List<PlannedRecipe> recipeList;
 
 
 
-    public CalenderAdabter(Context con, List<Recipe> items) {
+    public CalenderAdabter(Context con, List<PlannedRecipe> items) {
         this.con = con;
         this.recipeList = items;
 
@@ -64,20 +65,20 @@ public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CalenderAdabter.ViewHolder holder, int position) {
-        Recipe item = recipeList.get(position);
+        PlannedRecipe item = recipeList.get(position);
         holder.mealTitle.setText(item.strMeal);
         Glide.with(con).load(item.getStrMealThumb())
                 .apply(new RequestOptions().override(227, 132))
                 .into(holder.imageView);
-        holder.cardView.setOnClickListener(
+   /*     holder.cardView.setOnClickListener(
                 (view) -> {
                     Toast.makeText(con, "Card clicked: " + item.strMeal, Toast.LENGTH_SHORT).show();
-                    HomeFragmentDirections.ActionHomeFragmentToRecipeDetails action = HomeFragmentDirections.actionHomeFragmentToRecipeDetails(item);
+                    HomeFragmentDirections.ActionHomeFragmentToRecipeDetails action =
+                            HomeFragmentDirections.actionHomeFragmentToRecipeDetails(item);
                     Navigation.findNavController(view)
                             .navigate(action);
-                }
-
-        );
+                }*/
+        ;
         holder.favIcon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -93,7 +94,7 @@ public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHo
         return recipeList == null ? 0 : recipeList.size();
     }
 
-    public void updateUi(List<Recipe> recipeList) {
+    public void updateUi(List<PlannedRecipe> recipeList) {
         this.recipeList = recipeList;
         notifyDataSetChanged();
     }

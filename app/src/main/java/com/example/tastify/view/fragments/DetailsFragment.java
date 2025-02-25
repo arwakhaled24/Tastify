@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -25,6 +26,8 @@ import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.DetailsPresenter;
+import com.example.tastify.utils.SharedPreferencesHelper;
+import com.google.android.material.snackbar.Snackbar;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -74,7 +77,7 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
 
 
         presenter = new DetailsPresenter(this, RecipeRepository.getInstance
-                (new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())));
+                (new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())), SharedPreferencesHelper.getInstance(getContext()));
 
 
         titleInDetails.setText(recipe.getStrMeal());
@@ -140,6 +143,21 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     public void addToCale() {
 
     }
+
+    @Override
+    public void onNotLogin() {
+        Snackbar.make(getView(), "Please Register first", Snackbar.LENGTH_LONG)
+                .setAction("Login", v -> {
+                  /*  HomeFragmentDirections.ActionHomeFragmentToRecipeDetails action
+                            = HomeFragmentDirections.actionHomeFragmentToRecipeDetails(randomRecipe);
+                    Navigation.findNavController(v)
+                            .navigate(action);  */
+
+
+                    ///////////////navigate to register
+
+                })
+                .show();    }
 
 
 }

@@ -43,8 +43,19 @@ public class RecipeRepository {
 
    public void  addToFav(Recipe recipe){
         recipeLocalDataSource.addProduct(recipe);
-
     }
+
+    public void addToCalender(PlannedRecipe recipe){
+        recipeLocalDataSource.addToCal(recipe);
+    }
+    public void removeFromCalender(PlannedRecipe recipe){
+        recipeLocalDataSource.removeFromCal(recipe);
+    }
+    public LiveData<List<PlannedRecipe>> getRecipesByDate(String date){
+      return   recipeLocalDataSource.getRecipesByDate(date);
+    }
+
+
 
 
 

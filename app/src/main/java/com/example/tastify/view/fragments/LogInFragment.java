@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.tastify.R;
+import com.example.tastify.utils.SharedPreferencesHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -103,11 +104,9 @@ public class LogInFragment extends Fragment {
 
                                 if(task.isSuccessful()){
                                     inProgress(false);
-                                        Toast.makeText(getContext(), "register login", Toast.LENGTH_SHORT).show();
                                         Navigation.findNavController(view)
                                                 .navigate(R.id.action_logIn_to_homeFragment);
-
-
+                                    SharedPreferencesHelper.getInstance(getActivity()).setLoginStatus();
                                 }else{
                                     inProgress(false);
                                     Toast.makeText(getActivity(), "email or password isnt correct", Toast.LENGTH_SHORT).show();

@@ -5,17 +5,15 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-import java.text.DateFormat;
-
-@Entity(tableName = "calender")
-public class Planner implements Parcelable {
+@Entity(tableName = "PlannedRecipe", primaryKeys = {"idMeal", "date"})
+public class PlannedRecipe implements Parcelable {
 
     @NonNull
-    @PrimaryKey
-
     public String idMeal;
+    @NonNull
+    public String date;
+
     public String strMeal;
     public String strCategory;
     public String strArea;
@@ -24,7 +22,7 @@ public class Planner implements Parcelable {
     public String strTags;
     public String strYoutube;
 
-    public String date;
+
 
 
     public String strIngredient1;
@@ -70,14 +68,15 @@ public class Planner implements Parcelable {
     public String strMeasure19;
     public String strMeasure20;
 
-    public Planner(String name, String cat, String cul, String photo) {
+    public PlannedRecipe(String name, String cat, String cul, String photo) {
         this.strCategory = cat;
         this.strMealThumb = photo;
         this.strMeal = name;
         this.strArea = cul;
     }
 
-    public Planner(String idMeal,String date, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb, String strTags, String strYoutube, String strIngredient1, String strIngredient2, String strIngredient3, String strIngredient4, String strIngredient5, String strIngredient6, String strIngredient7, String strIngredient8, String strIngredient9, String strIngredient10, String strIngredient11, String strIngredient12, String strIngredient13, String strIngredient14, String strIngredient15, String strIngredient16, String strIngredient17, String strIngredient18, String strIngredient19, String strIngredient20, String strMeasure1, String strMeasure2, String strMeasure3, String strMeasure4, String strMeasure5, String strMeasure6, String strMeasure7, String strMeasure8, String strMeasure9, String strMeasure10, String strMeasure11, String strMeasure12, String strMeasure13, String strMeasure14, String strMeasure15, String strMeasure16, String strMeasure17, String strMeasure18, String strMeasure19, String strMeasure20) {
+
+    public PlannedRecipe(@NonNull String idMeal, @NonNull String date, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb, String strTags, String strYoutube, String strIngredient1, String strIngredient2, String strIngredient3, String strIngredient4, String strIngredient5, String strIngredient6, String strIngredient7, String strIngredient8, String strIngredient9, String strIngredient10, String strIngredient11, String strIngredient12, String strIngredient13, String strIngredient14, String strIngredient15, String strIngredient16, String strIngredient17, String strIngredient18, String strIngredient19, String strIngredient20, String strMeasure1, String strMeasure2, String strMeasure3, String strMeasure4, String strMeasure5, String strMeasure6, String strMeasure7, String strMeasure8, String strMeasure9, String strMeasure10, String strMeasure11, String strMeasure12, String strMeasure13, String strMeasure14, String strMeasure15, String strMeasure16, String strMeasure17, String strMeasure18, String strMeasure19, String strMeasure20) {
         this.idMeal = idMeal;
         this.date=date;
         this.strMeal = strMeal;
@@ -129,7 +128,7 @@ public class Planner implements Parcelable {
         this.strMeasure20 = strMeasure20;
     }
 
-    protected Planner(Parcel in) {
+    protected PlannedRecipe(Parcel in) {
         idMeal = in.readString();
         date=in.readString();
         strMeal = in.readString();
@@ -181,6 +180,10 @@ public class Planner implements Parcelable {
         strMeasure20 = in.readString();
     }
 
+    @NonNull
+    public String getDate() {
+        return date;
+    }
 
     public String getIdMeal() {
         return idMeal;

@@ -1,9 +1,8 @@
 package com.example.tastify.model.network;
 
-import com.example.tastify.model.Category;
+import com.example.tastify.model.dataClasses.Category;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface CategoryCommunicarorInterface {
 

@@ -3,7 +3,7 @@ package com.example.tastify.model.network;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.tastify.model.CategoryResponse;
+import com.example.tastify.model.dataClasses.CategoryResponse;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;

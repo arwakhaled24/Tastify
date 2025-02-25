@@ -85,4 +85,9 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
         };
         liveData.observe(getActivity(), observer);
     }
+
+    @Override
+    public void onNotLogin() {
+        
+    }
 }

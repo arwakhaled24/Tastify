@@ -1,5 +1,6 @@
 package com.example.tastify.view.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,17 +20,19 @@ import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.HomePresenter;
+import com.example.tastify.utils.SharedPreferencesHelper;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
 
-public class splashFragment extends Fragment implements HomeViewInterface {
+public class splashFragment extends Fragment {
 
 
     public splashFragment() {
-        // Required empty public constructor
     }
 
+    SharedPreferences settings ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,25 +48,12 @@ public class splashFragment extends Fragment implements HomeViewInterface {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        HomePresenter presenter = new HomePresenter(this,  RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()),new RecipeRemoteDataSource(getActivity())));
         new Handler().postDelayed(() -> {
             NavController navController = Navigation.findNavController(view);
-            if(HomePresenter.getCurrentUser()!=null){
+            if(SharedPreferencesHelper.getInstance(getContext()).isUserLoggedIn()){
                 navController.navigate(R.id.action_splash_fragment_to_homeFragment);
             }else{navController.navigate(R.id.action_splash_fragment_to_logIn);}
         }, 3300);
-
-
-
     }
 
-    @Override
-    public void showRecipes(List<Recipe> recipeList) {
-
-    }
-
-    @Override
-    public void showRandomRecipe(Recipe recipe) {
-
-    }
 }

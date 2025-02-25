@@ -1,4 +1,4 @@
-package com.example.tastify.model;
+package com.example.tastify.model.dataClasses;
 
 import java.util.ArrayList;
 

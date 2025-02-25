@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.example.tastify.model.PlannedRecipe;
 import com.example.tastify.model.Recipe;
 
 import java.util.List;
@@ -21,4 +22,18 @@ public interface DatabaseDAO {
 
     @Query("SELECT * FROM recipe ")
     LiveData<List<Recipe>> getAllFav();
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addPlannedMeal(PlannedRecipe plannedMeal);
+
+    @Delete
+    void removePlannedMeal(PlannedRecipe plannedMeal);
+
+    @Query("SELECT * FROM PlannedRecipe WHERE date = :date")
+    LiveData<List<PlannedRecipe>> getMealsByDate(String date);
+
+
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.tastify.model;
+package com.example.tastify.model.dataClasses;
 
 public class Category{
     public Category(String idCategory, String strCategory, String strCategoryThumb, String strCategoryDescription) {
