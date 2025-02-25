@@ -129,9 +129,12 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
                 },
                 cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)
         );
+        if (presenter.isLogin() == false) {
+            onNotLogin();
+            return;
+        }
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
-
     }
 
     void seeMore() {
@@ -158,10 +161,6 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
         Toast.makeText(getActivity(), "added to fav", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void addToCale() {
-
-    }
 
     @Override
     public void onNotLogin() {

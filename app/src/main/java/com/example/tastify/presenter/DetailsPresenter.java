@@ -20,9 +20,6 @@ SharedPreferencesHelper sharedPreferencesHelper;
         this.sharedPreferencesHelper=sharedPreferencesHelper;
 
     }
-
-    ;
-
     public void addToFav(Recipe recipe) {
         if(sharedPreferencesHelper.isUserLoggedIn()) {
             repository.addToFav(recipe);
@@ -34,11 +31,10 @@ SharedPreferencesHelper sharedPreferencesHelper;
     }
 
     public void addToCalender(Recipe recipe , String date){
-        if(sharedPreferencesHelper.isUserLoggedIn()) {
-           repository.addToCalender(new PlannedRecipe(recipe,date));
-        }
-        else{
-            detailsView.onNotLogin();
-        }
+        repository.addToCalender(new PlannedRecipe(recipe,date));
+    }
+
+    public boolean isLogin(){
+        return  sharedPreferencesHelper.isUserLoggedIn();
     }
 }
