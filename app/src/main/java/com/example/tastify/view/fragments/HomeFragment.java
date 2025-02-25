@@ -115,7 +115,7 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
 
 
                     /////////navigate to splash screen or still in the app ;
-                    
+
                 }
                 return true;
             });

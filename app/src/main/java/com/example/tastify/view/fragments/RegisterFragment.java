@@ -83,7 +83,6 @@ public class RegisterFragment extends Fragment {
             return;
         } else {
             createAccountInFirebase(email, password,view);
-
         }
     }
 
@@ -97,19 +96,15 @@ public class RegisterFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
 
-
                             Toast.makeText(getContext(), "register succ", Toast.LENGTH_SHORT).show();
                             Navigation.findNavController(view)
                                     .navigate(R.id.action_registerFragment_to_homeFragment);
                         }else{
                             inProgress(false);
-
-
                         }
 
                     }
                 });
-
     }
 
    void  inProgress(boolean isProgress){
@@ -146,15 +141,16 @@ public class RegisterFragment extends Fragment {
                 v -> {
                     Navigation.findNavController(view)
                             .navigate(R.id.action_registerFragment_to_homeFragment);
-                }
+                   }
         );
     }
 
     private void toLogin(View view) {
         alreadyHaveAccountText.setOnClickListener(
                 v -> {
-                    Navigation.findNavController(view)
-                            .navigate(R.id.action_registerFragment_to_logIn);
+            /*        Navigation.findNavController(view)
+                            .navigate(R.id.action_registerFragment_to_logIn);*/
+                    Navigation.findNavController(view).navigateUp();
                 }
 
         );
