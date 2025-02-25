@@ -6,6 +6,7 @@ import com.example.tastify.model.PlannedRecipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.view.fragments.CalenderViewInterface;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class CalenderPresenter {
@@ -14,9 +15,13 @@ public class CalenderPresenter {
 
     RecipeRepository repository;
 
+    Calendar cal = Calendar.getInstance();
     public CalenderPresenter(CalenderViewInterface viewI, RecipeRepository repository) {
         this.calenderVIew = viewI;
         this.repository = repository;
+        String date =String.valueOf(cal.get(Calendar.YEAR))+ String.valueOf(cal.get(Calendar.MONTH))
+                + String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+        onSelectedDate(date);
     }
 
     public LiveData<List<PlannedRecipe>> getPlannedByDate(String date) {
@@ -26,5 +31,10 @@ public class CalenderPresenter {
 
     public void deleteFromCal(PlannedRecipe recipe) {
         repository.removeFromCalender(recipe);
+    }
+
+    public void onSelectedDate(String date){
+        LiveData<List<PlannedRecipe>> liveData = repository.getRecipesByDate(date);
+        calenderVIew.getRecipesByDate(liveData);
     }
 }

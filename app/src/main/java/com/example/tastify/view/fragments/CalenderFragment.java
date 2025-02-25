@@ -14,11 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.DatePicker;
 
 import com.example.tastify.R;
 import com.example.tastify.model.PlannedRecipe;
-import com.example.tastify.model.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
@@ -73,23 +71,27 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface 
                 RecipeRepository.getInstance(new RecipeLocalDataSource(getContext()),new RecipeRemoteDataSource(getContext())));
 
 
+
         calenderView.setOnDateChangeListener(
                 (view1, year, month, dayOfMonth) -> {
                     String date=String.valueOf(year)+String.valueOf(month)+String.valueOf(dayOfMonth);
-                    presenter.getPlannedByDate(date);
+                    presenter.onSelectedDate(date);
                 }
         );
     }
 
+
     @Override
-    public void getRecipesByDate(String date) {
-        LiveData<List<PlannedRecipe>> liveData = presenter.getPlannedByDate(date);
-        Observer<List<PlannedRecipe>> observer = new Observer<List<PlannedRecipe>>() {
+    public void getRecipesByDate(LiveData<List<PlannedRecipe>> liveData) {
+    /*    Observer<List<PlannedRecipe>> observer = new Observer<List<PlannedRecipe>>() {
             @Override
             public void onChanged(List<PlannedRecipe> products) {
                 adapter.updateUi(products);
             }
         };
-        liveData.observe(getActivity(), observer);
+        liveData.observe(getActivity(), observer);*/
+        liveData.observe(getViewLifecycleOwner(), recipes -> {
+            adapter.updateUi(recipes);
+        });
     }
 }

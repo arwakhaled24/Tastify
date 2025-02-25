@@ -1,6 +1,12 @@
 package com.example.tastify.view.fragments;
 
-public interface CalenderViewInterface {
+import androidx.lifecycle.LiveData;
 
-    void getRecipesByDate(String date);
+import com.example.tastify.model.PlannedRecipe;
+
+import java.util.List;
+
+public interface CalenderViewInterface {
+    void getRecipesByDate(LiveData<List<PlannedRecipe>>liveData);
+
 }
