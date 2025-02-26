@@ -91,12 +91,18 @@ public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHo
     }
 
     public void updateUi(List<PlannedRecipe> recipeList) {
+        if(recipeList.isEmpty())
+            communicator.onEmptyList(true);
+        else
+            communicator.onEmptyList(false);
         this.recipeList = recipeList;
         notifyDataSetChanged();
     }
 
      interface CalenderAdapterCommunicator{
         public void onDelete(PlannedRecipe recipe);
+
+        void onEmptyList(boolean isEmpty);
     }
 
 

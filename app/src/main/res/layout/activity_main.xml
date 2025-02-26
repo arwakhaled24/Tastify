@@ -28,7 +28,9 @@
         style="@style/BottomNavigationViewMD2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:itemIconTint="#70B9BE"
         app:itemPaddingBottom="22dp"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu_item" />

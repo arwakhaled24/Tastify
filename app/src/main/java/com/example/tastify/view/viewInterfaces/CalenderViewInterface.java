@@ -9,4 +9,6 @@ import java.util.List;
 public interface CalenderViewInterface {
     void getRecipesByDate(LiveData<List<PlannedRecipe>>liveData);
 
+
+
 }

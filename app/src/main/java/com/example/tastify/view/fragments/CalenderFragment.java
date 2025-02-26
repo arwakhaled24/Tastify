@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface,
     CalenderPresenter presenter;
     CalendarView calenderView ;
     ImageView deleteIcon;
+    ConstraintLayout empityLayout;
 
 
     public CalenderFragment() {
@@ -69,6 +71,8 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface,
         recyclerView.setAdapter(adapter);
         calenderView=view.findViewById(R.id.calendarView);
         deleteIcon =view.findViewById(R.id.deleteIcon);
+        empityLayout=view.findViewById(R.id.emptyCalenderLayout);
+        onEmptyList(true);
 
         presenter=new CalenderPresenter(this,
                 RecipeRepository.getInstance(new RecipeLocalDataSource(getContext()),new RecipeRemoteDataSource(getContext())));
@@ -103,5 +107,15 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface,
     @Override
     public void onDelete(PlannedRecipe recipe) {
         presenter.deleteFromCal(recipe);
+    }
+
+    @Override
+    public void onEmptyList(boolean isEmpty) {
+
+        if(isEmpty)
+            empityLayout.setVisibility(View.VISIBLE);
+        else
+            empityLayout.setVisibility(View.INVISIBLE);
+
     }
 }

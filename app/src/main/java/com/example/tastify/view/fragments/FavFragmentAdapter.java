@@ -93,6 +93,9 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
     }
 
     public void updateUi(List<Recipe> recipeList) {
+        if(recipeList.size()==0)
+            listener.onEmptyList(true);
+        else listener.onEmptyList(false);
         this.recipeList = recipeList;
         notifyDataSetChanged();
     }
@@ -101,6 +104,7 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
         void onRemoveFromFav(Recipe recipe);
 
         void navigateToDetails(Recipe recipe);
+        void onEmptyList(boolean isEmpty);
     }
 }
 

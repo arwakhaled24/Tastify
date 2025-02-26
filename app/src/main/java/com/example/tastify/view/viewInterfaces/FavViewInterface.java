@@ -6,4 +6,5 @@ public interface FavViewInterface {
     void getfav();
     void onNotLogin();
 
+
 }

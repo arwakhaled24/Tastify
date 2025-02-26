@@ -2,6 +2,7 @@ package com.example.tastify.view.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -33,6 +35,7 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
     RecyclerView recyclerView;
     LinearLayoutManager manager;
     FavRecipePresenter presenter;
+    ConstraintLayout emptyLayout;
     Dialog dialog;
     Button sureBtn,cancelBtn;
 
@@ -63,6 +66,8 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+        emptyLayout=view.findViewById(R.id.emptyLayout);
+        onEmptyList(true);
 
 
         presenter = new FavRecipePresenter(this, RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())), SharedPreferencesHelper.getInstance(getActivity()));
@@ -98,5 +103,16 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
     @Override
     public void onNotLogin() {
 
+        onEmptyList(true);
     }
+
+    @Override
+    public void onEmptyList(boolean isEmpty) {
+        if(isEmpty)
+            emptyLayout.setVisibility(View.VISIBLE);
+        else
+            emptyLayout.setVisibility(View.INVISIBLE);
+    }
+
+
 }

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -104,12 +105,9 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
                     Toast.makeText(getActivity(), "logout successefily", Toast.LENGTH_SHORT).show();
 
                 } else if (item.getItemId() == R.id.loinItem) {
-                   /* NavController navController = Navigation.findNavController(requireView());
-                    *//*navController.navigate(R.id.action_homeFragment_to_logIn_fragment);*//*
-                    navController.navigateUp();*/
+                   NavController navController = Navigation.findNavController(requireView());
+                    navController.navigateUp();
 
-
-                    /////////navigate to splash screen or still in the app ;
 
                 }
                 return true;
