@@ -5,8 +5,8 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 
 
-import com.example.tastify.model.PlannedRecipe;
-import com.example.tastify.model.Recipe;
+import com.example.tastify.model.dataClasses.PlannedRecipe;
+import com.example.tastify.model.dataClasses.Recipe;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.viewInterfaces;
 
 public interface DetailsInterface {
 

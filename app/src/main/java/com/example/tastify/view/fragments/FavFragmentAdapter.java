@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
-import com.example.tastify.model.Recipe;
+import com.example.tastify.model.dataClasses.Recipe;
 
 import java.util.List;
 

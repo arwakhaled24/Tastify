@@ -59,7 +59,7 @@
         tools:layout="@layout/fragment_recipe_details">
         <argument
             android:name="recipe"
-            app:argType="com.example.tastify.model.Recipe" />
+            app:argType="com.example.tastify.model.dataClasses.Recipe" />
         <action
             android:id="@+id/action_recipeDetails_to_register_fragment"
             app:destination="@id/register_fragment" />

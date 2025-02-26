@@ -7,8 +7,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.tastify.model.PlannedRecipe;
-import com.example.tastify.model.Recipe;
+import com.example.tastify.model.dataClasses.PlannedRecipe;
+import com.example.tastify.model.dataClasses.Recipe;
 
 import java.util.List;
 

@@ -12,18 +12,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tastify.R;
-import com.example.tastify.model.Recipe;
+import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.FavRecipePresenter;
 import com.example.tastify.utils.SharedPreferencesHelper;
+import com.example.tastify.view.viewInterfaces.FavViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +84,6 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
                 .navigate(action);
 
     }
-
-
     @Override
     public void getfav() {
         LiveData<List<Recipe>> liveData = presenter.getFavRecipes();
@@ -97,8 +95,6 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
         };
         liveData.observe(getActivity(), observer);
     }
-
-
     @Override
     public void onNotLogin() {
 

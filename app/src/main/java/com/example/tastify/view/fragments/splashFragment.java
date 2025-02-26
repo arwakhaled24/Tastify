@@ -15,15 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tastify.R;
-import com.example.tastify.model.Recipe;
-import com.example.tastify.model.RecipeRepository;
-import com.example.tastify.model.database.RecipeLocalDataSource;
-import com.example.tastify.model.network.RecipeRemoteDataSource;
-import com.example.tastify.presenter.HomePresenter;
 import com.example.tastify.utils.SharedPreferencesHelper;
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.List;
 
 
 public class splashFragment extends Fragment {
@@ -31,8 +23,6 @@ public class splashFragment extends Fragment {
 
     public splashFragment() {
     }
-
-    SharedPreferences settings ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

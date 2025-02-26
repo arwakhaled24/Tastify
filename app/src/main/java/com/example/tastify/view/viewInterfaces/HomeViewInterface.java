@@ -1,6 +1,6 @@
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.viewInterfaces;
 
-import com.example.tastify.model.Recipe;
+import com.example.tastify.model.dataClasses.Recipe;
 
 import java.util.List;
 

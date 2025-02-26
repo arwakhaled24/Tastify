@@ -1,12 +1,8 @@
 package com.example.tastify.view.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,16 +22,16 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
-import com.example.tastify.model.Recipe;
+import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.HomePresenter;
 import com.example.tastify.utils.SharedPreferencesHelper;
 import com.example.tastify.view.HomeFragAdapter;
+import com.example.tastify.view.viewInterfaces.HomeViewInterface;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 

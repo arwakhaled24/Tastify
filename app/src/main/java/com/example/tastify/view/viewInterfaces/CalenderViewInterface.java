@@ -1,8 +1,8 @@
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.viewInterfaces;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.tastify.model.PlannedRecipe;
+import com.example.tastify.model.dataClasses.PlannedRecipe;
 
 import java.util.List;
 

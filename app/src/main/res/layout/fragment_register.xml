@@ -8,8 +8,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView2"
-        android:layout_width="match_parent"
-        android:layout_height="380dp"
+        android:layout_width="408dp"
+        android:layout_height="294dp"
         android:layout_marginTop="16dp"
         android:foregroundGravity="right"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
 
     <Button
-        android:id="@+id/loginButtonWithGoogle"
+        android:id="@+id/RegisterButtonWithGoogle"
         android:layout_width="352dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"

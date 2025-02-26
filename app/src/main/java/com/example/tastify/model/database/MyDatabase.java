@@ -6,8 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.tastify.model.PlannedRecipe;
-import com.example.tastify.model.Recipe;
+import com.example.tastify.model.dataClasses.PlannedRecipe;
+import com.example.tastify.model.dataClasses.Recipe;
 
 
 @Database(entities = {Recipe.class, PlannedRecipe.class}, version = 2)

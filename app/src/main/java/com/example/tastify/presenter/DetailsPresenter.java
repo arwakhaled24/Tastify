@@ -1,10 +1,10 @@
 package com.example.tastify.presenter;
 
-import com.example.tastify.model.PlannedRecipe;
-import com.example.tastify.model.Recipe;
+import com.example.tastify.model.dataClasses.PlannedRecipe;
+import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.utils.SharedPreferencesHelper;
-import com.example.tastify.view.fragments.DetailsInterface;
+import com.example.tastify.view.viewInterfaces.DetailsInterface;
 
 public class DetailsPresenter {
 

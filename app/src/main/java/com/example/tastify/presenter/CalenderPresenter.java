@@ -2,9 +2,9 @@ package com.example.tastify.presenter;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.tastify.model.PlannedRecipe;
+import com.example.tastify.model.dataClasses.PlannedRecipe;
 import com.example.tastify.model.RecipeRepository;
-import com.example.tastify.view.fragments.CalenderViewInterface;
+import com.example.tastify.view.viewInterfaces.CalenderViewInterface;
 
 import java.util.Calendar;
 import java.util.List;

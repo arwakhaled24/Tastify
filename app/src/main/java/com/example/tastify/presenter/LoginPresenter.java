@@ -1,7 +1,7 @@
 package com.example.tastify.presenter;
 
 import com.example.tastify.model.GoogleAuthRepo;
-import com.example.tastify.view.fragments.LoginViewInterface;
+import com.example.tastify.view.viewInterfaces.LoginViewInterface;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
@@ -37,7 +37,7 @@ public class LoginPresenter {
                 }
             });
         } catch (ApiException e) {
-            loginView.onLoginFailure("Google Sign-In failed: " + e.getMessage());
+            loginView.onLoginFailure("Sign In failed: " + e.getMessage());
         }
     }
 

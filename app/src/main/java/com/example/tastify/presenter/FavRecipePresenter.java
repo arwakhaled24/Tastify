@@ -2,10 +2,10 @@ package com.example.tastify.presenter;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.tastify.model.Recipe;
+import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.utils.SharedPreferencesHelper;
-import com.example.tastify.view.fragments.FavViewInterface;
+import com.example.tastify.view.viewInterfaces.FavViewInterface;
 
 import java.util.List;
 

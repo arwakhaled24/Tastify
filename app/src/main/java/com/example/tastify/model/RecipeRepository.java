@@ -1,6 +1,9 @@
 package com.example.tastify.model;
 
 import androidx.lifecycle.LiveData;
+
+import com.example.tastify.model.dataClasses.PlannedRecipe;
+import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.ApiCommunicator;
 import com.example.tastify.model.network.RecipeRemoteDataSource;

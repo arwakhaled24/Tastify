@@ -5,8 +5,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class GoogleAuthRepo {
-    private static final String firebaseClientId="817769974362-2uvbn0rkae5aspg25l5p17mcbpcskj9p.apps.googleusercontent.com";
-
     public GoogleAuthRepo() {
     }
 

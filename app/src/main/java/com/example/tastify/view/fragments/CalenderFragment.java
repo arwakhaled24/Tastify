@@ -16,16 +16,17 @@ import android.widget.CalendarView;
 import android.widget.ImageView;
 
 import com.example.tastify.R;
-import com.example.tastify.model.PlannedRecipe;
+import com.example.tastify.model.dataClasses.PlannedRecipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.CalenderPresenter;
+import com.example.tastify.view.viewInterfaces.CalenderViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalenderFragment extends Fragment implements CalenderViewInterface , CalenderAdabter.CalenderAdapterCommunicator {
+public class CalenderFragment extends Fragment implements CalenderViewInterface, CalenderAdabter.CalenderAdapterCommunicator {
 
     RecyclerView recyclerView;
     CalenderAdabter adapter;

@@ -1,5 +1,7 @@
 package com.example.tastify.view.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -10,27 +12,60 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.tastify.R;
+import com.example.tastify.presenter.RegisterPresenter;
+import com.example.tastify.utils.SharedPreferencesHelper;
+import com.example.tastify.view.viewInterfaces.RegisterViewInterface;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends Fragment implements RegisterViewInterface {
 
     Button registerBtn;
     TextView skipTeext;
     TextInputEditText emailText, passwordText, confirmPasswordText;
     TextView alreadyHaveAccountText;
     ProgressBar progressBar;
+     RegisterPresenter presenter;
+     Button registerWithGoogleBtn;
+
+    private GoogleSignInClient googleSignInClient;
+
+
+    private final ActivityResultLauncher<Intent> googleSignInLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    try {
+                        GoogleSignInAccount account = task.getResult(ApiException.class);
+                        presenter.handleGoogleSignInResult(account);
+                    } catch (ApiException e) {
+                        presenter.onGoogleSignInFailure(e.getMessage());
+                    }
+                } else {
+                    presenter.onGoogleSignInFailure("Google Sign-Up failed!");
+                }
+            }
+    );
 
 
     public RegisterFragment() {
@@ -66,10 +101,22 @@ public class RegisterFragment extends Fragment {
         confirmPasswordText = view.findViewById(R.id.passwordEditTextRegister);
         passwordText = view.findViewById(R.id.rePasswordEditTextRegister);
         progressBar=view.findViewById(R.id.progressBar);
+        registerWithGoogleBtn=view.findViewById(R.id.RegisterButtonWithGoogle);
 
         toHomeWithoutLogin(view);
         toLogin(view);
         registerBtn.setOnClickListener(v -> {createAccount(view);});
+
+        presenter=new RegisterPresenter(this);
+
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.firebase_cient_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions);
+
+        registerWithGoogleBtn.setOnClickListener(v -> signUpWithGoogle());
 
     }
 
@@ -94,6 +141,7 @@ public class RegisterFragment extends Fragment {
                         new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        inProgress(false);
                         if(task.isSuccessful()){
 
                             Toast.makeText(getContext(), "register succ", Toast.LENGTH_SHORT).show();
@@ -144,16 +192,36 @@ public class RegisterFragment extends Fragment {
                    }
         );
     }
+    private void signUpWithGoogle() {
+        inProgress(true);
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        googleSignInLauncher.launch(signInIntent);
+    }
+
 
     private void toLogin(View view) {
         alreadyHaveAccountText.setOnClickListener(
                 v -> {
-            /*        Navigation.findNavController(view)
-                            .navigate(R.id.action_registerFragment_to_logIn);*/
                     Navigation.findNavController(view).navigateUp();
                 }
 
         );
+
+    }
+
+    @Override
+    public void onRegisterSuccess(FirebaseUser user) {
+
+        SharedPreferencesHelper.getInstance(getActivity()).setLoginStatus();
+        Navigation.findNavController(getView())
+                .navigate(R.id.action_registerFragment_to_homeFragment);
+        Toast.makeText(requireContext(), " Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onRegisterFailure(String errorMessage) {
+        Toast.makeText(requireContext(), "Login Failed: " + errorMessage, Toast.LENGTH_LONG).show();
 
     }
 }

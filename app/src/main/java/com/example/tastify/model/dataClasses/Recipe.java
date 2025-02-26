@@ -1,19 +1,20 @@
-package com.example.tastify.model;
+package com.example.tastify.model.dataClasses;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-@Entity(tableName = "PlannedRecipe", primaryKeys = {"idMeal", "date"})
-public class PlannedRecipe implements Parcelable {
+@Entity(tableName = "recipe")
+public class Recipe implements Parcelable {
+
 
     @NonNull
+    @PrimaryKey
+
     public String idMeal;
-    @NonNull
-    public String date; //dayMonthYear
-
     public String strMeal;
     public String strCategory;
     public String strArea;
@@ -21,8 +22,6 @@ public class PlannedRecipe implements Parcelable {
     public String strMealThumb;
     public String strTags;
     public String strYoutube;
-
-
 
 
     public String strIngredient1;
@@ -68,17 +67,15 @@ public class PlannedRecipe implements Parcelable {
     public String strMeasure19;
     public String strMeasure20;
 
-    public PlannedRecipe(String name, String cat, String cul, String photo) {
+    public Recipe(String name, String cat, String cul, String photo) {
         this.strCategory = cat;
         this.strMealThumb = photo;
         this.strMeal = name;
         this.strArea = cul;
     }
 
-
-    public PlannedRecipe(@NonNull String idMeal, @NonNull String date, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb, String strTags, String strYoutube, String strIngredient1, String strIngredient2, String strIngredient3, String strIngredient4, String strIngredient5, String strIngredient6, String strIngredient7, String strIngredient8, String strIngredient9, String strIngredient10, String strIngredient11, String strIngredient12, String strIngredient13, String strIngredient14, String strIngredient15, String strIngredient16, String strIngredient17, String strIngredient18, String strIngredient19, String strIngredient20, String strMeasure1, String strMeasure2, String strMeasure3, String strMeasure4, String strMeasure5, String strMeasure6, String strMeasure7, String strMeasure8, String strMeasure9, String strMeasure10, String strMeasure11, String strMeasure12, String strMeasure13, String strMeasure14, String strMeasure15, String strMeasure16, String strMeasure17, String strMeasure18, String strMeasure19, String strMeasure20) {
+    public Recipe(String idMeal, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb, String strTags, String strYoutube, String strIngredient1, String strIngredient2, String strIngredient3, String strIngredient4, String strIngredient5, String strIngredient6, String strIngredient7, String strIngredient8, String strIngredient9, String strIngredient10, String strIngredient11, String strIngredient12, String strIngredient13, String strIngredient14, String strIngredient15, String strIngredient16, String strIngredient17, String strIngredient18, String strIngredient19, String strIngredient20, String strMeasure1, String strMeasure2, String strMeasure3, String strMeasure4, String strMeasure5, String strMeasure6, String strMeasure7, String strMeasure8, String strMeasure9, String strMeasure10, String strMeasure11, String strMeasure12, String strMeasure13, String strMeasure14, String strMeasure15, String strMeasure16, String strMeasure17, String strMeasure18, String strMeasure19, String strMeasure20) {
         this.idMeal = idMeal;
-        this.date=date;
         this.strMeal = strMeal;
         this.strCategory = strCategory;
         this.strArea = strArea;
@@ -127,64 +124,9 @@ public class PlannedRecipe implements Parcelable {
         this.strMeasure19 = strMeasure19;
         this.strMeasure20 = strMeasure20;
     }
- public PlannedRecipe(Recipe recipe ,@NonNull String dte/*,@NonNull String id*/ ){
-      this(
-              recipe.getIdMeal(),
-             dte,
-             recipe.getStrMeal(),
-             recipe.getStrCategory(),
-             recipe.getStrArea(),
-             recipe.getStrInstructions(),
-             recipe.getStrMealThumb(),
-             recipe.getStrTags(),
-             recipe.getStrYoutube(),
-             recipe.getStrIngredient1(),
-             recipe.getStrIngredient2(),
-             recipe.getStrIngredient3(),
-             recipe.getStrIngredient4(),
-             recipe.getStrIngredient5(),
-             recipe.getStrIngredient6(),
-             recipe.getStrIngredient7(),
-             recipe.getStrIngredient8(),
-             recipe.getStrIngredient9(),
-             recipe.getStrIngredient10(),
-             recipe.getStrIngredient11(),
-             recipe.getStrIngredient12(),
-             recipe.getStrIngredient13(),
-             recipe.getStrIngredient14(),
-             recipe.getStrIngredient15(),
-             recipe.getStrIngredient16(),
-             recipe.getStrIngredient17(),
-             recipe.getStrIngredient18(),
-             recipe.getStrIngredient19(),
-             recipe.getStrIngredient20(),
-             recipe.getStrMeasure1(),
-             recipe.getStrMeasure2(),
-             recipe.getStrMeasure3(),
-             recipe.getStrMeasure4(),
-             recipe.getStrMeasure5(),
-             recipe.getStrMeasure6(),
-             recipe.getStrMeasure7(),
-             recipe.getStrMeasure8(),
-             recipe.getStrMeasure9(),
-             recipe.getStrMeasure10(),
-             recipe.getStrMeasure11(),
-             recipe.getStrMeasure12(),
-             recipe.getStrMeasure13(),
-             recipe.getStrMeasure14(),
-             recipe.getStrMeasure15(),
-             recipe.getStrMeasure16(),
-             recipe.getStrMeasure17(),
-             recipe.getStrMeasure18(),
-             recipe.getStrMeasure19(),
-             recipe.getStrMeasure20()
-     );
 
-
- }
-    protected PlannedRecipe(Parcel in) {
+    protected Recipe(Parcel in) {
         idMeal = in.readString();
-        date=in.readString();
         strMeal = in.readString();
         strCategory = in.readString();
         strArea = in.readString();
@@ -234,9 +176,8 @@ public class PlannedRecipe implements Parcelable {
         strMeasure20 = in.readString();
     }
 
-    @NonNull
-    public String getDate() {
-        return date;
+    public PlannedRecipe toPlannedRecipe(String date){
+       return new PlannedRecipe(this ,date);
     }
 
     public String getIdMeal() {
@@ -437,18 +378,9 @@ public class PlannedRecipe implements Parcelable {
         return 0;
     }
 
-
-    public Recipe getRecipe(){
-        return new Recipe( idMeal,  strMeal,  strCategory,  strArea,  strInstructions,  strMealThumb,  strTags,  strYoutube,  strIngredient1,  strIngredient2,  strIngredient3,  strIngredient4,  strIngredient5,  strIngredient6,  strIngredient7,
-                strIngredient8,  strIngredient9,  strIngredient10,  strIngredient11,  strIngredient12,  strIngredient13,  strIngredient14,  strIngredient15,  strIngredient16,  strIngredient17,  strIngredient18,  strIngredient19,  strIngredient20,  strMeasure1,
-                 strMeasure2,  strMeasure3,  strMeasure4,  strMeasure5,  strMeasure6,  strMeasure7,  strMeasure8,  strMeasure9,  strMeasure10,  strMeasure11,  strMeasure12,  strMeasure13,  strMeasure14,  strMeasure15,  strMeasure16,  strMeasure17,  strMeasure18,
-                strMeasure19,  strMeasure20);
-        }
-
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(idMeal);
-        dest.writeString(date);
         dest.writeString(strMeal);
         dest.writeString(strCategory);
         dest.writeString(strArea);
