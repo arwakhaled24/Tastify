@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -41,10 +40,8 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
         public ImageView imageView;
         public ImageView favIcon;
         public TextView mealTitle;
-        public TextView mealCategory;
-        public TextView mealCulture;
-
         public CardView cardView;
+
         public View layout;
 
 
@@ -76,9 +73,7 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
         holder.cardView.setOnClickListener(
                 (view) -> {
                     Toast.makeText(con, "Card clicked: " + item.strMeal, Toast.LENGTH_SHORT).show();
-                    HomeFragmentDirections.ActionHomeFragmentToRecipeDetails action = HomeFragmentDirections.actionHomeFragmentToRecipeDetails(item);
-                    Navigation.findNavController(view)
-                            .navigate(action);
+                 listener.navigateToDetails(item);
                 }
 
         );
@@ -105,13 +100,8 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
     public interface AdapterFavFragmentCommunicator {
         void onRemoveFromFav(Recipe recipe);
 
-
+        void navigateToDetails(Recipe recipe);
     }
-
-
-
-
-
 }
 
 

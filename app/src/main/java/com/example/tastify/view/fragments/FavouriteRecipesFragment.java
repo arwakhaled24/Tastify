@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +33,6 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
     RecyclerView recyclerView;
     LinearLayoutManager manager;
     FavRecipePresenter presenter;
-
     Dialog dialog;
     Button sureBtn,cancelBtn;
 
@@ -76,6 +77,16 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
 
 
     @Override
+    public void navigateToDetails(Recipe recipe) {
+        FavouriteRecipesFragmentDirections.ActionFavouriteRecipesFragmentToRecipeDetails action
+                = FavouriteRecipesFragmentDirections.actionFavouriteRecipesFragmentToRecipeDetails(recipe);
+        Navigation.findNavController(requireView())
+                .navigate(action);
+
+    }
+
+
+    @Override
     public void getfav() {
         LiveData<List<Recipe>> liveData = presenter.getFavRecipes();
         Observer<List<Recipe>> observer = new Observer<List<Recipe>>() {
@@ -86,6 +97,7 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
         };
         liveData.observe(getActivity(), observer);
     }
+
 
     @Override
     public void onNotLogin() {

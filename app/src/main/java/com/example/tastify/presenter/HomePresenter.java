@@ -1,25 +1,30 @@
 package com.example.tastify.presenter;
 
-
 import com.example.tastify.model.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.network.ApiCommunicator;
 import com.example.tastify.utils.SharedPreferencesHelper;
 import com.example.tastify.view.fragments.HomeViewInterface;
 
+
+
 import java.util.List;
 
 
 public class HomePresenter implements ApiCommunicator {
+
     HomeViewInterface viewI;
     RecipeRepository repository;
     SharedPreferencesHelper sharedPreferencesHelper;
+
+
     public HomePresenter(HomeViewInterface viewI, RecipeRepository repository,
-                         SharedPreferencesHelper sharedPreferencesHelper) {
+                         SharedPreferencesHelper sharedPreferencesHelper
+
+    ) {
         this.viewI = viewI;
         this.repository = repository;
-        this.sharedPreferencesHelper = sharedPreferencesHelper;
-    }
+        this.sharedPreferencesHelper = sharedPreferencesHelper;}
 
 
 
@@ -77,6 +82,7 @@ public class HomePresenter implements ApiCommunicator {
         sharedPreferencesHelper.logout();
         repository.deleteAllFromTabels();
     }
+
 
 
 }
