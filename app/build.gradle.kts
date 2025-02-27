@@ -103,7 +103,17 @@ dependencies {
     ///google auth
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.android.gms:play-services-auth:21.3.0")
-    
+
+
+    //RxJava
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation ("io.reactivex.rxjava3:rxjava:3.1.10")
+
+    //Rxjava Retrofit Adapter
+    implementation ("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
+
+/////RxJava Room Adapter
+    implementation ("androidx.room:room-rxjava3:2.6.1")
 
 
 

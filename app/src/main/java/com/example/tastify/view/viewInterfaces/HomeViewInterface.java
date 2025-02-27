@@ -10,5 +10,7 @@ public interface HomeViewInterface {
 
     public void showRandomRecipe(Recipe recipe);
 
+    public void showError(String msg);
+
 
 }

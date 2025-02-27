@@ -1,69 +1,72 @@
-package com.example.tastify.model;
 
-import androidx.lifecycle.LiveData;
+package com.example.tastify.model;
 
 import com.example.tastify.model.dataClasses.PlannedRecipe;
 import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
-import com.example.tastify.model.network.ApiCommunicator;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
+import io.reactivex.rxjava3.core.Observable;
+import com.example.tastify.model.dataClasses.CategoryResponse;
+import com.example.tastify.model.network.RecipeResponse;
 
 import java.util.List;
 
 public class RecipeRepository {
 
-    static private RecipeRepository repository= null;
-    RecipeLocalDataSource recipeLocalDataSource;
-    RecipeRemoteDataSource recipeRemoteDataSource;
+    private static RecipeRepository repository = null;
+    private final RecipeLocalDataSource recipeLocalDataSource;
+    private final RecipeRemoteDataSource recipeRemoteDataSource;
 
-    private RecipeRepository(RecipeLocalDataSource recipeLocalDataSource,RecipeRemoteDataSource recipeRemoteDataSource){
-        this.recipeLocalDataSource =recipeLocalDataSource;
-        this.recipeRemoteDataSource=recipeRemoteDataSource;
-    };
+    private RecipeRepository(RecipeLocalDataSource recipeLocalDataSource, RecipeRemoteDataSource recipeRemoteDataSource) {
+        this.recipeLocalDataSource = recipeLocalDataSource;
+        this.recipeRemoteDataSource = recipeRemoteDataSource;
+    }
 
-    public  static RecipeRepository getInstance(RecipeLocalDataSource productLocalDataSource,RecipeRemoteDataSource recipeRemoteDataSource){
-        if(repository==null){
-            repository =new RecipeRepository(productLocalDataSource,recipeRemoteDataSource);
+    public static RecipeRepository getInstance(RecipeLocalDataSource localDataSource, RecipeRemoteDataSource remoteDataSource) {
+        if (repository == null) {
+            repository = new RecipeRepository(localDataSource, remoteDataSource);
         }
         return repository;
-
     }
-    public  void getRandomRecipe(ApiCommunicator communicator){
-        recipeRemoteDataSource.getRandomRecipe(communicator);
 
+    public Observable<RecipeResponse> getRandomRecipe() {
+        return recipeRemoteDataSource.getRandomRecipe();
     }
-    public void getRemoteProduct(ApiCommunicator communicator){
-        recipeRemoteDataSource.getRecipes(communicator);
 
-    };
-    public LiveData<List<Recipe>> getFavProduct(){
+    public Observable<RecipeResponse> getRemoteRecipes() {
+        return recipeRemoteDataSource.getRecipes();
+    }
+
+    public Observable<CategoryResponse> getCategories() {
+        return recipeRemoteDataSource.getCategories();
+    }
+
+    public Observable<List<Recipe>> getFavRecipes() {
         return recipeLocalDataSource.getAllProducts();
     }
 
-    public void deleteProduct(Recipe recipe){
+    public void deleteRecipe(Recipe recipe) {
         recipeLocalDataSource.removeProduct(recipe);
     }
 
-   public void  addToFav(Recipe recipe){
-        recipeLocalDataSource.addProduct(recipe);
+    public void addToFav(Recipe recipe) {
+        recipeLocalDataSource.addRecipeToFav(recipe);
     }
 
-    public void addToCalender(PlannedRecipe recipe){
+    public void addToCalendar(PlannedRecipe recipe) {
         recipeLocalDataSource.addToCal(recipe);
     }
-    public void removeFromCalender(PlannedRecipe recipe){
+
+    public void removeFromCalendar(PlannedRecipe recipe) {
         recipeLocalDataSource.removeFromCal(recipe);
     }
-    public LiveData<List<PlannedRecipe>> getRecipesByDate(String date){
-      return   recipeLocalDataSource.getRecipesByDate(date);
+
+    public Observable<List<PlannedRecipe>> getRecipesByDate(String date) {
+        return recipeLocalDataSource.getRecipesByDate(date);
     }
-    public void deleteAllFromTabels(){
+
+    public void deleteAllFromTables() {
         recipeLocalDataSource.deleteAll();
     }
-
-
-
-
-
-
 }
+

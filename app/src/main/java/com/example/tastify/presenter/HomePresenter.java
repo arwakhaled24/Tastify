@@ -1,78 +1,38 @@
 package com.example.tastify.presenter;
 
-import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.RecipeRepository;
-import com.example.tastify.model.network.ApiCommunicator;
 import com.example.tastify.utils.SharedPreferencesHelper;
 import com.example.tastify.view.viewInterfaces.HomeViewInterface;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
+public class HomePresenter {
 
-import java.util.List;
-
-
-public class HomePresenter implements ApiCommunicator {
-
-    HomeViewInterface viewI;
-    RecipeRepository repository;
-    SharedPreferencesHelper sharedPreferencesHelper;
-
+    private final HomeViewInterface viewI;
+    private final RecipeRepository repository;
+    private final SharedPreferencesHelper sharedPreferencesHelper;
 
     public HomePresenter(HomeViewInterface viewI, RecipeRepository repository,
-                         SharedPreferencesHelper sharedPreferencesHelper
-
-    ) {
+                         SharedPreferencesHelper sharedPreferencesHelper) {
         this.viewI = viewI;
         this.repository = repository;
-        this.sharedPreferencesHelper = sharedPreferencesHelper;}
-
-
+        this.sharedPreferencesHelper = sharedPreferencesHelper;
+    }
 
     public void getHomeRecipes() {
-        repository.getRemoteProduct(this);
+        repository.getRemoteRecipes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(recipeResponse -> viewI.showRecipes(recipeResponse.getMeals()), throwable -> viewI.showError(throwable.getMessage()));
     }
-
 
     public void getRandomMeal() {
-
-        repository.getRandomRecipe(
-                new ApiCommunicator() {
-                    @Override
-                    public void onRecipeReceived(List<Recipe> products) {
-                        viewI.showRandomRecipe(products.get(0));
-                    }
-
-                    @Override
-                    public void onRecipeFailed(String message) {
-
-                        ///show failer msg
-                    }
-                }
-        );
+        repository.getRandomRecipe()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(recipe->viewI.showRandomRecipe(recipe.getMeals().get(0)), throwable -> viewI.showError(throwable.getMessage()));
     }
-
-    @Override
-    public void onRecipeReceived(List<Recipe> products) {
-        viewI.showRecipes(products);
-    }
-
-    @Override
-    public void onRecipeFailed(String message) {
-        //shouldbe view,onerror
-        //tobeimplemented
-    }
-
-
-    ///////////need to change this place
-/*    public static FirebaseUser getCurrentUser() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            return user;
-        } else {
-            return null;
-        }
-
-    }*/
 
     public boolean isLogin() {
         return sharedPreferencesHelper.isUserLoggedIn();
@@ -80,10 +40,6 @@ public class HomePresenter implements ApiCommunicator {
 
     public void logOut() {
         sharedPreferencesHelper.logout();
-        repository.deleteAllFromTabels();
+        repository.deleteAllFromTables();
     }
-
-
-
 }
-

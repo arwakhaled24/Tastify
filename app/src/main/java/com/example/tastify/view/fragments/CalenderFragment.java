@@ -79,35 +79,22 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface,
 
 
 
-        calenderView.setOnDateChangeListener(
+     calenderView.setOnDateChangeListener(
                 (view1, year, month, dayOfMonth) -> {
                     String date=String.valueOf(year)+String.valueOf(month)+String.valueOf(dayOfMonth);
                     presenter.onSelectedDate(date);
                 }
         );
 
+
     }
 
 
-    @Override
-    public void getRecipesByDate(LiveData<List<PlannedRecipe>> liveData) {
-    /*    Observer<List<PlannedRecipe>> observer = new Observer<List<PlannedRecipe>>() {
-            @Override
-            public void onChanged(List<PlannedRecipe> products) {
-                adapter.updateUi(products);
-            }
-        };
-        liveData.observe(getActivity(), observer);*/
-        liveData.observe(getViewLifecycleOwner(), recipes -> {
-            adapter.updateUi(recipes);
-        });
-    }
-
-
-    @Override
+  @Override
     public void onDelete(PlannedRecipe recipe) {
         presenter.deleteFromCal(recipe);
     }
+
 
     @Override
     public void onEmptyList(boolean isEmpty) {
@@ -116,6 +103,12 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface,
             empityLayout.setVisibility(View.VISIBLE);
         else
             empityLayout.setVisibility(View.INVISIBLE);
+
+    }
+
+    @Override
+    public void getRecipesByDate(List<PlannedRecipe> plannedRecipes) {
+        adapter.updateUi(plannedRecipes);
 
     }
 }

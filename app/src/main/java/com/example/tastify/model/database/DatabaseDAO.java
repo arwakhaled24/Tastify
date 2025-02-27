@@ -12,32 +12,35 @@ import com.example.tastify.model.dataClasses.Recipe;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+
 @Dao
 public interface DatabaseDAO {
     @Delete
-    void deleteFav(Recipe recipe);
+    Completable deleteFav(Recipe recipe);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addToFav(Recipe recipe);
+    Completable addToFav(Recipe recipe);
 
     @Query("SELECT * FROM recipe ")
-    LiveData<List<Recipe>> getAllFav();
+    Observable<List<Recipe>> getAllFav();
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addPlannedMeal(PlannedRecipe plannedMeal);
+    Completable addPlannedMeal(PlannedRecipe plannedMeal);
 
     @Delete
-    void removePlannedMeal(PlannedRecipe plannedMeal);
+    Completable removePlannedMeal(PlannedRecipe plannedMeal);
 
     @Query("SELECT * FROM PlannedRecipe WHERE date = :date")
-    LiveData<List<PlannedRecipe>> getMealsByDate(String date);
+    Observable<List<PlannedRecipe>> getMealsByDate(String date);
 
     @Query("DELETE FROM recipe")
-    void deleteAllFavRecipes();
+    Completable deleteAllFavRecipes();
 
     @Query("DELETE FROM PlannedRecipe")
-    void deleteAllMealRecipes();
+    Completable deleteAllMealRecipes();
 
 
 

@@ -31,7 +31,7 @@ SharedPreferencesHelper sharedPreferencesHelper;
     }
 
     public void addToCalender(Recipe recipe , String date){
-        repository.addToCalender(new PlannedRecipe(recipe,date));
+        repository.addToCalendar(new PlannedRecipe(recipe,date));
     }
 
     public boolean isLogin(){

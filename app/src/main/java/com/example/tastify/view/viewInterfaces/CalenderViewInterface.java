@@ -7,7 +7,7 @@ import com.example.tastify.model.dataClasses.PlannedRecipe;
 import java.util.List;
 
 public interface CalenderViewInterface {
-    void getRecipesByDate(LiveData<List<PlannedRecipe>>liveData);
+    void getRecipesByDate(List<PlannedRecipe>plannedRecipes);
 
 
 

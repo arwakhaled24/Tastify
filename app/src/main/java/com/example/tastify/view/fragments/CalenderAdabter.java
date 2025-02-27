@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -66,14 +68,16 @@ public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHo
         Glide.with(con).load(item.getStrMealThumb())
                 .apply(new RequestOptions().override(227, 132))
                 .into(holder.imageView);
-   /*     holder.cardView.setOnClickListener(
+     holder.cardView.setOnClickListener(
                 (view) -> {
                     Toast.makeText(con, "Card clicked: " + item.strMeal, Toast.LENGTH_SHORT).show();
                     HomeFragmentDirections.ActionHomeFragmentToRecipeDetails action =
-                            HomeFragmentDirections.actionHomeFragmentToRecipeDetails(item);
+                            HomeFragmentDirections.actionHomeFragmentToRecipeDetails(item.getRecipe());
                     Navigation.findNavController(view)
                             .navigate(action);
-                }*/
+
+                });
+
         ;
         holder.deleteIcon.setOnClickListener(
                 new View.OnClickListener() {

@@ -36,8 +36,6 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
     LinearLayoutManager manager;
     FavRecipePresenter presenter;
     ConstraintLayout emptyLayout;
-    Dialog dialog;
-    Button sureBtn,cancelBtn;
 
     public FavouriteRecipesFragment() {
         // Required empty public constructor
@@ -71,7 +69,9 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
 
 
         presenter = new FavRecipePresenter(this, RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())), SharedPreferencesHelper.getInstance(getActivity()));
-        getfav();
+        presenter.getFavRecipes();
+
+
 
     }
 
@@ -90,15 +90,17 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
 
     }
     @Override
-    public void getfav() {
-        LiveData<List<Recipe>> liveData = presenter.getFavRecipes();
+    public void getfav(List<Recipe> recipeList) {
+     /*   LiveData<List<Recipe>> liveData = presenter.getFavRecipes();
         Observer<List<Recipe>> observer = new Observer<List<Recipe>>() {
             @Override
             public void onChanged(List<Recipe> products) {
                 adapter.updateUi(products);
             }
         };
-        liveData.observe(getActivity(), observer);
+        liveData.observe(getActivity(), observer);*/
+        adapter.updateUi(recipeList);
+
     }
     @Override
     public void onNotLogin() {
