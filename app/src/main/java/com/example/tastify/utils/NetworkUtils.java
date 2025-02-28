@@ -12,7 +12,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class NetworkUtils extends  LiveData<Boolean>{
-    
+
      static ConnectivityManager connectivityManager;
      final ConnectivityManager.NetworkCallback networkCallback;
 
@@ -30,6 +30,7 @@ public class NetworkUtils extends  LiveData<Boolean>{
             }
         };
     }
+
     @Override
     protected void onActive() {
         super.onActive();
@@ -61,10 +62,5 @@ public class NetworkUtils extends  LiveData<Boolean>{
         super.onInactive();
         connectivityManager.unregisterNetworkCallback(networkCallback);
     }
-
-    public static LiveData<Boolean> getNetworkLiveData(Context context) {
-        return new NetworkUtils(context);
-    }
-
 
 }

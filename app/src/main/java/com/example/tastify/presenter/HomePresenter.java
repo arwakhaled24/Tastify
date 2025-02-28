@@ -45,9 +45,8 @@ public class HomePresenter {
         sharedPreferencesHelper.logout();
         repository.deleteAllFromTables();
     }
-
     public void checkInternetStatus(Context context) {
-        NetworkUtils.getNetworkLiveData(context).observeForever(isConnected -> {
+        new NetworkUtils(context).observeForever(isConnected -> {
                 viewI.showOfflineBanner(!isConnected);
         });    }
 
