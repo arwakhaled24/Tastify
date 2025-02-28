@@ -1,8 +1,6 @@
 
 package com.example.tastify.model;
 
-import android.util.Log;
-
 import com.example.tastify.model.dataClasses.CountryResponse;
 import com.example.tastify.model.dataClasses.MealsResponse;
 import com.example.tastify.model.dataClasses.PlannedRecipe;
@@ -11,10 +9,8 @@ import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
-
 import com.example.tastify.model.dataClasses.CategoryResponse;
 import com.example.tastify.model.network.RecipeResponse;
-
 import java.util.List;
 
 public class RecipeRepository {
@@ -22,6 +18,8 @@ public class RecipeRepository {
     private static RecipeRepository repository = null;
     private final RecipeLocalDataSource recipeLocalDataSource;
     private final RecipeRemoteDataSource recipeRemoteDataSource;
+
+    RecipeFirebaseDataSource recipeFirebaseDataSource=new RecipeFirebaseDataSource();
 
     private final ReplaySubject<RecipeResponse> randomRecipeCache = ReplaySubject.createWithSize(1);
     private final ReplaySubject<RecipeResponse> remoteRecipesCache = ReplaySubject.createWithSize(1);
@@ -58,15 +56,26 @@ public class RecipeRepository {
     }
 
     public Observable<List<Recipe>> getFavRecipes() {
-        return recipeLocalDataSource.getAllProducts();
+        return recipeLocalDataSource.getAllProducts()
+                .flatMap(localRecipes -> {
+                    if (localRecipes.isEmpty()) {
+                        return getRemoteFav()
+                                .flatMap(recipes -> recipeLocalDataSource.getAllProducts());
+                    } else {
+                        return Observable.just(localRecipes);
+                    }
+                });
     }
+
 
     public void deleteRecipe(Recipe recipe) {
         recipeLocalDataSource.removeProduct(recipe);
+        recipeFirebaseDataSource.removeRecipeFromFireStore(recipe);
     }
 
     public void addToFav(Recipe recipe) {
         recipeLocalDataSource.addRecipeToFav(recipe);
+        recipeFirebaseDataSource.addRecipeToFirestore(recipe);
     }
 
     public void addToCalendar(PlannedRecipe recipe) {
@@ -92,5 +101,14 @@ public class RecipeRepository {
     public Observable<CountryResponse> getCountries(){
         return recipeRemoteDataSource.getAllCountries();
     }
+    private Observable<List<Recipe>> getRemoteFav() {
+        return recipeFirebaseDataSource.getRecipesFromFirestore()
+                .doOnNext(recipes -> {
+                    for (Recipe recipe : recipes) {
+                        recipeLocalDataSource.addRecipeToFav(recipe);
+                    }
+                });
+    }
+
 }
 
