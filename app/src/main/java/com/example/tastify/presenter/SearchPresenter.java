@@ -42,16 +42,14 @@ public class SearchPresenter {
 
     public void getCountries() {
         repository.getCountries()
-                .subscribeOn(Schedulers.io()) // Execute on a background thread
-                .observeOn(AndroidSchedulers.mainThread()) // Observe on the main thread
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         countryResponse -> {
-                            // Check if the response is valid
                             if (countryResponse == null || countryResponse.countries == null) {
                                 Log.i("TAG", "getCountries: tooooooooot");
                                 return;
                             }
-                            // Pass the data to the view interface
                             searchI.showCountries(countryResponse);
                         }
                 );

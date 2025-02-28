@@ -39,10 +39,7 @@ public class CalenderPresenter {
     }
 
     public void onSelectedDate(String date){
-        /*Observable<PlannedRecipe> liveData = repository.getRecipesByDate(date);
-        calenderVIew.getRecipesByDate(liveData);*/
         repository.getRecipesByDate(date)
-                .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( recipe -> calenderVIew.getRecipesByDate(recipe));
     }

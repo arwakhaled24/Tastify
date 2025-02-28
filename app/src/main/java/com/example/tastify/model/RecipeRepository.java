@@ -7,12 +7,12 @@ import com.example.tastify.model.dataClasses.PlannedRecipe;
 import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
+
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
 import com.example.tastify.model.dataClasses.CategoryResponse;
 import com.example.tastify.model.network.RecipeResponse;
 import java.util.List;
-
 public class RecipeRepository {
 
     private static RecipeRepository repository = null;
@@ -43,19 +43,16 @@ public class RecipeRepository {
         }
         return recipeRemoteDataSource.getRandomRecipe();
     }
-
     public Observable<RecipeResponse> getRemoteRecipes() {
         if (remoteRecipesCache.hasValue()) {
             return remoteRecipesCache;
         }
         return recipeRemoteDataSource.getRecipes();
     }
-
     public Observable<CategoryResponse> getCategories() {
         return recipeRemoteDataSource.getCategories();
     }
-
-    public Observable<List<Recipe>> getFavRecipes() {
+    public Observable<List<Recipe>> getFavRecipes() /**/{
         return recipeLocalDataSource.getAllProducts()
                 .flatMap(localRecipes -> {
                     if (localRecipes.isEmpty()) {
@@ -66,6 +63,24 @@ public class RecipeRepository {
                     }
                 });
     }
+    public Observable<List<PlannedRecipe>> getRecipesByDate(String date) {
+        return recipeLocalDataSource.getRecipesByDate(date)
+                .flatMap(localRecipes -> {
+                    if (localRecipes.isEmpty()) {
+                        return getRemotePlanned(date);
+                    } else {
+                        return Observable.just(localRecipes);
+                    }
+                });
+    }
+    public Observable<MealsResponse> getAllIngrediants(){
+        return recipeRemoteDataSource.getAllIngrediants();
+    }
+    public Observable<CountryResponse> getCountries(){
+        return recipeRemoteDataSource.getAllCountries();
+    }
+
+
 
 
     public void deleteRecipe(Recipe recipe) {
@@ -80,32 +95,43 @@ public class RecipeRepository {
 
     public void addToCalendar(PlannedRecipe recipe) {
         recipeLocalDataSource.addToCal(recipe);
+        recipeFirebaseDataSource.addPlannedRecipeToFirestore(recipe);
+     /*   recipeFirebaseDataSource.addPlannedRecipeToFirestore(recipe)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        result -> Log.i("TAG", "addToCalendar: "+result)
+                );*/
     }
 
     public void removeFromCalendar(PlannedRecipe recipe) {
         recipeLocalDataSource.removeFromCal(recipe);
+        recipeFirebaseDataSource.removePlannedRecipeFromFireStore(recipe);
     }
 
-    public Observable<List<PlannedRecipe>> getRecipesByDate(String date) {
-        return recipeLocalDataSource.getRecipesByDate(date);
-    }
+
 
     public void deleteAllFromTables() {
         recipeLocalDataSource.deleteAll();
     }
 
-    public Observable<MealsResponse> getAllIngrediants(){
-        return recipeRemoteDataSource.getAllIngrediants();
-    }
 
-    public Observable<CountryResponse> getCountries(){
-        return recipeRemoteDataSource.getAllCountries();
-    }
     private Observable<List<Recipe>> getRemoteFav() {
         return recipeFirebaseDataSource.getRecipesFromFirestore()
                 .doOnNext(recipes -> {
                     for (Recipe recipe : recipes) {
                         recipeLocalDataSource.addRecipeToFav(recipe);
+                    }
+                });
+    }
+
+    private Observable<List<PlannedRecipe>> getRemotePlanned(String date) {
+        return recipeFirebaseDataSource.getPlannedRecipesFromFirestoreByDate(date)
+                .doOnNext(recipes -> {
+                    for (PlannedRecipe recipe : recipes) {
+                        if (recipe.getDate().equals(date)) {
+                            recipeLocalDataSource.addToCal(recipe);
+                        }
                     }
                 });
     }

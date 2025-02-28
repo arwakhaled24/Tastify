@@ -1,5 +1,6 @@
 package com.example.tastify.model;
-
+import android.util.Log;
+import com.example.tastify.model.dataClasses.PlannedRecipe;
 import com.example.tastify.model.dataClasses.Recipe;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -8,17 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 import io.reactivex.rxjava3.core.Observable;
 
-
 public class RecipeFirebaseDataSource {
 
-    private final String USER_KEY="users";
-    private final String RECIPE_KEY="recipes";
+    private final String USER_KEY = "users";
+    private final String RECIPE_KEY = "recipes";
     private final FirebaseFirestore db;
     private String userId;
 
     public RecipeFirebaseDataSource() {
         db = FirebaseFirestore.getInstance();
-        userId = FirebaseAuth.getInstance().getUid();
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     public Observable<List<Recipe>> getRecipesFromFirestore() {
@@ -44,12 +44,54 @@ public class RecipeFirebaseDataSource {
                 .set(recipe);
     }
 
-    public void removeRecipeFromFireStore(Recipe recipe){
+    public void removeRecipeFromFireStore(Recipe recipe) {
         db.collection(USER_KEY)
-        .document(userId).
-        collection(RECIPE_KEY)
-        .document(recipe.getIdMeal())
-        .delete();
+                .document(userId).
+                collection(RECIPE_KEY)
+                .document(recipe.getIdMeal())
+                .delete();
     }
+
+   public Observable<List<PlannedRecipe>> getPlannedRecipesFromFirestoreByDate(String date) {
+       return Observable.create(emitter -> {
+           db.collection(USER_KEY).document(userId)
+                   .collection("planned_recipes")
+                   .whereEqualTo("date", date)
+                   .get()
+                   .addOnSuccessListener(queryDocumentSnapshots -> {
+                       List<PlannedRecipe> recipes = new ArrayList<>();
+                       for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                           PlannedRecipe recipe = doc.toObject(PlannedRecipe.class);
+                           if (recipe != null) {
+                               recipes.add(recipe);
+                           }
+                       }
+                       emitter.onNext(recipes);
+                       emitter.onComplete();
+                   })
+                   .addOnFailureListener(e -> {
+                       emitter.onError(e);
+                   });
+       });
+   }
+
+    public void addPlannedRecipeToFirestore(PlannedRecipe recipe) {
+        String compositeKey = recipe.getDate() + "_" + recipe.getIdMeal();
+        Log.i("Firestore", "Recipe added successfully");
+        db.collection(USER_KEY).document(userId)
+                .collection("planned_recipes")
+                .document(compositeKey)
+                .set(recipe);
+    }
+
+    public void removePlannedRecipeFromFireStore(PlannedRecipe plannedRecipe) {
+        String compositeKey = plannedRecipe.getDate() + "_" + plannedRecipe.getIdMeal();
+        db.collection(USER_KEY)
+                .document(userId).
+                collection("planned_recipes")
+                .document(compositeKey)
+                .delete();
+    }
+
 
 }
