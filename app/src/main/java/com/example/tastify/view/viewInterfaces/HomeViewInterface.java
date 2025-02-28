@@ -6,11 +6,12 @@ import java.util.List;
 
 public interface HomeViewInterface {
 
-    public void showRecipes(List<Recipe> recipeList);
+     void showRecipes(List<Recipe> recipeList);
 
-    public void showRandomRecipe(Recipe recipe);
+     void showRandomRecipe(Recipe recipe);
 
-    public void showError(String msg);
+     void showError(String msg);
+     void showOfflineBanner(boolean isOnline);
 
 
 }

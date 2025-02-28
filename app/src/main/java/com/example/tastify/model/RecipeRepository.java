@@ -10,6 +10,8 @@ import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.ReplaySubject;
+
 import com.example.tastify.model.dataClasses.CategoryResponse;
 import com.example.tastify.model.network.RecipeResponse;
 
@@ -20,6 +22,10 @@ public class RecipeRepository {
     private static RecipeRepository repository = null;
     private final RecipeLocalDataSource recipeLocalDataSource;
     private final RecipeRemoteDataSource recipeRemoteDataSource;
+
+    private final ReplaySubject<RecipeResponse> randomRecipeCache = ReplaySubject.createWithSize(1);
+    private final ReplaySubject<RecipeResponse> remoteRecipesCache = ReplaySubject.createWithSize(1);
+
 
     private RecipeRepository(RecipeLocalDataSource recipeLocalDataSource, RecipeRemoteDataSource recipeRemoteDataSource) {
         this.recipeLocalDataSource = recipeLocalDataSource;
@@ -34,10 +40,16 @@ public class RecipeRepository {
     }
 
     public Observable<RecipeResponse> getRandomRecipe() {
+        if (randomRecipeCache.hasValue()) {
+            return randomRecipeCache;
+        }
         return recipeRemoteDataSource.getRandomRecipe();
     }
 
     public Observable<RecipeResponse> getRemoteRecipes() {
+        if (remoteRecipesCache.hasValue()) {
+            return remoteRecipesCache;
+        }
         return recipeRemoteDataSource.getRecipes();
     }
 

@@ -24,8 +24,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
-import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.RecipeRepository;
+import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.HomePresenter;
@@ -35,8 +35,6 @@ import com.example.tastify.view.viewInterfaces.HomeViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.rxjava3.core.Observable;
 
 
 public class HomeFragment extends Fragment implements HomeViewInterface {
@@ -49,6 +47,9 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
     ImageView userIcon;
     CardView randomCard;
     Recipe randomRecipe;
+    TextView offlineText;
+    TextView helloChef;
+    TextView cook;
 
 
     public HomeFragment() {
@@ -73,26 +74,29 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
         randomCard = view.findViewById(R.id.cardView);
         randomMealTitle = view.findViewById(R.id.randomMealTitl);
         randomMealImage = view.findViewById(R.id.randomImage);
-        userIcon=view.findViewById(R.id.userIcon);
+        userIcon = view.findViewById(R.id.userIcon);
+        offlineText = view.findViewById(R.id.notConnected);
+        helloChef=view.findViewById(R.id.helloChef);
+        cook=view.findViewById(R.id.whatToCook);
 
         adapter = new HomeFragAdapter(getActivity(), new ArrayList<>());
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setPadding(10,10,10,10);
+        recyclerView.setPadding(10, 10, 10, 10);
         recyclerView.setAdapter(adapter);
-
 
 
         presenter = new HomePresenter(this,
                 RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()),
-                new RecipeRemoteDataSource(getActivity())),
+                        new RecipeRemoteDataSource(getActivity())),
                 SharedPreferencesHelper.getInstance(getActivity()));
 
 
         presenter.getHomeRecipes();
         presenter.getRandomMeal();
+        presenter.checkInternetStatus(getActivity());
         fromRandomToDetails();
         userIcon.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(getContext(), v);
@@ -158,5 +162,20 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void showOfflineBanner(boolean isOnline) {
+        if(isOnline){
+            offlineText.setVisibility(View.VISIBLE);
+            helloChef.setVisibility(View.INVISIBLE);
+            cook.setVisibility(View.INVISIBLE);
+            userIcon.setVisibility(View.INVISIBLE);
+        }else{
+            offlineText.setVisibility(View.INVISIBLE);
+            helloChef.setVisibility(View.VISIBLE);
+            cook.setVisibility(View.VISIBLE);
+            userIcon.setVisibility(View.VISIBLE);
+        }
+
+    }
 
 }

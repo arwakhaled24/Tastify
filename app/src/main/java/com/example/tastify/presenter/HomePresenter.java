@@ -1,6 +1,9 @@
 package com.example.tastify.presenter;
 
+import android.content.Context;
+
 import com.example.tastify.model.RecipeRepository;
+import com.example.tastify.utils.NetworkUtils;
 import com.example.tastify.utils.SharedPreferencesHelper;
 import com.example.tastify.view.viewInterfaces.HomeViewInterface;
 
@@ -42,4 +45,10 @@ public class HomePresenter {
         sharedPreferencesHelper.logout();
         repository.deleteAllFromTables();
     }
+
+    public void checkInternetStatus(Context context) {
+        NetworkUtils.getNetworkLiveData(context).observeForever(isConnected -> {
+                viewI.showOfflineBanner(!isConnected);
+        });    }
+
 }

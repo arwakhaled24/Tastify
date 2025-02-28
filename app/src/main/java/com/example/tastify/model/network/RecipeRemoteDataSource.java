@@ -1,18 +1,24 @@
 
 package com.example.tastify.model.network;
 
+import static com.example.tastify.utils.NetworkUtils.isNetworkAvailable;
+
 import android.content.Context;
 import android.util.Log;
 
 import com.example.tastify.model.dataClasses.CategoryResponse;
 import com.example.tastify.model.dataClasses.CountryResponse;
 import com.example.tastify.model.dataClasses.MealsResponse;
+import com.example.tastify.utils.NetworkUtils;
+
+import java.io.File;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -20,10 +26,23 @@ public class RecipeRemoteDataSource {
     private final ApiServices service;
 
     public RecipeRemoteDataSource(Context context) {
-        int cacheSize = 50 * 1024 * 1024;
-        Cache cache = new Cache(context.getCacheDir(), cacheSize);
+        int cacheSize = 10 * 1024 * 1024; // 10MB cache
+        Cache cache = new Cache(new File(context.getCacheDir(), "http_cache"), cacheSize);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .cache(cache)
+                .addInterceptor(chain -> {
+                    Request request = chain.request();
+                    if (NetworkUtils.isNetworkAvailable()) {
+                        request = request.newBuilder()
+                                .header("Cache-Control", "public, max-age=60")
+                                .build();
+                    } else {
+                        request = request.newBuilder()
+                                .header("Cache-Control", "public, only-if-cached, max-stale=86400")
+                                .build();
+                    }
+                    return chain.proceed(request);
+                })
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
