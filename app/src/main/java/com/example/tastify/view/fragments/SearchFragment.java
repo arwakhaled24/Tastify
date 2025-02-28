@@ -143,10 +143,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.tastify.R;
@@ -162,6 +166,7 @@ import com.example.tastify.view.viewInterfaces.SearchViweInterface;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,13 +175,13 @@ public class SearchFragment extends Fragment  implements SearchViweInterface {
     ChipGroup chipGroup;
     Chip countryChip,categoryChip,ingredientsChip;
     SearchPresenter presenter;
-
     List<ListItem> categoryList = new ArrayList<>();
     List<ListItem> ingredientList = new ArrayList<>();
     List<ListItem> areaList = new ArrayList<>();
     LinearLayoutManager manager;
     SearchAdapter adapter;
     RecyclerView recyclerView;
+    SearchView searchView;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -204,6 +209,8 @@ public class SearchFragment extends Fragment  implements SearchViweInterface {
         ingredientsChip=view.findViewById(R.id.ingredientschip);
         countryChip=view.findViewById(R.id.countrychip);
         recyclerView=view.findViewById(R.id.chipsRecicleView);
+        searchView=view.findViewById(R.id.searchView);
+
 
         adapter = new SearchAdapter(getActivity(), categoryList);
         manager=new LinearLayoutManager(getActivity());
@@ -218,6 +225,50 @@ public class SearchFragment extends Fragment  implements SearchViweInterface {
 
         setUpSingleChip();
 
+       /* TextWatcher textWatcher= new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (categoryChip.isChecked()) {
+                    presenter.search(s, categoryList);
+                } else if (ingredientsChip.isChecked()) {
+                    presenter.search(s, ingredientList);
+                } else if (countryChip.isChecked()) {
+                    presenter.search(s, areaList);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+
+        editText.addTextChangedListener(textWatcher);*/
+
+        searchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        if (categoryChip.isChecked()) {
+                            presenter.search(newText, categoryList);
+                        } else if (ingredientsChip.isChecked()) {
+                            presenter.search(newText, ingredientList);
+                        } else if (countryChip.isChecked()) {
+                            presenter.search(newText, areaList);
+                        }
+                        return false;
+                    }
+                }
+        );
 
     }
 
@@ -237,9 +288,7 @@ public class SearchFragment extends Fragment  implements SearchViweInterface {
                                 recyclerView.setLayoutManager(new StaggeredGridLayoutManager
                                         (2, StaggeredGridLayoutManager.VERTICAL));
                                 recyclerView.setPadding(10,10,10,10);
-
                                 presenter.getIngrediantList();
-
                             } else if (chip.getId()==R.id.countrychip) {
                                 recyclerView.setLayoutManager(new StaggeredGridLayoutManager
                                         (2, StaggeredGridLayoutManager.VERTICAL));
@@ -250,30 +299,27 @@ public class SearchFragment extends Fragment  implements SearchViweInterface {
                         }
                     }
             );
-
-
         }
     }
 
     @Override
     public void showCategories(List<Category> categories) {
-        List<ListItem> genericList = new ArrayList<>();
-        genericList.addAll(categories);
-        adapter.updateUi(genericList);
+        categoryList.clear();
+        categoryList.addAll(categories);
+        adapter.updateUi(categoryList);
     }
+
 
     @Override
     public void showIngrediants(List<Meal> ingredients) {
-        List<ListItem> genericList = new ArrayList<>();
-        genericList.addAll(ingredients);
-        adapter.updateUi(genericList);
+        ingredientList.clear();
+        ingredientList.addAll(ingredients);
+        adapter.updateUi(ingredientList);
     }
-
-
     @Override
     public void showCountries(CountryResponse countries) {
-        List<ListItem> genericList = new ArrayList<>();
-        genericList.addAll(countries.countries);
-        adapter.updateUi(genericList);
+        areaList.clear();
+        areaList.addAll(countries.countries);
+        adapter.updateUi(areaList);
     }
 }

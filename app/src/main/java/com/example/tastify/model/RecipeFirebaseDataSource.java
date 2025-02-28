@@ -77,7 +77,6 @@ public class RecipeFirebaseDataSource {
 
     public void addPlannedRecipeToFirestore(PlannedRecipe recipe) {
         String compositeKey = recipe.getDate() + "_" + recipe.getIdMeal();
-        Log.i("Firestore", "Recipe added successfully");
         db.collection(USER_KEY).document(userId)
                 .collection("planned_recipes")
                 .document(compositeKey)
