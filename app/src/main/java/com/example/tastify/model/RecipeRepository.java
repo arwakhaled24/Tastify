@@ -1,6 +1,10 @@
 
 package com.example.tastify.model;
 
+import android.util.Log;
+
+import com.example.tastify.model.dataClasses.CountryResponse;
+import com.example.tastify.model.dataClasses.MealsResponse;
 import com.example.tastify.model.dataClasses.PlannedRecipe;
 import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
@@ -67,6 +71,14 @@ public class RecipeRepository {
 
     public void deleteAllFromTables() {
         recipeLocalDataSource.deleteAll();
+    }
+
+    public Observable<MealsResponse> getAllIngrediants(){
+        return recipeRemoteDataSource.getAllIngrediants();
+    }
+
+    public Observable<CountryResponse> getCountries(){
+        return recipeRemoteDataSource.getAllCountries();
     }
 }
 

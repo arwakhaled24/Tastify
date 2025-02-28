@@ -20,14 +20,11 @@ import com.example.tastify.model.dataClasses.Recipe;
 import java.util.List;
 
 
-
-
-
 public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.ViewHolder> {
 
     Context con;
     List<Recipe> recipeList;
-  AdapterFavFragmentCommunicator listener;
+    AdapterFavFragmentCommunicator listener;
 
 
     public FavFragmentAdapter(Context con, List<Recipe> items, AdapterFavFragmentCommunicator listener) {
@@ -73,7 +70,7 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
         holder.cardView.setOnClickListener(
                 (view) -> {
                     Toast.makeText(con, "Card clicked: " + item.strMeal, Toast.LENGTH_SHORT).show();
-                 listener.navigateToDetails(item);
+                    listener.navigateToDetails(item);
                 }
 
         );
@@ -93,7 +90,7 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
     }
 
     public void updateUi(List<Recipe> recipeList) {
-        if(recipeList.size()==0)
+        if (recipeList.size() == 0)
             listener.onEmptyList(true);
         else listener.onEmptyList(false);
         this.recipeList = recipeList;
@@ -104,6 +101,7 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
         void onRemoveFromFav(Recipe recipe);
 
         void navigateToDetails(Recipe recipe);
+
         void onEmptyList(boolean isEmpty);
     }
 }

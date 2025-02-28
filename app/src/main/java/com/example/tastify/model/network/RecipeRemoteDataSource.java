@@ -2,8 +2,11 @@
 package com.example.tastify.model.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.tastify.model.dataClasses.CategoryResponse;
+import com.example.tastify.model.dataClasses.CountryResponse;
+import com.example.tastify.model.dataClasses.MealsResponse;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.core.Observable;
@@ -43,6 +46,15 @@ public class RecipeRemoteDataSource {
 
     public Observable<CategoryResponse> getCategories() {
         return service.getCategories().subscribeOn(Schedulers.io());
+    }
+
+    public Observable<MealsResponse> getAllIngrediants(){
+        return service.getIngrediants().subscribeOn(Schedulers.io());
+    }
+    public Observable<CountryResponse> getAllCountries(){
+        Log.i("TAG", "getCountries: getcountries in remote");
+
+        return  service.getCountries().subscribeOn(Schedulers.io());
     }
 }
 

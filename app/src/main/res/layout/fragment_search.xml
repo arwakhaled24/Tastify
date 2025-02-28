@@ -25,10 +25,11 @@
     </SearchView>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
 
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchView">
@@ -51,10 +52,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:chipBackgroundColor="#70B9BE"
                 android:layout_marginStart="30dp"
                 android:gravity="center"
-                android:text="Country" />
+                android:text="Country"
+                app:chipBackgroundColor="#70B9BE" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/ingredientschip"
@@ -62,9 +63,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                app:chipBackgroundColor="#70B9BE"
+                android:text="Ingredients"
 
-                android:text="Ingredients" />
+                app:chipBackgroundColor="#70B9BE" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/categorychip"
@@ -72,11 +73,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:chipBackgroundColor="#70B9BE"
                 android:layout_marginEnd="10dp"
                 android:gravity="center"
-                android:text="Category" />
+                android:text="Category"
+                app:chipBackgroundColor="#70B9BE" />
         </com.google.android.material.chip.ChipGroup>
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chipsRecicleView"
+        android:layout_width="378dp"
+        android:layout_height="647dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.384" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
