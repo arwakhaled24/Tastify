@@ -1,4 +1,4 @@
-package com.example.tastify.view;
+package com.example.tastify.view.fragments;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
 import com.example.tastify.model.dataClasses.Recipe;
-import com.example.tastify.view.fragments.HomeFragmentDirections;
 
 import java.util.List;
 
@@ -46,8 +45,8 @@ public class HomeFragAdapter extends RecyclerView.Adapter<HomeFragAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mealTitle = itemView.findViewById(R.id.mealTitleRV);
-            imageView = itemView.findViewById(R.id.mealPhoto);
+            mealTitle = itemView.findViewById(R.id.ingrediant);
+            imageView = itemView.findViewById(R.id.ingreImage);
             favIcon = itemView.findViewById(R.id.favIcon);
             constrainLayout=itemView.findViewById(R.id.homeItemLayout);
 /*

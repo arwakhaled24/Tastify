@@ -12,7 +12,7 @@ public class IngrediantsViewHolder  extends RecyclerView.ViewHolder{
     CardView cardView ;
     public IngrediantsViewHolder(View itemView) {
         super(itemView);
-        ingrediantName = itemView.findViewById(R.id.mealTitleRV);
+        ingrediantName = itemView.findViewById(R.id.ingrediant);
         cardView = itemView.findViewById(R.id.cardView);
     }
 

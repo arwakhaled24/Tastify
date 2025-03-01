@@ -11,10 +11,23 @@
     <!-- TODO: Update blank fragment layout -->
 
 
+    <TextView
+        android:id="@+id/favMealsText"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:fontFamily="@font/sofia_pro_bold_az"
+        android:gravity="center"
+        android:text="Your Fav Meals Chef !"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewFavFragment"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="114dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFavFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="399dp"
+        android:layout_height="701dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,16 +38,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="#0d0d0d"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:src="@drawable/emptybacgroundless"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     <!--        app:layout_constraintStart_toEndOf="@+id/favText"
     -->

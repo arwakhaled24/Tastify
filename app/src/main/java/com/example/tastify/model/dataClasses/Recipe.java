@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(tableName = "recipe")
 public class Recipe implements Parcelable {
 
@@ -190,8 +193,69 @@ public class Recipe implements Parcelable {
         return strMeal;
     }
 
+    public List<String> getIngredients() {
+        List<String> ingredients = new ArrayList<>();
+        addIngredient(ingredients, strIngredient1);
+        addIngredient(ingredients, strIngredient2);
+        addIngredient(ingredients, strIngredient3);
+        addIngredient(ingredients, strIngredient4);
+        addIngredient(ingredients, strIngredient5);
+        addIngredient(ingredients, strIngredient6);
+        addIngredient(ingredients, strIngredient7);
+        addIngredient(ingredients, strIngredient8);
+        addIngredient(ingredients, strIngredient9);
+        addIngredient(ingredients, strIngredient10);
+        addIngredient(ingredients, strIngredient11);
+        addIngredient(ingredients, strIngredient12);
+        addIngredient(ingredients, strIngredient13);
+        addIngredient(ingredients, strIngredient14);
+        addIngredient(ingredients, strIngredient15);
+        addIngredient(ingredients, strIngredient16);
+        addIngredient(ingredients, strIngredient17);
+        addIngredient(ingredients, strIngredient18);
+        addIngredient(ingredients, strIngredient19);
+        addIngredient(ingredients, strIngredient20);
 
-    public String getStrCategory() {
+        return ingredients;
+    }
+    private void addIngredient(List<String> ingredients, String ingredient) {
+        if (ingredient != null && !ingredient.trim().isEmpty()) {
+            ingredients.add(ingredient.trim());
+        }
+    }
+    public List<String> getMeasurements() {
+        List<String> measurements = new ArrayList<>();
+        addMeasurement(measurements, strMeasure1);
+        addMeasurement(measurements, strMeasure2);
+        addMeasurement(measurements, strMeasure3);
+        addMeasurement(measurements, strMeasure4);
+        addMeasurement(measurements, strMeasure5);
+        addMeasurement(measurements, strMeasure6);
+        addMeasurement(measurements, strMeasure7);
+        addMeasurement(measurements, strMeasure8);
+        addMeasurement(measurements, strMeasure9);
+        addMeasurement(measurements, strMeasure10);
+        addMeasurement(measurements, strMeasure11);
+        addMeasurement(measurements, strMeasure12);
+        addMeasurement(measurements, strMeasure13);
+        addMeasurement(measurements, strMeasure14);
+        addMeasurement(measurements, strMeasure15);
+        addMeasurement(measurements, strMeasure16);
+        addMeasurement(measurements, strMeasure17);
+        addMeasurement(measurements, strMeasure18);
+        addMeasurement(measurements, strMeasure19);
+        addMeasurement(measurements, strMeasure20);
+
+        return measurements;
+    }
+
+        private void addMeasurement(List<String> measurements, String measurement) {
+        if (measurement != null && !measurement.trim().isEmpty()) {
+            measurements.add(measurement.trim());
+        }
+    }
+
+        public String getStrCategory() {
         return strCategory;
     }
 

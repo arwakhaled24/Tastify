@@ -18,10 +18,11 @@ public class RecipeFirebaseDataSource {
 
     public RecipeFirebaseDataSource() {
         db = FirebaseFirestore.getInstance();
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     public Observable<List<Recipe>> getRecipesFromFirestore() {
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         return Observable.create(emitter -> {
             db.collection(USER_KEY).document(userId)
                     .collection(RECIPE_KEY)
@@ -38,6 +39,7 @@ public class RecipeFirebaseDataSource {
 
 
     public void addRecipeToFirestore(Recipe recipe) {
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         db.collection(USER_KEY).document(userId)
                 .collection(RECIPE_KEY)
                 .document(recipe.getIdMeal())
@@ -45,6 +47,8 @@ public class RecipeFirebaseDataSource {
     }
 
     public void removeRecipeFromFireStore(Recipe recipe) {
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         db.collection(USER_KEY)
                 .document(userId).
                 collection(RECIPE_KEY)
@@ -54,6 +58,8 @@ public class RecipeFirebaseDataSource {
 
    public Observable<List<PlannedRecipe>> getPlannedRecipesFromFirestoreByDate(String date) {
        return Observable.create(emitter -> {
+           userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
            db.collection(USER_KEY).document(userId)
                    .collection("planned_recipes")
                    .whereEqualTo("date", date)
@@ -76,6 +82,8 @@ public class RecipeFirebaseDataSource {
    }
 
     public void addPlannedRecipeToFirestore(PlannedRecipe recipe) {
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         String compositeKey = recipe.getDate() + "_" + recipe.getIdMeal();
         db.collection(USER_KEY).document(userId)
                 .collection("planned_recipes")
@@ -84,6 +92,7 @@ public class RecipeFirebaseDataSource {
     }
 
     public void removePlannedRecipeFromFireStore(PlannedRecipe plannedRecipe) {
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String compositeKey = plannedRecipe.getDate() + "_" + plannedRecipe.getIdMeal();
         db.collection(USER_KEY)
                 .document(userId).

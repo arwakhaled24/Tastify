@@ -15,7 +15,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
         CardView cardView ;
         public CountryViewHolder(View itemView) {
             super(itemView);
-            ingrediantName = itemView.findViewById(R.id.mealTitleRV);
+            ingrediantName = itemView.findViewById(R.id.ingrediant);
             cardView = itemView.findViewById(R.id.cardView);
         }
 

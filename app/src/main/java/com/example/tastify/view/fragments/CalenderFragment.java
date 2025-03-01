@@ -1,5 +1,6 @@
 package com.example.tastify.view.fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import com.example.tastify.R;
 import com.example.tastify.model.dataClasses.PlannedRecipe;
 import com.example.tastify.model.RecipeRepository;
+import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.CalenderPresenter;
@@ -92,9 +95,18 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface,
 
   @Override
     public void onDelete(PlannedRecipe recipe) {
-        presenter.deleteFromCal(recipe);
+      showAlertDialog(recipe);
     }
-
+    private void showAlertDialog(PlannedRecipe recipe) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Are You Sure ")
+                .setMessage("Delete " + recipe.strMeal + " From Plan")
+                .setPositiveButton("Sure", (dialog, which) -> {
+                    presenter.deleteFromCal(recipe);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
 
     @Override
     public void onEmptyList(boolean isEmpty) {
@@ -104,6 +116,14 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface,
         else
             empityLayout.setVisibility(View.INVISIBLE);
 
+    }
+
+    @Override
+    public void navigateToDetails(Recipe recipe) {
+        CalenderFragmentDirections.ActionCalenderFragmentToRecipeDetails action
+                = CalenderFragmentDirections.actionCalenderFragmentToRecipeDetails(recipe);
+        Navigation.findNavController(requireView())
+                .navigate(action);
     }
 
     @Override

@@ -68,7 +68,11 @@
         android:id="@+id/searchFragment"
         android:name="com.example.tastify.view.fragments.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_recipeDetails"
+            app:destination="@id/recipeDetails" />
+    </fragment>
     <fragment
         android:id="@+id/favouriteRecipesFragment"
         android:name="com.example.tastify.view.fragments.FavouriteRecipesFragment"
@@ -83,5 +87,9 @@
         android:id="@+id/calenderFragment"
         android:name="com.example.tastify.view.fragments.CalenderFragment"
         android:label="Meals Planner "
-        tools:layout="@layout/fragment_calender" />
+        tools:layout="@layout/fragment_calender" >
+        <action
+            android:id="@+id/action_calenderFragment_to_recipeDetails"
+            app:destination="@id/recipeDetails" />
+    </fragment>
 </navigation>

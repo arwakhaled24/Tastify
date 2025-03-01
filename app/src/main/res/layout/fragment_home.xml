@@ -73,7 +73,6 @@
                 android:background="@drawable/image_background"
                 android:clipToOutline="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/oma"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.488"
                 app:layout_constraintStart_toStartOf="parent"

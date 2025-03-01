@@ -1,5 +1,6 @@
 package com.example.tastify.view.fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,7 +31,6 @@ import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.HomePresenter;
 import com.example.tastify.utils.SharedPreferencesHelper;
-import com.example.tastify.view.HomeFragAdapter;
 import com.example.tastify.view.viewInterfaces.HomeViewInterface;
 
 import java.util.ArrayList;
@@ -50,7 +50,8 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
     TextView offlineText;
     TextView helloChef;
     TextView cook;
-
+    NavController navController;
+    NavOptions navOptions;
 
     public HomeFragment() {
     }
@@ -78,6 +79,7 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
         offlineText = view.findViewById(R.id.notConnected);
         helloChef=view.findViewById(R.id.helloChef);
         cook=view.findViewById(R.id.whatToCook);
+
 
         adapter = new HomeFragAdapter(getActivity(), new ArrayList<>());
         manager = new LinearLayoutManager(getActivity());
@@ -107,17 +109,18 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
                 popupMenu.getMenuInflater().inflate(R.menu.in_logout_menu, popupMenu.getMenu());
             }
             popupMenu.setOnMenuItemClickListener(item -> {
-                NavController navController = Navigation.findNavController(requireView());
-                NavOptions navOptions = new NavOptions.Builder()
+                 navController = Navigation.findNavController(requireView());
+                 navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.splash_fragment, true)
                         .build();
                 if (item.getItemId() == R.id.logOutItem) {
-                    presenter.logOut();
-                    Toast.makeText(getActivity(), "logout succe", Toast.LENGTH_SHORT).show();
+                    showAlertDialog();
+                } else if (item.getItemId() == R.id.loinItem) {
+                    navController.navigate(R.id.splash_fragment, null, navOptions);
 
                 }
-                navController.navigate(R.id.splash_fragment, null, navOptions);
                 return true;
+
             });
             popupMenu.show();
         });
@@ -177,5 +180,18 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
         }
 
     }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Are You sure")
+                .setMessage("You Want To LogOut ?")
+                .setPositiveButton("Sure", (dialog, which) -> {
+                    presenter.logOut();
+                    navController.navigate(R.id.splash_fragment, null, navOptions);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
+
 
 }

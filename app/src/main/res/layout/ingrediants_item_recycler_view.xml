@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/mealTitleRV"
+                android:id="@+id/ingrediant"
                 android:layout_width="131dp"
                 android:layout_height="46dp"
                 android:layout_marginTop="40dp"

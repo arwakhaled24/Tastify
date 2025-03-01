@@ -1,26 +1,23 @@
 package com.example.tastify.view.fragments;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tastify.R;
-import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.RecipeRepository;
+import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.FavRecipePresenter;
@@ -36,6 +33,7 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
     LinearLayoutManager manager;
     FavRecipePresenter presenter;
     ConstraintLayout emptyLayout;
+    TextView txt;
 
     public FavouriteRecipesFragment() {
         // Required empty public constructor
@@ -58,13 +56,14 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.recyclerViewFavFragment);
+        txt = view.findViewById(R.id.favMealsText);
         adapter = new FavFragmentAdapter(getActivity(), new ArrayList<>(), this);
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-        emptyLayout=view.findViewById(R.id.emptyLayout);
+        emptyLayout = view.findViewById(R.id.emptyLayout);
         onEmptyList(true);
 
 
@@ -72,14 +71,24 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
         presenter.getFavRecipes();
 
 
-
     }
 
     @Override
     public void onRemoveFromFav(Recipe recipe) {
-        presenter.deleteFromFav(recipe);
+
+        showAlertDialog(recipe);
     }
 
+    private void showAlertDialog(Recipe recipe) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Are You Sure ")
+                .setMessage("Delete " + recipe.strMeal + " From Fav")
+                .setPositiveButton("Sure", (dialog, which) -> {
+                    presenter.deleteFromFav(recipe);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
 
     @Override
     public void navigateToDetails(Recipe recipe) {
@@ -89,19 +98,12 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
                 .navigate(action);
 
     }
+
     @Override
     public void getfav(List<Recipe> recipeList) {
-     /*   LiveData<List<Recipe>> liveData = presenter.getFavRecipes();
-        Observer<List<Recipe>> observer = new Observer<List<Recipe>>() {
-            @Override
-            public void onChanged(List<Recipe> products) {
-                adapter.updateUi(products);
-            }
-        };
-        liveData.observe(getActivity(), observer);*/
         adapter.updateUi(recipeList);
-
     }
+
     @Override
     public void onNotLogin() {
 
@@ -110,10 +112,14 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
 
     @Override
     public void onEmptyList(boolean isEmpty) {
-        if(isEmpty)
+        if (isEmpty) {
             emptyLayout.setVisibility(View.VISIBLE);
-        else
+            txt.setVisibility(View.INVISIBLE);
+        } else {
             emptyLayout.setVisibility(View.INVISIBLE);
+            txt.setVisibility(View.VISIBLE);
+        }
+
     }
 
 

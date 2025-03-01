@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
 import com.example.tastify.model.dataClasses.PlannedRecipe;
+import com.example.tastify.model.dataClasses.Recipe;
 
 import java.util.List;
 
@@ -45,8 +46,8 @@ public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mealTitle = itemView.findViewById(R.id.mealTitleRV);
-            imageView = itemView.findViewById(R.id.mealPhoto);
+            mealTitle = itemView.findViewById(R.id.ingrediant);
+            imageView = itemView.findViewById(R.id.ingreImage);
             deleteIcon = itemView.findViewById(R.id.deleteIcon);
             cardView = itemView.findViewById(R.id.cardView);
             layout = itemView;
@@ -69,14 +70,7 @@ public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHo
                 .apply(new RequestOptions().override(227, 132))
                 .into(holder.imageView);
      holder.cardView.setOnClickListener(
-                (view) -> {
-                    Toast.makeText(con, "Card clicked: " + item.strMeal, Toast.LENGTH_SHORT).show();
-                    HomeFragmentDirections.ActionHomeFragmentToRecipeDetails action =
-                            HomeFragmentDirections.actionHomeFragmentToRecipeDetails(item.getRecipe());
-                    Navigation.findNavController(view)
-                            .navigate(action);
-
-                });
+                (view) -> communicator.navigateToDetails(item.getRecipe()));
 
         ;
         holder.deleteIcon.setOnClickListener(
@@ -107,6 +101,9 @@ public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHo
         public void onDelete(PlannedRecipe recipe);
 
         void onEmptyList(boolean isEmpty);
+         void navigateToDetails(Recipe recipe);
+
+
     }
 
 

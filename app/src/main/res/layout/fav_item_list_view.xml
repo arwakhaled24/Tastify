@@ -28,7 +28,7 @@
 
 
             <ImageView
-                android:id="@+id/mealPhoto"
+                android:id="@+id/ingreImage"
                 android:layout_width="163dp"
                 android:layout_height="106dp"
                 android:layout_marginStart="16dp"
@@ -41,7 +41,7 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/mealTitleRV"
+                android:id="@+id/ingrediant"
                 android:layout_width="167dp"
                 android:layout_height="44dp"
                 android:layout_marginStart="8dp"
@@ -52,7 +52,7 @@
                 android:singleLine="false"
                 android:text="mealTitle"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/mealPhoto"
+                app:layout_constraintStart_toEndOf="@+id/ingreImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
@@ -62,7 +62,7 @@
                 android:background="?android:attr/listDivider"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/mealTitleRV"
+                app:layout_constraintStart_toEndOf="@+id/ingrediant"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -72,8 +72,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/icon_background"
-                app:layout_constraintStart_toStartOf="@+id/mealPhoto"
-                app:layout_constraintTop_toTopOf="@+id/mealPhoto"
+                app:layout_constraintStart_toStartOf="@+id/ingreImage"
+                app:layout_constraintTop_toTopOf="@+id/ingreImage"
                 app:srcCompat="@drawable/delete_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

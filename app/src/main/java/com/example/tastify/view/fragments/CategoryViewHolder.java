@@ -1,6 +1,5 @@
 package com.example.tastify.view.fragments;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,8 +18,8 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
 CardView cardView ;
     public CategoryViewHolder(View itemView) {
         super(itemView);
-        categoryName = itemView.findViewById(R.id.mealTitleRV);
-        categoryThumb = itemView.findViewById(R.id.mealPhoto);
+        categoryName = itemView.findViewById(R.id.ingrediant);
+        categoryThumb = itemView.findViewById(R.id.ingreImage);
         cardView = itemView.findViewById(R.id.cardView);
     }
 

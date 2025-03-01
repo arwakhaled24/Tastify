@@ -17,12 +17,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
-import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.RecipeRepository;
+import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.DetailsPresenter;
@@ -33,6 +38,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class DetailsFragment extends Fragment implements DetailsInterface {
@@ -43,8 +49,13 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     private boolean isExpanded = false;
     YouTubePlayerView youTubePlayerView;
     Button addToFavBtn, addToCalender;
-
     DetailsPresenter presenter;
+
+    DetailsAdapter adapter;
+    RecyclerView recyclerView;
+    LinearLayoutManager manager;
+    NavController navController;
+    NavOptions navOptions;
 
     public DetailsFragment() {
     }
@@ -79,6 +90,14 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
         addToFavBtn = view.findViewById(R.id.addToFavBtn);
         addToCalender = view.findViewById(R.id.addToCalender);
 
+
+        recyclerView = view.findViewById(R.id.recyclerViewDetails);
+       adapter = new DetailsAdapter(getActivity(), recipe.getIngredients(),recipe.getMeasurements() );
+        manager = new LinearLayoutManager(getActivity());
+       manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+       recyclerView.setLayoutManager(manager);
+//        recyclerView.setHasFixedSize(true);
+      recyclerView.setAdapter(adapter);
 
         presenter = new DetailsPresenter(this, RecipeRepository.getInstance
                 (new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())), SharedPreferencesHelper.getInstance(getContext()));
@@ -127,6 +146,7 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
                 (view, year, month, dayOfMonth) -> {
                     String date = year + String.valueOf(month) + dayOfMonth;
                     presenter.addToCalender(recipe, date);
+                    Toast.makeText(getContext(), "Added To Plane!", Toast.LENGTH_SHORT).show();
                 },
                 cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)
         );
@@ -167,13 +187,13 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     public void onNotLogin() {
         Snackbar.make(getView(), "Please Register first", Snackbar.LENGTH_LONG)
                 .setAction("Login", v -> {
-                  /*  HomeFragmentDirections.ActionHomeFragmentToRecipeDetails action
-                            = HomeFragmentDirections.actionHomeFragmentToRecipeDetails(randomRecipe);
-                    Navigation.findNavController(v)
-                            .navigate(action);  */
 
+                    navController = Navigation.findNavController(requireView());
+                    navOptions = new NavOptions.Builder()
+                            .setPopUpTo(R.id.splash_fragment, true)
+                            .build();
+                    navController.navigate(R.id.splash_fragment, null, navOptions);
 
-                    ///////////////navigate to register
 
                 })
                 .show();

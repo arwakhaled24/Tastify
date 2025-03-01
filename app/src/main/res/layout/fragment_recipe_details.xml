@@ -51,17 +51,19 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:id="@+id/videoLayout"
                 android:layout_height="wrap_content">
 
                 <Button
                     android:id="@+id/addToCalender"
-                    android:layout_width="150dp"
+                    android:layout_width="161dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="52dp"
-                    android:text="Add To My Calender"
+                    android:text="@string/add_to_plan"
+                    android:backgroundTint="#88C3C6"
                     app:layout_constraintBottom_toBottomOf="@+id/addToFavBtn"
                     app:layout_constraintEnd_toEndOf="@+id/areaText"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_bias="0.481"
                     app:layout_constraintStart_toEndOf="@+id/addToFavBtn"
                     app:layout_constraintTop_toTopOf="@+id/addToFavBtn"
                     app:layout_constraintVertical_bias="0.0" />
@@ -159,15 +161,6 @@
                     app:layout_constraintStart_toStartOf="@+id/imageView6"
                     app:layout_constraintTop_toBottomOf="@+id/mealDescription" />
 
-                <TextView
-                    android:id="@+id/ingredientsCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="TextView"
-                    app:layout_constraintStart_toStartOf="@+id/ingredients"
-                    app:layout_constraintTop_toBottomOf="@+id/ingredients" />
-
                 <View
                     android:id="@+id/divider2"
                     android:layout_width="85dp"
@@ -182,12 +175,13 @@
                     android:id="@+id/divider3"
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:layout_marginTop="196dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="80dp"
+                    android:layout_marginEnd="25dp"
                     android:background="?android:attr/listDivider"
                     app:layout_constraintEnd_toEndOf="parent"
-
-                    app:layout_constraintTop_toBottomOf="@+id/ingredientsCount" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewDetails" />
 
                 <TextView
                     android:id="@+id/readMore"
@@ -225,13 +219,21 @@
 
                 <Button
                     android:id="@+id/addToFavBtn"
-                    android:layout_width="150dp"
-                    android:layout_height="46dp"
-                    android:layout_marginBottom="16dp"
-                    android:backgroundTint="#F1042628"
+                    android:layout_width="161dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="#F10C5E62"
                     android:text="@string/add_to_favorits"
                     app:layout_constraintBottom_toTopOf="@+id/divider3"
                     app:layout_constraintStart_toStartOf="@+id/imageView6" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="127dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/ingredients"
+                    tools:layout_editor_absoluteX="-16dp" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

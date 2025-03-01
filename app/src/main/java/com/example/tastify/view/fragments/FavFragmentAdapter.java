@@ -44,8 +44,8 @@ public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mealTitle = itemView.findViewById(R.id.mealTitleRV);
-            imageView = itemView.findViewById(R.id.mealPhoto);
+            mealTitle = itemView.findViewById(R.id.ingrediant);
+            imageView = itemView.findViewById(R.id.ingreImage);
             favIcon = itemView.findViewById(R.id.deleteIcon);
             cardView = itemView.findViewById(R.id.cardView);
             layout = itemView;
