@@ -76,12 +76,8 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface,
         deleteIcon =view.findViewById(R.id.deleteIcon);
         empityLayout=view.findViewById(R.id.emptyCalenderLayout);
         onEmptyList(true);
-
         presenter=new CalenderPresenter(this,
                 RecipeRepository.getInstance(new RecipeLocalDataSource(getContext()),new RecipeRemoteDataSource(getContext())));
-
-
-
      calenderView.setOnDateChangeListener(
                 (view1, year, month, dayOfMonth) -> {
                     String date=String.valueOf(year)+String.valueOf(month)+String.valueOf(dayOfMonth);

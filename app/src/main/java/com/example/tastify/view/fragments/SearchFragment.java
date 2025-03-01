@@ -218,34 +218,6 @@ public class SearchFragment extends Fragment  implements SearchViweInterface {
         presenter = new SearchPresenter(this, RecipeRepository.
                 getInstance(new RecipeLocalDataSource(getContext()), new RecipeRemoteDataSource(getContext())));
 
-        setUpSingleChip();
-
-       /* TextWatcher textWatcher= new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (categoryChip.isChecked()) {
-                    presenter.search(s, categoryList);
-                } else if (ingredientsChip.isChecked()) {
-                    presenter.search(s, ingredientList);
-                } else if (countryChip.isChecked()) {
-                    presenter.search(s, areaList);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-
-        };
-
-        editText.addTextChangedListener(textWatcher);*/
-
         searchView.setOnQueryTextListener(
                 new SearchView.OnQueryTextListener() {
                     @Override
@@ -265,35 +237,30 @@ public class SearchFragment extends Fragment  implements SearchViweInterface {
                     }
                 }
         );
-
-    }
-    private void setUpSingleChip(){
-
-        for (int i=0;i<chipGroup.getChildCount();i++){
-            Chip chip = (Chip) chipGroup.getChildAt(i);
-            chip.setOnCheckedChangeListener(
-                    (buttonView, isChecked) -> {
-                        if(isChecked){
-                            if (chip.getId() == R.id.categorychip) {
-                                recyclerView.setLayoutManager(manager);
-                                manager.setOrientation(LinearLayoutManager.VERTICAL);
-                                presenter.getCategoriesList();
-                            } else if (chip.getId()==R.id.ingredientschip) {
-                                recyclerView.setLayoutManager(new StaggeredGridLayoutManager
-                                        (2, StaggeredGridLayoutManager.VERTICAL));
-                                recyclerView.setPadding(10,10,10,10);
-                                presenter.getIngrediantList();
-                            } else if (chip.getId()==R.id.countrychip) {
-                                recyclerView.setLayoutManager(new StaggeredGridLayoutManager
-                                        (2, StaggeredGridLayoutManager.VERTICAL));
-                                recyclerView.setPadding(10,10,10,10);
-                                presenter.getCountries();
-
-                            }
-                        }
+        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup group, int checkedId) {
+                if (checkedId == View.NO_ID) {
+                    adapter.updateUi(new ArrayList<>());
+                } else {
+                    if (checkedId == R.id.categorychip) {
+                        recyclerView.setLayoutManager(manager);
+                        manager.setOrientation(LinearLayoutManager.VERTICAL);
+                        presenter.getCategoriesList();
+                    } else if (checkedId == R.id.ingredientschip) {
+                        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                        recyclerView.setPadding(10, 10, 10, 10);
+                        presenter.getIngrediantList();
+                    } else if (checkedId == R.id.countrychip) {
+                        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                        recyclerView.setPadding(10, 10, 10, 10);
+                        presenter.getCountries();
                     }
-            );
-        }
+                }
+            }
+        });
+
+
     }
 
     @Override
