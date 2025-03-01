@@ -1,6 +1,7 @@
 package com.example.tastify.presenter;
 
 import com.example.tastify.model.RecipeRepository;
+import com.example.tastify.model.dataClasses.MealsResponse;
 import com.example.tastify.view.viewInterfaces.SearchViweInterface;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.model.dataClasses.Category;
@@ -102,7 +103,6 @@ public class SearchPresenter {
     SearchViweInterface searchI;
     RecipeRepository repository;
 
-    // Master lists to store unfiltered data
     private List<Category> masterCategories = new ArrayList<>();
     private List<Meal> masterMeals = new ArrayList<>();
     private List<Country> masterCountries = new ArrayList<>();
@@ -151,8 +151,6 @@ public class SearchPresenter {
     public void search(CharSequence s, List<ListItem> currentList) {
         String query = s.toString().trim().toLowerCase();
 
-        // If the query is empty or the passed list is empty,
-        // show the full (master) list for that type.
         if(query.isEmpty() || currentList.isEmpty()){
             if(!masterCategories.isEmpty()) {
                 searchI.showCategories(masterCategories);
@@ -165,19 +163,13 @@ public class SearchPresenter {
             }
             return;
         }
-
-        // Now safely check the type since currentList is not empty
         if (currentList.get(0) instanceof Category) {
             Observable.fromIterable(masterCategories)
                     .filter(category -> category.getStrCategory().toLowerCase().contains(query))
                     .toList()
                     .toObservable()
                     .subscribe(
-                            filteredCategories -> searchI.showCategories(filteredCategories),
-                            throwable -> {
-                                // Handle error if needed
-                                throwable.printStackTrace();
-                            }
+                            filteredCategories -> searchI.showCategories(filteredCategories)
                     );
         } else if (currentList.get(0) instanceof Meal) {
             Observable.fromIterable(masterMeals)
@@ -185,11 +177,7 @@ public class SearchPresenter {
                     .toList()
                     .toObservable()
                     .subscribe(
-                            filteredMeals -> searchI.showIngrediants(filteredMeals),
-                            throwable -> {
-                                // Handle error if needed
-                                throwable.printStackTrace();
-                            }
+                            filteredMeals -> searchI.showIngrediants(filteredMeals)
                     );
         } else if (currentList.get(0) instanceof Country) {
             Observable.fromIterable(masterCountries)
@@ -201,13 +189,46 @@ public class SearchPresenter {
                                 CountryResponse response = new CountryResponse();
                                 response.setCountries(new ArrayList<>(filteredCountries));
                                 searchI.showCountries(response);
-                            },
-                            throwable -> {
-                                // Handle error if needed
-                                throwable.printStackTrace();
                             }
                     );
         }
     }
+
+    public void searchByIngredient(String ingredient){
+        repository.searchByIngredient(ingredient)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        searchResponse -> {
+                            searchI.getSearchByIngrediant(searchResponse);
+                        }
+                );
+
+    }
+    public void searchByCategory(String category){
+        repository.searchMealsByCategory(category)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        searchResponse -> {
+                            searchI.getSearchByCategory(searchResponse);
+                        }
+                );
+
+    }
+
+    public void searchByCountry(String country){
+        repository.searchMealsByCountry(country)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        searchResponse -> {
+                            searchI.getSearchByCountru(searchResponse);
+                        }
+                );
+    }
+
+
+
 
 }

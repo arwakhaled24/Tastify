@@ -72,6 +72,9 @@
         <action
             android:id="@+id/action_searchFragment_to_recipeDetails"
             app:destination="@id/recipeDetails" />
+        <action
+            android:id="@+id/action_searchFragment_to_searchResult"
+            app:destination="@id/searchResult" />
     </fragment>
     <fragment
         android:id="@+id/favouriteRecipesFragment"
@@ -91,5 +94,14 @@
         <action
             android:id="@+id/action_calenderFragment_to_recipeDetails"
             app:destination="@id/recipeDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchResult"
+        android:name="com.example.tastify.view.fragments.SearchResult"
+        android:label="fragment_search_result"
+        tools:layout="@layout/fragment_search_result">
+        <argument
+            android:name="result"
+            app:argType="com.example.tastify.model.dataClasses.SearchResponse" />
     </fragment>
 </navigation>

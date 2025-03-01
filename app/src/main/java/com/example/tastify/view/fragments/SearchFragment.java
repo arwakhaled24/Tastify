@@ -139,6 +139,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -154,6 +155,9 @@ import com.example.tastify.model.dataClasses.Category;
 import com.example.tastify.model.dataClasses.CountryResponse;
 import com.example.tastify.model.dataClasses.ListItem;
 import com.example.tastify.model.dataClasses.Meal;
+import com.example.tastify.model.dataClasses.MealsResponse;
+import com.example.tastify.model.dataClasses.SearchResponse;
+import com.example.tastify.model.dataClasses.SearchResponseItem;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.SearchPresenter;
@@ -165,7 +169,7 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment  implements SearchViweInterface {
+public class SearchFragment extends Fragment  implements SearchViweInterface ,SearchAdapter.Communicator  {
 
     ChipGroup chipGroup;
     Chip countryChip,categoryChip,ingredientsChip;
@@ -180,6 +184,8 @@ public class SearchFragment extends Fragment  implements SearchViweInterface {
     public SearchFragment() {
         // Required empty public constructor
     }
+
+    SearchResponse searchResponse;
 
 
 
@@ -207,7 +213,7 @@ public class SearchFragment extends Fragment  implements SearchViweInterface {
         searchView=view.findViewById(R.id.searchView);
 
 
-        adapter = new SearchAdapter(getActivity(), categoryList);
+        adapter = new SearchAdapter(getActivity(), categoryList,this);
         manager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -282,5 +288,40 @@ public class SearchFragment extends Fragment  implements SearchViweInterface {
         areaList.clear();
         areaList.addAll(countries.countries);
         adapter.updateUi(areaList);
+    }
+
+    @Override
+    public void getSearchByIngrediant(SearchResponse searchResponse) {
+        SearchFragmentDirections.ActionSearchFragmentToSearchResult action
+                = SearchFragmentDirections.actionSearchFragmentToSearchResult(searchResponse);
+        Navigation.findNavController(requireView()).navigate(action);
+    }
+
+    @Override
+    public void getSearchByCategory(SearchResponse searchResponse) {
+        SearchFragmentDirections.ActionSearchFragmentToSearchResult action
+                = SearchFragmentDirections.actionSearchFragmentToSearchResult(searchResponse);
+        Navigation.findNavController(requireView()).navigate(action);
+    }
+
+    @Override
+    public void getSearchByCountru(SearchResponse searchResponse) {
+        SearchFragmentDirections.ActionSearchFragmentToSearchResult action
+                = SearchFragmentDirections.actionSearchFragmentToSearchResult(searchResponse);
+        Navigation.findNavController(requireView()).navigate(action);
+    }
+    @Override
+    public void getIngrediantSearchKey(String wordKey) {
+        presenter.searchByIngredient(wordKey);
+    }
+
+    @Override
+    public void getCategorySearchKey(String category) {
+        presenter.searchByCategory(category);
+    }
+
+    @Override
+    public void getCountrySearchKey(String country) {
+        presenter.searchByCountry(country);
     }
 }

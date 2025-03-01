@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.tastify.model.dataClasses.CategoryResponse;
 import com.example.tastify.model.dataClasses.CountryResponse;
 import com.example.tastify.model.dataClasses.MealsResponse;
+import com.example.tastify.model.dataClasses.SearchResponse;
 import com.example.tastify.utils.NetworkUtils;
 
 import java.io.File;
@@ -71,9 +72,18 @@ public class RecipeRemoteDataSource {
         return service.getIngrediants().subscribeOn(Schedulers.io());
     }
     public Observable<CountryResponse> getAllCountries(){
-        Log.i("TAG", "getCountries: getcountries in remote");
-
         return  service.getCountries().subscribeOn(Schedulers.io());
     }
+    public Observable<SearchResponse> SearchByIngredient(String ingredient ){
+        return service.filterMealsByIngredient(ingredient );
+    }
+    public Observable<SearchResponse> filterMealsByCategory(String category ){
+        return service.filterMealsByCategory(category);
+    }
+    public Observable<SearchResponse> filterMealsByCountry(String country ){
+        return service.filterMealsByCountry(country);
+    }
+
+
 }
 

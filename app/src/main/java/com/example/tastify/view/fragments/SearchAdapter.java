@@ -24,10 +24,13 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     Context con;
     private List<ListItem> itemList;
 
+    Communicator communicator;
 
-    public SearchAdapter(Context con, List<ListItem> items) {
+
+    public SearchAdapter(Context con, List<ListItem> items,Communicator communicator) {
         this.con = con;
         this.itemList = items;
+        this.communicator=communicator;
     }
 
 
@@ -63,18 +66,18 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (item instanceof Category) {
                     ((CategoryViewHolder) holder).bind((Category) item, v -> {
                         Toast.makeText(v.getContext(), "Clicked on Category: " + ((Category) item).getStrCategory(), Toast.LENGTH_SHORT).show();
-                    });
+                    },communicator);
                 }
                 break;
             case ListItemType.TYPE_INGREDIENT:
                 ((IngrediantsViewHolder) holder).bind((Meal) item, v -> {
                     Toast.makeText(v.getContext(), "Clicked on Category: " + ((Meal) item).getStrIngredient(), Toast.LENGTH_SHORT).show();
-                });
+                }, communicator );
                 break;
             case ListItemType.TYPE_AREA:
                 ((CountryViewHolder) holder).bind((Country) item, v -> {
                     Toast.makeText(v.getContext(), "Clicked on Category: " + ((Country) item).getStrArea(), Toast.LENGTH_SHORT).show();
-                });                break;
+                },communicator);                break;
             default:
                 throw new IllegalArgumentException("Invalid view type");
         }
@@ -88,6 +91,11 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void updateUi(List<ListItem> itemList) {
         this.itemList = itemList;
         notifyDataSetChanged();
+    }
+    interface Communicator {
+        void getIngrediantSearchKey(String wordKey);
+        void getCategorySearchKey(String category);
+        void getCountrySearchKey(String country);
     }
 
 }

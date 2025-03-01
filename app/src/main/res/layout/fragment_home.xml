@@ -11,8 +11,8 @@
 
     <TextView
         android:id="@+id/whatToCook"
-        android:layout_width="257dp"
-        android:layout_height="28dp"
+        android:layout_width="306dp"
+        android:layout_height="27dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/sofia_prom_edium_az"
         android:text="@string/what_do_you_want_to_cook_today"
@@ -41,10 +41,12 @@
         android:layout_width="41dp"
         android:layout_height="34dp"
         android:layout_marginStart="172dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="5dp"
         android:src="@drawable/user_icon"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/helloChef"
         app:layout_constraintTop_toTopOf="@+id/helloChef" />
 
@@ -128,9 +130,9 @@
 
     <TextView
         android:id="@+id/notConnected"
-        android:layout_width="361dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="365dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="32dp"
         android:gravity="center"
         android:text="@string/you_are_offline_please_check_your_connection"

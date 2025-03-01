@@ -5,6 +5,7 @@ import com.example.tastify.model.dataClasses.CountryResponse;
 import com.example.tastify.model.dataClasses.MealsResponse;
 import com.example.tastify.model.dataClasses.PlannedRecipe;
 import com.example.tastify.model.dataClasses.Recipe;
+import com.example.tastify.model.dataClasses.SearchResponse;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 
@@ -78,6 +79,16 @@ public class RecipeRepository {
     }
     public Observable<CountryResponse> getCountries(){
         return recipeRemoteDataSource.getAllCountries();
+    }
+
+    public Observable<SearchResponse> searchByIngredient(String ingredient){
+        return recipeRemoteDataSource.SearchByIngredient(ingredient);
+    }
+    public Observable<SearchResponse> searchMealsByCategory(String category){
+        return recipeRemoteDataSource.filterMealsByCategory(category);
+    }
+    public Observable<SearchResponse> searchMealsByCountry(String country){
+        return recipeRemoteDataSource.filterMealsByCountry(country);
     }
 
 

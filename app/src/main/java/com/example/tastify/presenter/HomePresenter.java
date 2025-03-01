@@ -47,7 +47,7 @@ public class HomePresenter {
     }
     public void checkInternetStatus(Context context) {
         new NetworkUtils(context).observeForever(isConnected -> {
-                viewI.showOfflineBanner(!isConnected);
+                viewI.showOfflineBanner(isConnected);
         });    }
 
 }

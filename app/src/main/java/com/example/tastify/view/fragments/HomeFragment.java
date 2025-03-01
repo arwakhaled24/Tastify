@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
 
     @Override
     public void showOfflineBanner(boolean isOnline) {
-        if(isOnline){
+        if(!isOnline){
             offlineText.setVisibility(View.VISIBLE);
             helloChef.setVisibility(View.INVISIBLE);
             cook.setVisibility(View.INVISIBLE);

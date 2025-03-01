@@ -16,9 +16,14 @@ public class IngrediantsViewHolder  extends RecyclerView.ViewHolder{
         cardView = itemView.findViewById(R.id.cardView);
     }
 
-    public void bind(Meal meal, View.OnClickListener clickListener) {
+    public void bind(Meal meal, View.OnClickListener clickListener, SearchAdapter.Communicator communicator) {
         ingrediantName.setText(meal.getStrIngredient());
         cardView.setOnClickListener(clickListener);
+        cardView.setOnClickListener(
+                v -> {
+communicator.getIngrediantSearchKey(meal.getStrIngredient());
+                }
+        );
 
     }
 }

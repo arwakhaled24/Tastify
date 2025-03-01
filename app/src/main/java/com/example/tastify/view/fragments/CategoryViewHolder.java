@@ -23,7 +23,7 @@ CardView cardView ;
         cardView = itemView.findViewById(R.id.cardView);
     }
 
-    public void bind(Category category, View.OnClickListener clickListener) {
+    public void bind(Category category, View.OnClickListener clickListener,SearchAdapter.Communicator communicator) {
         categoryName.setText(category.getStrCategory());
         Glide.with(itemView.getContext())
                 .load(category.getStrCategoryThumb())
@@ -31,6 +31,14 @@ CardView cardView ;
                 .override(227, 132))
                 .into(categoryThumb);
         cardView.setOnClickListener(clickListener);
+        cardView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        communicator.getCategorySearchKey(category.getStrCategory());
+                    }
+                }
+        );
 
     }
 }
