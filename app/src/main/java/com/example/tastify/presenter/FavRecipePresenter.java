@@ -15,12 +15,10 @@ public class FavRecipePresenter {
     FavViewInterface favView;
 
     RecipeRepository repository;
-    SharedPreferencesHelper sharedPreferencesHelper;
 
-    public FavRecipePresenter(FavViewInterface viewI, RecipeRepository repository,SharedPreferencesHelper sharedPreferencesHelper) {
+    public FavRecipePresenter(FavViewInterface viewI, RecipeRepository repository) {
         this.favView = viewI;
         this.repository = repository;
-        this.sharedPreferencesHelper=sharedPreferencesHelper;
     }
 
     public void getFavRecipes() {
@@ -38,8 +36,5 @@ public class FavRecipePresenter {
         repository.deleteRecipe(recipe);
     }
 
-    public boolean isLogin() {
-        return sharedPreferencesHelper.isUserLoggedIn();
-    }
 
 }

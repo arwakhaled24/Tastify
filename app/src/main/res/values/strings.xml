@@ -29,4 +29,5 @@
     <string name="firebase_cient_id">817769974362-2uvbn0rkae5aspg25l5p17mcbpcskj9p.apps.googleusercontent.com</string>
     <string name="you_are_offline_please_check_your_connection">You are offline. Please check your connection.</string>
     <string name="add_to_plan">Add To Plan</string>
+    <string name="confirm_password">Confirm password</string>
 </resources>

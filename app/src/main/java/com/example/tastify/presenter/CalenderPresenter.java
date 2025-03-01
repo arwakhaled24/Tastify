@@ -1,18 +1,12 @@
 package com.example.tastify.presenter;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.tastify.model.dataClasses.PlannedRecipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.view.viewInterfaces.CalenderViewInterface;
 
 import java.util.Calendar;
-import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-
 public class CalenderPresenter {
 
     CalenderViewInterface calenderVIew;

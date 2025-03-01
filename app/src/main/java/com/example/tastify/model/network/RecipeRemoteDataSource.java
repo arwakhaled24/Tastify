@@ -1,10 +1,6 @@
 
 package com.example.tastify.model.network;
-
-import static com.example.tastify.utils.NetworkUtils.isNetworkAvailable;
-
 import android.content.Context;
-import android.util.Log;
 
 import com.example.tastify.model.dataClasses.CategoryResponse;
 import com.example.tastify.model.dataClasses.CountryResponse;
@@ -64,6 +60,7 @@ public class RecipeRemoteDataSource {
         return service.getRandomRecipe().subscribeOn(Schedulers.io());
     }
 
+
     public Observable<CategoryResponse> getCategories() {
         return service.getCategories().subscribeOn(Schedulers.io());
     }
@@ -83,7 +80,9 @@ public class RecipeRemoteDataSource {
     public Observable<SearchResponse> filterMealsByCountry(String country ){
         return service.filterMealsByCountry(country);
     }
-
+public Observable<RecipeResponse>searchMealByName(String name){
+        return service.searchMealByName(name);
+}
 
 }
 

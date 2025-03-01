@@ -43,6 +43,6 @@ Observable<MealsResponse> getIngrediants();
    // www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata
 
     @GET("/api/json/v1/1/search.php?s")
-    Observable<SearchResponse> searchMealByName(@Query("s") String mealName);
+    Observable<RecipeResponse> searchMealByName(@Query("s") String mealName);
 
 }

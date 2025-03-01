@@ -1,11 +1,9 @@
 package com.example.tastify.view.fragments;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,7 +19,6 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
@@ -38,7 +34,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class DetailsFragment extends Fragment implements DetailsInterface {
@@ -80,6 +75,10 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        presenter = new DetailsPresenter(this, RecipeRepository.getInstance
+                (new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())), SharedPreferencesHelper.getInstance(getContext()));
+
         youTubePlayerView = view.findViewById(R.id.videoView);
         titleInDetails = view.findViewById(R.id.tittleMealDetails);
         descriptionInDetails = view.findViewById(R.id.mealDescription);
@@ -92,61 +91,39 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
 
 
         recyclerView = view.findViewById(R.id.recyclerViewDetails);
-       adapter = new DetailsAdapter(getActivity(), recipe.getIngredients(),recipe.getMeasurements() );
+        adapter = new DetailsAdapter(getActivity(), recipe.getIngredients(), recipe.getMeasurements());
         manager = new LinearLayoutManager(getActivity());
-       manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-       recyclerView.setLayoutManager(manager);
-//        recyclerView.setHasFixedSize(true);
-      recyclerView.setAdapter(adapter);
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
+        if (recipe.idMeal == null) {
+            presenter.getRecipeByName(recipe.strMeal);
+        } else {
+            updateUI();
+        }
 
-        presenter = new DetailsPresenter(this, RecipeRepository.getInstance
-                (new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())), SharedPreferencesHelper.getInstance(getContext()));
-
-
-        titleInDetails.setText(recipe.getStrMeal());
-        descriptionInDetails.setText(recipe.getStrInstructions());
-        recipeArea.setText(recipe.getStrArea());
-        getLifecycle().addObserver(youTubePlayerView);
-        seeMore();
-
-
-        Glide.with(getActivity()).load(recipe.getStrMealThumb())
-                .apply(new RequestOptions())
-                .into(imageInDetails);
-        recipeCategory.setText(recipe.getStrCategory());
-
-
-        String videoID = recipe.getStrYoutube().substring(Math.max(0, recipe.getStrYoutube().length() - 11));
-        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-            @Override
-            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                youTubePlayer.loadVideo(videoID, 0);
-                ConnectivityManager cm = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo netInfo = cm.getActiveNetworkInfo();
-                if (netInfo != null && netInfo.isConnected()) {
-                    Log.i("YouTubeDebug", "Internet is available");
-                } else {
-                    Log.i("YouTubeDebug", "No Internet Connection!");
-                }///////need to be refactored
-                youTubePlayer.cueVideo(videoID, 0);
-            }
-        });
 
         addToFavBtn.setOnClickListener(
                 v -> presenter.addToFav(recipe));
 
         addToCalender.setOnClickListener(
-                v -> shoeDateickerDialog());
+                v -> showDateickerDialog());
 
     }
 
-    private void shoeDateickerDialog() {
+    private void showDateickerDialog() {
         Calendar cal = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                 (view, year, month, dayOfMonth) -> {
                     String date = year + String.valueOf(month) + dayOfMonth;
                     presenter.addToCalender(recipe, date);
                     Toast.makeText(getContext(), "Added To Plane!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Intent.ACTION_INSERT)
+                            .setData(CalendarContract.Events.CONTENT_URI)
+                            .putExtra(CalendarContract.Events.TITLE, "Recipe: " + recipe.getStrMeal());
+                    if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        startActivity(intent);
+                    }
                 },
                 cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)
         );
@@ -155,6 +132,7 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
             return;
         }
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
         datePickerDialog.show();
     }
 
@@ -193,10 +171,39 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
                             .setPopUpTo(R.id.splash_fragment, true)
                             .build();
                     navController.navigate(R.id.splash_fragment, null, navOptions);
-
-
                 })
                 .show();
+    }
+
+    @Override
+    public void showRecipeByName(Recipe recipe) {
+        this.recipe = recipe;
+        updateUI();
+        adapter.updateUi(recipe.getIngredients(),recipe.getMeasurements());
+    }
+
+    private void updateUI() {
+        titleInDetails.setText(recipe.getStrMeal());
+        descriptionInDetails.setText(recipe.getStrInstructions());
+        recipeArea.setText(recipe.getStrArea());
+        recipeCategory.setText(recipe.getStrCategory());
+
+        Glide.with(getActivity()).load(recipe.getStrMealThumb())
+                .apply(new RequestOptions())
+                .into(imageInDetails);
+
+        if (recipe.getStrYoutube() != null && !recipe.getStrYoutube().isEmpty()) {
+            String videoID = recipe.getStrYoutube().substring(Math.max(0, recipe.getStrYoutube().length() - 11));
+            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                @Override
+                public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                    youTubePlayer.loadVideo(videoID, 0);
+                    youTubePlayer.cueVideo(videoID, 0);
+                }
+            });
+        }
+
+        seeMore();
     }
 
 

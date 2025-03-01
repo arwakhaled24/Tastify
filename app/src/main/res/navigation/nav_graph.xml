@@ -103,5 +103,8 @@
         <argument
             android:name="result"
             app:argType="com.example.tastify.model.dataClasses.SearchResponse" />
+        <action
+            android:id="@+id/action_searchResult_to_recipeDetails"
+            app:destination="@id/recipeDetails" />
     </fragment>
 </navigation>

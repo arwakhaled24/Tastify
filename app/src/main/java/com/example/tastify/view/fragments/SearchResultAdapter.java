@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -18,16 +19,18 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     Context con;
     SearchResponse mealsResponse;
+Communicator communicator;
 
-
-    public SearchResultAdapter(Context con, SearchResponse mealsResponse) {
+    public SearchResultAdapter(Context con, SearchResponse mealsResponse,Communicator communicator) {
         this.con = con;
         this.mealsResponse = mealsResponse;
+        this.communicator=communicator;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView mealTitle;
+        CardView cardView ;
 
         public View layout;
 
@@ -36,6 +39,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             super(itemView);
             mealTitle = itemView.findViewById(R.id.ingrediant);
             imageView = itemView.findViewById(R.id.ingreImage);
+            cardView=itemView.findViewById(R.id.cardView);
             layout = itemView;
         }
     }
@@ -57,6 +61,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         Glide.with(con).load(item.getImage())
                 .apply(new RequestOptions().override(227, 132))
                 .into(holder.imageView);
+        holder.cardView.setOnClickListener(
+                v -> communicator.opedDetails(item.getName())
+        );
 
     }
 
@@ -65,4 +72,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         return mealsResponse.getMeals().size();
     }
 
+
+    interface Communicator{
+      void   opedDetails(String recipeName);
+    }
 }

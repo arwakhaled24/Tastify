@@ -6,6 +6,9 @@ import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.utils.SharedPreferencesHelper;
 import com.example.tastify.view.viewInterfaces.DetailsInterface;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class DetailsPresenter {
 
     DetailsInterface detailsView;
@@ -37,5 +40,13 @@ SharedPreferencesHelper sharedPreferencesHelper;
 
     public boolean isLogin(){
         return  sharedPreferencesHelper.isUserLoggedIn();
+    }
+
+
+    public void getRecipeByName(String name) {
+        repository.searchByMane(name)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(recipe->detailsView.showRecipeByName(recipe.getMeals().get(0)));
     }
 }

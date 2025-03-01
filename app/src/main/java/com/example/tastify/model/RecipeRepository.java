@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
 import com.example.tastify.model.dataClasses.CategoryResponse;
 import com.example.tastify.model.network.RecipeResponse;
+import com.example.tastify.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,18 +23,20 @@ public class RecipeRepository {
     private final RecipeLocalDataSource recipeLocalDataSource;
     private final RecipeRemoteDataSource recipeRemoteDataSource;
 
+SharedPreferencesHelper sharedPreferencesHelper;
     private final ReplaySubject<RecipeResponse> randomRecipeCache = ReplaySubject.createWithSize(1);
     private final ReplaySubject<RecipeResponse> remoteRecipesCache = ReplaySubject.createWithSize(1);
 
 
-    private RecipeRepository(RecipeLocalDataSource recipeLocalDataSource, RecipeRemoteDataSource recipeRemoteDataSource) {
+    private RecipeRepository(RecipeLocalDataSource recipeLocalDataSource, RecipeRemoteDataSource recipeRemoteDataSource,SharedPreferencesHelper sharedPreferencesHelper) {
         this.recipeLocalDataSource = recipeLocalDataSource;
         this.recipeRemoteDataSource = recipeRemoteDataSource;
+        this.sharedPreferencesHelper=sharedPreferencesHelper;
     }
 
-    public static RecipeRepository getInstance(RecipeLocalDataSource localDataSource, RecipeRemoteDataSource remoteDataSource) {
+    public static RecipeRepository getInstance(RecipeLocalDataSource localDataSource, RecipeRemoteDataSource remoteDataSource,SharedPreferencesHelper sharedPreferencesHelper) {
         if (repository == null) {
-            repository = new RecipeRepository(localDataSource, remoteDataSource);
+            repository = new RecipeRepository(localDataSource, remoteDataSource,sharedPreferencesHelper);
         }
         return repository;
     }
@@ -92,6 +95,10 @@ public class RecipeRepository {
     public Observable<SearchResponse> searchMealsByCountry(String country){
         return recipeRemoteDataSource.filterMealsByCountry(country);
     }
+
+    public Observable<RecipeResponse> searchByMane(String name ){
+        return recipeRemoteDataSource.searchMealByName(name);
+    }
     public void deleteRecipe(Recipe recipe) {
         recipeLocalDataSource.removeProduct(recipe);
         RecipeFirebaseDataSource.getInstance().removeRecipeFromFireStore(recipe);
@@ -145,5 +152,14 @@ public class RecipeRepository {
 
     }
 
+    public void onLogout(){
+        sharedPreferencesHelper.logout();
+        recipeLocalDataSource.deleteAll();
+        RecipeFirebaseDataSource.resetInstance();
+    }
+
+    public boolean isLogin() {
+        return sharedPreferencesHelper.isUserLoggedIn();
+    }
 }
 

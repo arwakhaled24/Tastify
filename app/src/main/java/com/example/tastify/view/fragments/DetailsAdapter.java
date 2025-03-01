@@ -73,10 +73,12 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHold
         return ingrediants == null ? 0 : ingrediants.size();
     }
 
-    public void updateUi(List<String> recipeList) {
-        this.ingrediants = recipeList;
+    public void updateUi(List<String> ingrediants,List<String> measurements) {
+        this.ingrediants = ingrediants;
+        this.measurements=measurements;
         notifyDataSetChanged();
     }
+
 
 
 }

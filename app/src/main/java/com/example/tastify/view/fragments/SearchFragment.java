@@ -1,144 +1,11 @@
-/*
+
 package com.example.tastify.view.fragments;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SearchView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.tastify.R;
-import com.example.tastify.model.RecipeRepository;
-import com.example.tastify.model.dataClasses.Category;
-import com.example.tastify.model.dataClasses.ListItem;
-import com.example.tastify.model.database.RecipeLocalDataSource;
-import com.example.tastify.model.network.RecipeRemoteDataSource;
-import com.example.tastify.presenter.SearchPresenter;
-import com.example.tastify.view.viewInterfaces.SearchVireInterface;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class SearchFragment extends Fragment implements SearchVireInterface {
-
-    ChipGroup chipGroup;
-    SearchView searchView;
-
-    RecyclerView recyclerView;
-    LinearLayoutManager manager;
-    SearchAdapter adapter;
-    Chip countryChip, categoryChip, ingredientsChip;
-    SearchPresenter presenter;
-
-    List<ListItem> categoryList = new ArrayList<>();
-    List<ListItem> ingredientList = new ArrayList<>();
-    List<ListItem> areaList = new ArrayList<>();
-
-    public SearchFragment() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
-
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        chipGroup = view.findViewById(R.id.chipGroupFilter);
-        categoryChip = view.findViewById(R.id.categorychip);
-        ingredientsChip = view.findViewById(R.id.ingredientschip);
-        countryChip = view.findViewById(R.id.countrychip);
-        searchView = view.findViewById(R.id.searchView);
-        recyclerView = view.findViewById(R.id.chipsRecicleView);
-
-
-        adapter = new SearchAdapter(getActivity(), new ArrayList<>());
-        manager = new LinearLayoutManager(getActivity());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
-
-        presenter = new SearchPresenter(this, RecipeRepository.
-        getInstance(new RecipeLocalDataSource(getContext()), new RecipeRemoteDataSource(getContext())));
-
-
-        chipGroup.setSingleSelection(true);
-        setUpSingleChip();
-
-       */
-/* searchView.setOnQueryTextListener(
-                new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-
-
-                    }
-                }
-        );*//*
-
-
-    }
-
-
-    private void setUpSingleChip(){
-
-        for (int i=0;i<chipGroup.getChildCount();i++){
-            Chip chip = (Chip) chipGroup.getChildAt(i);
-            chip.setOnCheckedChangeListener(
-                    (buttonView, isChecked) -> {
-                        if(isChecked){
-                            Log.i("TAG", "setUpSingleChip: ");                        }
-                    }
-            );
-
-
-        }
-    }
-
-
-    @Override
-    public void showCategories(List<Category> categories) {
-        List<ListItem> genericList = new ArrayList<>();
-        genericList.addAll(categories);
-        adapter.updateUi(genericList);
-    }
-}*/
-package com.example.tastify.view.fragments;
-
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -147,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import com.example.tastify.R;
@@ -155,12 +23,11 @@ import com.example.tastify.model.dataClasses.Category;
 import com.example.tastify.model.dataClasses.CountryResponse;
 import com.example.tastify.model.dataClasses.ListItem;
 import com.example.tastify.model.dataClasses.Meal;
-import com.example.tastify.model.dataClasses.MealsResponse;
 import com.example.tastify.model.dataClasses.SearchResponse;
-import com.example.tastify.model.dataClasses.SearchResponseItem;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.SearchPresenter;
+import com.example.tastify.utils.BaseConnections;
 import com.example.tastify.view.viewInterfaces.SearchViweInterface;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -169,7 +36,7 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment  implements SearchViweInterface ,SearchAdapter.Communicator  {
+public class SearchFragment extends BaseConnections implements SearchViweInterface ,SearchAdapter.Communicator  {
 
     ChipGroup chipGroup;
     Chip countryChip,categoryChip,ingredientsChip;
@@ -181,6 +48,9 @@ public class SearchFragment extends Fragment  implements SearchViweInterface ,Se
     SearchAdapter adapter;
     RecyclerView recyclerView;
     SearchView searchView;
+    LinearLayout chipsLayout;
+
+    ConstraintLayout connectionLayout;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -211,6 +81,8 @@ public class SearchFragment extends Fragment  implements SearchViweInterface ,Se
         countryChip=view.findViewById(R.id.countrychip);
         recyclerView=view.findViewById(R.id.chipsRecicleView);
         searchView=view.findViewById(R.id.searchView);
+        connectionLayout=view.findViewById(R.id.connectionLayout);
+        chipsLayout =view.findViewById(R.id.linearLayout);
 
 
         adapter = new SearchAdapter(getActivity(), categoryList,this);
@@ -323,5 +195,25 @@ public class SearchFragment extends Fragment  implements SearchViweInterface ,Se
     @Override
     public void getCountrySearchKey(String country) {
         presenter.searchByCountry(country);
+    }
+
+
+   void  onInternetConnection(Boolean isConnected){
+        if(isConnected){
+            connectionLayout.setVisibility(View.INVISIBLE);
+            chipsLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+            searchView.setVisibility(View.VISIBLE);
+        }else{
+            connectionLayout.setVisibility(View.VISIBLE);
+            chipsLayout.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+            searchView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    protected void onNetworkChanged(boolean isConnected) {
+        onInternetConnection(isConnected);
     }
 }

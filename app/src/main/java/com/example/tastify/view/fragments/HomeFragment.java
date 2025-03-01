@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
@@ -30,6 +29,7 @@ import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.HomePresenter;
+import com.example.tastify.utils.BaseConnections;
 import com.example.tastify.utils.SharedPreferencesHelper;
 import com.example.tastify.view.viewInterfaces.HomeViewInterface;
 
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment implements HomeViewInterface {
+public class HomeFragment extends BaseConnections implements HomeViewInterface {
     HomeFragAdapter adapter;
     RecyclerView recyclerView;
     LinearLayoutManager manager;
@@ -77,8 +77,8 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
         randomMealImage = view.findViewById(R.id.randomImage);
         userIcon = view.findViewById(R.id.userIcon);
         offlineText = view.findViewById(R.id.notConnected);
-        helloChef=view.findViewById(R.id.helloChef);
-        cook=view.findViewById(R.id.whatToCook);
+        helloChef = view.findViewById(R.id.helloChef);
+        cook = view.findViewById(R.id.whatToCook);
 
 
         adapter = new HomeFragAdapter(getActivity(), new ArrayList<>());
@@ -92,13 +92,12 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
 
         presenter = new HomePresenter(this,
                 RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()),
-                        new RecipeRemoteDataSource(getActivity())),
-                SharedPreferencesHelper.getInstance(getActivity()));
+                 new RecipeRemoteDataSource(getActivity()),
+                SharedPreferencesHelper.getInstance(getActivity())));
 
 
         presenter.getHomeRecipes();
         presenter.getRandomMeal();
-        presenter.checkInternetStatus(getActivity());
         fromRandomToDetails();
         userIcon.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(getContext(), v);
@@ -109,8 +108,8 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
                 popupMenu.getMenuInflater().inflate(R.menu.in_logout_menu, popupMenu.getMenu());
             }
             popupMenu.setOnMenuItemClickListener(item -> {
-                 navController = Navigation.findNavController(requireView());
-                 navOptions = new NavOptions.Builder()
+                navController = Navigation.findNavController(requireView());
+                navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.splash_fragment, true)
                         .build();
                 if (item.getItemId() == R.id.logOutItem) {
@@ -124,7 +123,6 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
             });
             popupMenu.show();
         });
-
         presenter.getHomeRecipes();
 
     }
@@ -167,12 +165,12 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
 
     @Override
     public void showOfflineBanner(boolean isOnline) {
-        if(!isOnline){
+        if (!isOnline) {
             offlineText.setVisibility(View.VISIBLE);
             helloChef.setVisibility(View.INVISIBLE);
             cook.setVisibility(View.INVISIBLE);
             userIcon.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             offlineText.setVisibility(View.INVISIBLE);
             helloChef.setVisibility(View.VISIBLE);
             cook.setVisibility(View.VISIBLE);
@@ -194,4 +192,8 @@ public class HomeFragment extends Fragment implements HomeViewInterface {
     }
 
 
+    @Override
+    protected void onNetworkChanged(boolean isConnected) {
+        showOfflineBanner(isConnected);
+    }
 }

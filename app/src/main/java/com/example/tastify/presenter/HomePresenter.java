@@ -1,11 +1,5 @@
 package com.example.tastify.presenter;
-
-import android.content.Context;
-
-import com.example.tastify.model.RecipeFirebaseDataSource;
 import com.example.tastify.model.RecipeRepository;
-import com.example.tastify.utils.NetworkUtils;
-import com.example.tastify.utils.SharedPreferencesHelper;
 import com.example.tastify.view.viewInterfaces.HomeViewInterface;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -15,13 +9,10 @@ public class HomePresenter {
 
     private final HomeViewInterface viewI;
     private final RecipeRepository repository;
-    private final SharedPreferencesHelper sharedPreferencesHelper;
 
-    public HomePresenter(HomeViewInterface viewI, RecipeRepository repository,
-                         SharedPreferencesHelper sharedPreferencesHelper) {
+    public HomePresenter(HomeViewInterface viewI, RecipeRepository repository) {
         this.viewI = viewI;
         this.repository = repository;
-        this.sharedPreferencesHelper = sharedPreferencesHelper;
     }
 
     public void getHomeRecipes() {
@@ -39,17 +30,11 @@ public class HomePresenter {
     }
 
     public boolean isLogin() {
-        return sharedPreferencesHelper.isUserLoggedIn();
+        return repository.isLogin();
     }
 
     public void logOut() {
-        sharedPreferencesHelper.logout();
-        repository.deleteAllFromTables();
-        RecipeFirebaseDataSource.resetInstance();
+        repository.onLogout();
     }
-    public void checkInternetStatus(Context context) {
-        new NetworkUtils(context).observeForever(isConnected -> {
-                viewI.showOfflineBanner(isConnected);
-        });    }
 
 }
