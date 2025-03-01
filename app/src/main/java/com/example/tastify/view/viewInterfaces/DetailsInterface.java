@@ -10,4 +10,6 @@ public interface DetailsInterface {
 
     void showRecipeByName(Recipe recipe);
 
+    void onError(String msg);
+
 }

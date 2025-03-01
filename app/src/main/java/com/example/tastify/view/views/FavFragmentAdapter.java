@@ -1,4 +1,4 @@
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.views;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,37 +10,35 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tastify.R;
-import com.example.tastify.model.dataClasses.PlannedRecipe;
 import com.example.tastify.model.dataClasses.Recipe;
 
 import java.util.List;
 
-public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHolder> {
+
+public class FavFragmentAdapter extends RecyclerView.Adapter<FavFragmentAdapter.ViewHolder> {
 
     Context con;
-    List<PlannedRecipe> recipeList;
-    CalenderAdapterCommunicator communicator;
+    List<Recipe> recipeList;
+    AdapterFavFragmentCommunicator listener;
 
 
-
-    public CalenderAdabter(Context con, List<PlannedRecipe> items,CalenderAdapterCommunicator communicator) {
+    public FavFragmentAdapter(Context con, List<Recipe> items, AdapterFavFragmentCommunicator listener) {
         this.con = con;
         this.recipeList = items;
-        this.communicator=communicator;
-
+        this.listener = listener;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
-        public ImageView deleteIcon;
+        public ImageView favIcon;
         public TextView mealTitle;
         public CardView cardView;
+
         public View layout;
 
 
@@ -48,36 +46,39 @@ public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHo
             super(itemView);
             mealTitle = itemView.findViewById(R.id.ingrediant);
             imageView = itemView.findViewById(R.id.ingreImage);
-            deleteIcon = itemView.findViewById(R.id.deleteIcon);
+            favIcon = itemView.findViewById(R.id.deleteIcon);
             cardView = itemView.findViewById(R.id.cardView);
             layout = itemView;
         }
     }
 
     @NonNull
-    public CalenderAdabter.ViewHolder onCreateViewHolder(@NonNull ViewGroup recyclerView, int viewType) {
+    public FavFragmentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup recyclerView, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(recyclerView.getContext());
         View view = inflater.inflate(R.layout.fav_item_list_view, recyclerView, false);
-        CalenderAdabter.ViewHolder holder = new CalenderAdabter.ViewHolder(view);
+        FavFragmentAdapter.ViewHolder holder = new FavFragmentAdapter.ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CalenderAdabter.ViewHolder holder, int position) {
-        PlannedRecipe item = recipeList.get(position);
+    public void onBindViewHolder(@NonNull FavFragmentAdapter.ViewHolder holder, int position) {
+        Recipe item = recipeList.get(position);
         holder.mealTitle.setText(item.strMeal);
         Glide.with(con).load(item.getStrMealThumb())
                 .apply(new RequestOptions().override(227, 132))
                 .into(holder.imageView);
-     holder.cardView.setOnClickListener(
-                (view) -> communicator.navigateToDetails(item.getRecipe()));
+        holder.cardView.setOnClickListener(
+                (view) -> {
+                    Toast.makeText(con, "Card clicked: " + item.strMeal, Toast.LENGTH_SHORT).show();
+                    listener.navigateToDetails(item);
+                }
 
-        ;
-        holder.deleteIcon.setOnClickListener(
+        );
+        holder.favIcon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        communicator.onDelete(item);
+                        listener.onRemoveFromFav(item);
                     }
                 }
         );
@@ -88,29 +89,21 @@ public class CalenderAdabter extends RecyclerView.Adapter<CalenderAdabter.ViewHo
         return recipeList == null ? 0 : recipeList.size();
     }
 
-    public void updateUi(List<PlannedRecipe> recipeList) {
-        if(recipeList.isEmpty())
-            communicator.onEmptyList(true);
-        else
-            communicator.onEmptyList(false);
+    public void updateUi(List<Recipe> recipeList) {
+        if (recipeList.size() == 0)
+            listener.onEmptyList(true);
+        else listener.onEmptyList(false);
         this.recipeList = recipeList;
         notifyDataSetChanged();
     }
 
-     interface CalenderAdapterCommunicator{
-        public void onDelete(PlannedRecipe recipe);
+    public interface AdapterFavFragmentCommunicator {
+        void onRemoveFromFav(Recipe recipe);
+
+        void navigateToDetails(Recipe recipe);
 
         void onEmptyList(boolean isEmpty);
-         void navigateToDetails(Recipe recipe);
-
-
     }
-
-
-
-
-
-
 }
 
 

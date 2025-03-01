@@ -3,10 +3,10 @@ package com.example.tastify.model.network;
 import com.example.tastify.model.dataClasses.CategoryResponse;
 import com.example.tastify.model.dataClasses.CountryResponse;
 import com.example.tastify.model.dataClasses.MealsResponse;
+import com.example.tastify.model.dataClasses.RecipeResponse;
 import com.example.tastify.model.dataClasses.SearchResponse;
 
 import io.reactivex.rxjava3.core.Observable;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -25,8 +25,6 @@ public interface ApiServices {
 @GET ("/api/json/v1/1/list.php?i=list")
 Observable<MealsResponse> getIngrediants();
 
-//http://www.themealdb.com/api/json/v1/1/list.php?a=list
-
     @GET("/api/json/v1/1/list.php?a=list")
     Observable<CountryResponse>getCountries();
 
@@ -40,9 +38,8 @@ Observable<MealsResponse> getIngrediants();
     @GET("/api/json/v1/1/filter.php?a")
     Observable<SearchResponse> filterMealsByCountry(@Query("a") String country);
 
-   // www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata
-
-    @GET("/api/json/v1/1/search.php?s")
+    //www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata
+    @GET("/api/json/v1/1/search.php")
     Observable<RecipeResponse> searchMealByName(@Query("s") String mealName);
 
 }

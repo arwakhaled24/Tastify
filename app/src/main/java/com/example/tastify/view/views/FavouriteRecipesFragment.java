@@ -1,4 +1,4 @@
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.views;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -67,7 +67,7 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
         onEmptyList(true);
 
 
-        presenter = new FavRecipePresenter(this, RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())), SharedPreferencesHelper.getInstance(getActivity()));
+        presenter = new FavRecipePresenter(this, RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity()), SharedPreferencesHelper.getInstance(getActivity())));
 
         presenter.getFavRecipes();
 

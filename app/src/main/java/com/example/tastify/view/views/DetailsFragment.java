@@ -1,4 +1,4 @@
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.views;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -76,8 +76,9 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new DetailsPresenter(this, RecipeRepository.getInstance
-                (new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())), SharedPreferencesHelper.getInstance(getContext()));
+        presenter = new DetailsPresenter(this,
+                RecipeRepository.getInstance
+                (new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity()), SharedPreferencesHelper.getInstance(getContext())),SharedPreferencesHelper.getInstance(getContext()));
 
         youTubePlayerView = view.findViewById(R.id.videoView);
         titleInDetails = view.findViewById(R.id.tittleMealDetails);
@@ -96,6 +97,8 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+
+
         if (recipe.idMeal == null) {
             presenter.getRecipeByName(recipe.strMeal);
         } else {
@@ -180,6 +183,11 @@ public class DetailsFragment extends Fragment implements DetailsInterface {
         this.recipe = recipe;
         updateUI();
         adapter.updateUi(recipe.getIngredients(),recipe.getMeasurements());
+    }
+
+    @Override
+    public void onError(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     private void updateUI() {

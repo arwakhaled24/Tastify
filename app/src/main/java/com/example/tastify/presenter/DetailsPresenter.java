@@ -44,9 +44,13 @@ SharedPreferencesHelper sharedPreferencesHelper;
 
 
     public void getRecipeByName(String name) {
-        repository.searchByMane(name)
+        repository.searchByname(name)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(recipe->detailsView.showRecipeByName(recipe.getMeals().get(0)));
+                .subscribe(recipe->{
+                    if (recipe.getMeals() != null && !recipe.getMeals().isEmpty()) {
+                        detailsView.showRecipeByName(recipe.getMeals().get(0));
+                    }
+                }, v -> detailsView.onError("Recipe not found please try again"));
     }
 }

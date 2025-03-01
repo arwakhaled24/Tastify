@@ -1,6 +1,4 @@
-package com.example.tastify.model.network;
-
-import com.example.tastify.model.dataClasses.Recipe;
+package com.example.tastify.model.dataClasses;
 
 import java.util.List;
 

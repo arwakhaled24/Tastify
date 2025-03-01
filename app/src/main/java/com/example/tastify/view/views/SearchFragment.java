@@ -1,5 +1,5 @@
 
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.views;
 
 import android.os.Bundle;
 
@@ -28,6 +28,7 @@ import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.SearchPresenter;
 import com.example.tastify.utils.BaseConnections;
+import com.example.tastify.utils.SharedPreferencesHelper;
 import com.example.tastify.view.viewInterfaces.SearchViweInterface;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -94,7 +95,7 @@ public class SearchFragment extends BaseConnections implements SearchViweInterfa
 
         chipGroup.setSingleSelection(true);
         presenter = new SearchPresenter(this, RecipeRepository.
-                getInstance(new RecipeLocalDataSource(getContext()), new RecipeRemoteDataSource(getContext())));
+                getInstance(new RecipeLocalDataSource(getContext()), new RecipeRemoteDataSource(getContext()), SharedPreferencesHelper.getInstance(getContext())));
 
         searchView.setOnQueryTextListener(
                 new SearchView.OnQueryTextListener() {

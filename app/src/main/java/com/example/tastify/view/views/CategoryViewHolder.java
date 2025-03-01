@@ -1,4 +1,4 @@
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.views;
 
 import android.view.View;
 import android.widget.ImageView;

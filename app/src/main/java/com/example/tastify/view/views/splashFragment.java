@@ -1,6 +1,5 @@
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.views;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;

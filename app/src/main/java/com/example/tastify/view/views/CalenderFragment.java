@@ -1,4 +1,4 @@
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.views;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +24,7 @@ import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.database.RecipeLocalDataSource;
 import com.example.tastify.model.network.RecipeRemoteDataSource;
 import com.example.tastify.presenter.CalenderPresenter;
+import com.example.tastify.utils.SharedPreferencesHelper;
 import com.example.tastify.view.viewInterfaces.CalenderViewInterface;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface,
         empityLayout=view.findViewById(R.id.emptyCalenderLayout);
         onEmptyList(true);
         presenter=new CalenderPresenter(this,
-                RecipeRepository.getInstance(new RecipeLocalDataSource(getContext()),new RecipeRemoteDataSource(getContext())));
+                RecipeRepository.getInstance(new RecipeLocalDataSource(getContext()),new RecipeRemoteDataSource(getContext()), SharedPreferencesHelper.getInstance(getContext())));
      calenderView.setOnDateChangeListener(
                 (view1, year, month, dayOfMonth) -> {
                     String date=String.valueOf(year)+String.valueOf(month)+String.valueOf(dayOfMonth);

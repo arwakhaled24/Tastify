@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5"
     android:visibility="visible"
-    tools:context=".view.fragments.SearchFragment">
+    tools:context=".view.views.SearchFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

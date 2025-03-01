@@ -1,4 +1,4 @@
-package com.example.tastify.view.fragments;
+package com.example.tastify.view.views;
 
 import android.os.Bundle;
 
@@ -16,8 +16,6 @@ import android.view.ViewGroup;
 import com.example.tastify.R;
 import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.dataClasses.SearchResponse;
-
-import java.util.ArrayList;
 
 public class SearchResult extends Fragment implements SearchResultAdapter.Communicator {
 

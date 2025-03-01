@@ -1,15 +1,13 @@
 
 package com.example.tastify.model.network;
 import android.content.Context;
-
 import com.example.tastify.model.dataClasses.CategoryResponse;
 import com.example.tastify.model.dataClasses.CountryResponse;
 import com.example.tastify.model.dataClasses.MealsResponse;
+import com.example.tastify.model.dataClasses.RecipeResponse;
 import com.example.tastify.model.dataClasses.SearchResponse;
 import com.example.tastify.utils.NetworkUtils;
-
 import java.io.File;
-
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -21,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipeRemoteDataSource {
     private final ApiServices service;
+    private final ApiServices serviceNoCache;
 
     public RecipeRemoteDataSource(Context context) {
         int cacheSize = 10 * 1024 * 1024; // 10MB cache
@@ -42,6 +41,22 @@ public class RecipeRemoteDataSource {
                 })
                 .build();
 
+        OkHttpClient noCacheClient = new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request request = chain.request();
+                    Request.Builder builder = request.newBuilder()
+                            .header("Cache-Control", "no-cache");
+
+                    return chain.proceed(builder.build());
+                })
+                .build();
+        Retrofit noCacheRetrofit = new Retrofit.Builder()
+                .baseUrl("https://www.themealdb.com/")
+                .client(noCacheClient)
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.themealdb.com")
                 .client(okHttpClient)
@@ -50,6 +65,7 @@ public class RecipeRemoteDataSource {
                 .build();
 
         service = retrofit.create(ApiServices.class);
+        serviceNoCache = noCacheRetrofit.create(ApiServices.class);
     }
 
     public Observable<RecipeResponse> getRecipes() {
@@ -57,31 +73,30 @@ public class RecipeRemoteDataSource {
     }
 
     public Observable<RecipeResponse> getRandomRecipe() {
-        return service.getRandomRecipe().subscribeOn(Schedulers.io());
+        return serviceNoCache.getRandomRecipe().subscribeOn(Schedulers.io());
     }
-
-
     public Observable<CategoryResponse> getCategories() {
-        return service.getCategories().subscribeOn(Schedulers.io());
+        return serviceNoCache.getCategories().subscribeOn(Schedulers.io());
     }
 
     public Observable<MealsResponse> getAllIngrediants(){
-        return service.getIngrediants().subscribeOn(Schedulers.io());
+        return serviceNoCache.getIngrediants().subscribeOn(Schedulers.io());
     }
     public Observable<CountryResponse> getAllCountries(){
-        return  service.getCountries().subscribeOn(Schedulers.io());
+        return  serviceNoCache.getCountries().subscribeOn(Schedulers.io());
     }
     public Observable<SearchResponse> SearchByIngredient(String ingredient ){
-        return service.filterMealsByIngredient(ingredient );
+        return serviceNoCache.filterMealsByIngredient(ingredient );
     }
     public Observable<SearchResponse> filterMealsByCategory(String category ){
-        return service.filterMealsByCategory(category);
+        return serviceNoCache.filterMealsByCategory(category);
     }
     public Observable<SearchResponse> filterMealsByCountry(String country ){
-        return service.filterMealsByCountry(country);
+        return serviceNoCache.filterMealsByCountry(country);
     }
 public Observable<RecipeResponse>searchMealByName(String name){
-        return service.searchMealByName(name);
+        String url =name.replace(" ","_");
+        return serviceNoCache.searchMealByName(url);
 }
 
 }
