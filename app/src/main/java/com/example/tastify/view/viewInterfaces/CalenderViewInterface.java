@@ -10,5 +10,5 @@ public interface CalenderViewInterface {
     void getRecipesByDate(List<PlannedRecipe>plannedRecipes);
 
 
-
+   void onNotLogin();
 }

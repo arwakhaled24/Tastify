@@ -11,4 +11,6 @@ public interface FavViewInterface {
     void onNotLogin();
 
 
+
+
 }

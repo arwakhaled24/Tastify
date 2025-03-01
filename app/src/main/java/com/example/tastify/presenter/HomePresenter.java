@@ -2,6 +2,7 @@ package com.example.tastify.presenter;
 
 import android.content.Context;
 
+import com.example.tastify.model.RecipeFirebaseDataSource;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.utils.NetworkUtils;
 import com.example.tastify.utils.SharedPreferencesHelper;
@@ -44,6 +45,7 @@ public class HomePresenter {
     public void logOut() {
         sharedPreferencesHelper.logout();
         repository.deleteAllFromTables();
+        RecipeFirebaseDataSource.resetInstance();
     }
     public void checkInternetStatus(Context context) {
         new NetworkUtils(context).observeForever(isConnected -> {

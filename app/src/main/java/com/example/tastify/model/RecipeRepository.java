@@ -13,14 +13,14 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
 import com.example.tastify.model.dataClasses.CategoryResponse;
 import com.example.tastify.model.network.RecipeResponse;
+
+import java.util.ArrayList;
 import java.util.List;
 public class RecipeRepository {
 
     private static RecipeRepository repository = null;
     private final RecipeLocalDataSource recipeLocalDataSource;
     private final RecipeRemoteDataSource recipeRemoteDataSource;
-
-    RecipeFirebaseDataSource recipeFirebaseDataSource=new RecipeFirebaseDataSource();
 
     private final ReplaySubject<RecipeResponse> randomRecipeCache = ReplaySubject.createWithSize(1);
     private final ReplaySubject<RecipeResponse> remoteRecipesCache = ReplaySubject.createWithSize(1);
@@ -53,21 +53,23 @@ public class RecipeRepository {
     public Observable<CategoryResponse> getCategories() {
         return recipeRemoteDataSource.getCategories();
     }
-    public Observable<List<Recipe>> getFavRecipes() /**/{
+    public Observable<List<Recipe>> getFavRecipes() {
         return recipeLocalDataSource.getAllProducts()
                 .flatMap(localRecipes -> {
                     if (localRecipes.isEmpty()) {
                         return getRemoteFav()
-                                .flatMap(recipes -> recipeLocalDataSource.getAllProducts());
+                                .flatMap(remoteRecipes -> recipeLocalDataSource.getAllProducts())
+                                .onErrorReturnItem(new ArrayList<>());
                     } else {
                         return Observable.just(localRecipes);
                     }
                 });
     }
+
     public Observable<List<PlannedRecipe>> getRecipesByDate(String date) {
         return recipeLocalDataSource.getRecipesByDate(date)
                 .flatMap(localRecipes -> {
-                    if (localRecipes.isEmpty()) {
+                    if (!!localRecipes.isEmpty()) {
                         return getRemotePlanned(date);
                     } else {
                         return Observable.just(localRecipes);
@@ -90,37 +92,24 @@ public class RecipeRepository {
     public Observable<SearchResponse> searchMealsByCountry(String country){
         return recipeRemoteDataSource.filterMealsByCountry(country);
     }
-
-
-
-
     public void deleteRecipe(Recipe recipe) {
         recipeLocalDataSource.removeProduct(recipe);
-        recipeFirebaseDataSource.removeRecipeFromFireStore(recipe);
+        RecipeFirebaseDataSource.getInstance().removeRecipeFromFireStore(recipe);
     }
-
     public void addToFav(Recipe recipe) {
         recipeLocalDataSource.addRecipeToFav(recipe);
-        recipeFirebaseDataSource.addRecipeToFirestore(recipe);
+        RecipeFirebaseDataSource.getInstance().addRecipeToFirestore(recipe);
     }
 
     public void addToCalendar(PlannedRecipe recipe) {
         recipeLocalDataSource.addToCal(recipe);
-        recipeFirebaseDataSource.addPlannedRecipeToFirestore(recipe);
-     /*   recipeFirebaseDataSource.addPlannedRecipeToFirestore(recipe)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        result -> Log.i("TAG", "addToCalendar: "+result)
-                );*/
+        RecipeFirebaseDataSource.getInstance().addPlannedRecipeToFirestore(recipe);
     }
 
     public void removeFromCalendar(PlannedRecipe recipe) {
         recipeLocalDataSource.removeFromCal(recipe);
-        recipeFirebaseDataSource.removePlannedRecipeFromFireStore(recipe);
+        RecipeFirebaseDataSource.getInstance().removePlannedRecipeFromFireStore(recipe);
     }
-
-
 
     public void deleteAllFromTables() {
         recipeLocalDataSource.deleteAll();
@@ -128,16 +117,24 @@ public class RecipeRepository {
 
 
     private Observable<List<Recipe>> getRemoteFav() {
-        return recipeFirebaseDataSource.getRecipesFromFirestore()
-                .doOnNext(recipes -> {
-                    for (Recipe recipe : recipes) {
-                        recipeLocalDataSource.addRecipeToFav(recipe);
-                    }
-                });
+
+            if (RecipeFirebaseDataSource.getInstance().isNullUser()) {
+                return Observable.error(new IllegalStateException("Cannot access Firebase data source without a logged-in user."));
+            }
+
+            return RecipeFirebaseDataSource.getInstance().getRecipesFromFirestore()
+                    .doOnNext(recipes -> {
+                        for (Recipe recipe : recipes) {
+                            recipeLocalDataSource.addRecipeToFav(recipe);
+                        }
+                    });
     }
 
     private Observable<List<PlannedRecipe>> getRemotePlanned(String date) {
-        return recipeFirebaseDataSource.getPlannedRecipesFromFirestoreByDate(date)
+        if (RecipeFirebaseDataSource.getInstance().isNullUser()) {
+            return Observable.error(new IllegalStateException("Cannot access Firebase data source without a logged-in user."));
+        }
+        return RecipeFirebaseDataSource.getInstance().getPlannedRecipesFromFirestoreByDate(date)
                 .doOnNext(recipes -> {
                     for (PlannedRecipe recipe : recipes) {
                         if (recipe.getDate().equals(date)) {
@@ -145,6 +142,7 @@ public class RecipeRepository {
                         }
                     }
                 });
+
     }
 
 }

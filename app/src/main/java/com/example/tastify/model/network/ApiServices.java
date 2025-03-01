@@ -40,7 +40,9 @@ Observable<MealsResponse> getIngrediants();
     @GET("/api/json/v1/1/filter.php?a")
     Observable<SearchResponse> filterMealsByCountry(@Query("a") String country);
 
+   // www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata
 
-
+    @GET("/api/json/v1/1/search.php?s")
+    Observable<SearchResponse> searchMealByName(@Query("s") String mealName);
 
 }

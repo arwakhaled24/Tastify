@@ -29,9 +29,6 @@ public class CalenderPresenter {
         onSelectedDate(date);
     }
 
-/*    public Observable<List<PlannedRecipe>> getPlannedByDate(String date) {
-        return repository.getRecipesByDate(date);
-    }*/
 
 
     public void deleteFromCal(PlannedRecipe recipe) {
@@ -39,9 +36,13 @@ public class CalenderPresenter {
     }
 
     public void onSelectedDate(String date){
+
         repository.getRecipesByDate(date)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( recipe -> calenderVIew.getRecipesByDate(recipe));
+                .subscribe( recipe -> calenderVIew.getRecipesByDate(recipe),
+                throwable -> {
+                    calenderVIew.onNotLogin();
+                });
     }
     public String getDate(){
         return date;

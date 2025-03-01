@@ -68,6 +68,7 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
 
 
         presenter = new FavRecipePresenter(this, RecipeRepository.getInstance(new RecipeLocalDataSource(getActivity()), new RecipeRemoteDataSource(getActivity())), SharedPreferencesHelper.getInstance(getActivity()));
+
         presenter.getFavRecipes();
 
 
@@ -121,6 +122,9 @@ public class FavouriteRecipesFragment extends Fragment implements FavViewInterfa
         }
 
     }
+
+
+
 
 
 }

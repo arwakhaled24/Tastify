@@ -115,6 +115,12 @@ public class CalenderFragment extends Fragment implements CalenderViewInterface,
     }
 
     @Override
+    public void onNotLogin() {
+
+        onEmptyList(true);
+    }
+
+    @Override
     public void navigateToDetails(Recipe recipe) {
         CalenderFragmentDirections.ActionCalenderFragmentToRecipeDetails action
                 = CalenderFragmentDirections.actionCalenderFragmentToRecipeDetails(recipe);

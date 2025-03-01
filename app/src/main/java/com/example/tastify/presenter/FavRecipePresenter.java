@@ -1,5 +1,7 @@
 package com.example.tastify.presenter;
 
+import android.util.Log;
+
 import com.example.tastify.model.dataClasses.Recipe;
 import com.example.tastify.model.RecipeRepository;
 import com.example.tastify.utils.SharedPreferencesHelper;
@@ -25,12 +27,19 @@ public class FavRecipePresenter {
         repository.getFavRecipes()
         .observeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe( recipe -> favView.getfav(recipe));
+        .subscribe( recipe -> favView.getfav(recipe),
+                throwable -> {
+            favView.onNotLogin();
+        });
     }
 
 
     public void deleteFromFav(Recipe recipe) {
         repository.deleteRecipe(recipe);
+    }
+
+    public boolean isLogin() {
+        return sharedPreferencesHelper.isUserLoggedIn();
     }
 
 }

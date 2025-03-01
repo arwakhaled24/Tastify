@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SharedPreferencesHelper {
     private static final String PREF_NAME = "settings";
     private static final String KEY_IS_LOGIN = "isLogin";
-
     private static SharedPreferencesHelper instance;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -16,6 +16,12 @@ public class SharedPreferencesHelper {
     private SharedPreferencesHelper(Context context) {
         sharedPreferences = context.getApplicationContext().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+        FirebaseAuth.getInstance().addAuthStateListener(firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            editor.putBoolean(KEY_IS_LOGIN, user != null);
+            editor.apply();
+        });
     }
 
     public static synchronized SharedPreferencesHelper getInstance(Context context) {
@@ -38,13 +44,14 @@ public class SharedPreferencesHelper {
     }
 
     public boolean isUserLoggedIn() {
+
         return sharedPreferences.getBoolean(KEY_IS_LOGIN, false);
     }
 
     public void logout(){
         FirebaseAuth.getInstance().signOut();
-        setLoginStatus();
-
+        editor.putBoolean(KEY_IS_LOGIN, false);
+        editor.apply();
     }
 
 
